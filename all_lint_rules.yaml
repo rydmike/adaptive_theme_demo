@@ -1,15 +1,6 @@
 # A list of all linter rules.
 #
 # Up-to-date auto generated list: https://dart.dev/tools/linter-rules/all
-#
-# The list below has removed ALL deprecated lint rules. These following were still included
-# in the above list of all lint rules, but are deprecated and should NOT be used:
-#
-# - avoid_returning_null_for_future (Deprecated)
-# - iterable_contains_unrelated_type (Deprecated)
-# - list_remove_unrelated_type (Deprecated)
-# - always_require_non_null_named_parameters (Deprecated)
-# - avoid_returning_null (Deprecated)
 linter:
   rules:
     - always_declare_return_types
@@ -54,7 +45,6 @@ linter:
     - avoid_types_as_parameter_names
     - avoid_types_on_closure_parameters
     - avoid_unnecessary_containers
-    - avoid_unstable_final_fields
     - avoid_unused_constructor_parameters
     - avoid_void_async
     - avoid_web_libraries_in_flutter
@@ -101,6 +91,7 @@ linter:
     - lines_longer_than_80_chars
     - literal_only_boolean_expressions
     - matching_super_parameters
+    - missing_code_block_language_in_doc_comment
     - missing_whitespace_between_adjacent_strings
     - no_adjacent_strings_in_list
     - no_default_cases
@@ -188,10 +179,11 @@ linter:
     - unnecessary_const
     - unnecessary_constructor_name
     - unnecessary_final
-    - unnecessary_getters_settersinvariant_booleans
+    - unnecessary_getters_setters
     - unnecessary_lambdas
     - unnecessary_late
     - unnecessary_library_directive
+    - unnecessary_library_name
     - unnecessary_new
     - unnecessary_null_aware_assignments
     - unnecessary_null_aware_operator_on_extension_on_nullable
