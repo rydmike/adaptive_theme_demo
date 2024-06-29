@@ -56,9 +56,9 @@ class _ShowcaseMaterialState extends State<ShowcaseMaterial> {
         //
         const Text('ToggleButtons and SegmentedButton', style: headerStyle),
         const SizedBox(height: 8),
-        const ToggleButtonsShowcase(compareButtons: true),
+        const ToggleButtonsShowcase(),
         const SizedBox(height: 8),
-        const SegmentedButtonShowcase(showOutlinedButton: false),
+        const SegmentedButtonShowcase(),
         const SizedBox(height: 16),
         //
         // FloatingActionButton and Chip
@@ -296,16 +296,16 @@ class ElevatedButtonShowcase extends StatelessWidget {
         children: <Widget>[
           ElevatedButton(
             onPressed: () {},
-            child: const Text('Elevated button'),
+            child: const Text('Elevated'),
           ),
           ElevatedButton.icon(
             onPressed: () {},
             icon: const Icon(Icons.add),
-            label: const Text('Elevated icon'),
+            label: const Text('Elevated'),
           ),
           const ElevatedButton(
             onPressed: null,
-            child: Text('Elevated button'),
+            child: Text('Elevated'),
           ),
         ],
       ),
@@ -326,16 +326,16 @@ class FilledButtonShowcase extends StatelessWidget {
         children: <Widget>[
           FilledButton(
             onPressed: () {},
-            child: const Text('Filled button'),
+            child: const Text('Filled'),
           ),
           FilledButton.icon(
             onPressed: () {},
             icon: const Icon(Icons.add),
-            label: const Text('Filled icon'),
+            label: const Text('Filled'),
           ),
           const FilledButton(
             onPressed: null,
-            child: Text('Filled button'),
+            child: Text('Filled'),
           ),
         ],
       ),
@@ -356,16 +356,16 @@ class FilledButtonTonalShowcase extends StatelessWidget {
         children: <Widget>[
           FilledButton.tonal(
             onPressed: () {},
-            child: const Text('Filled tonal button'),
+            child: const Text('Tonal'),
           ),
           FilledButton.tonalIcon(
             onPressed: () {},
             icon: const Icon(Icons.add),
-            label: const Text('Filled tonal icon'),
+            label: const Text('Tonal'),
           ),
           const FilledButton.tonal(
             onPressed: null,
-            child: Text('Filled tonal button'),
+            child: Text('Tonal'),
           ),
         ],
       ),
@@ -386,16 +386,16 @@ class OutlinedButtonShowcase extends StatelessWidget {
         children: <Widget>[
           OutlinedButton(
             onPressed: () {},
-            child: const Text('Outlined button'),
+            child: const Text('Outlined'),
           ),
           OutlinedButton.icon(
             onPressed: () {},
             icon: const Icon(Icons.add),
-            label: const Text('Outlined icon'),
+            label: const Text('Outlined'),
           ),
           const OutlinedButton(
             onPressed: null,
-            child: Text('Outlined button'),
+            child: Text('Outlined'),
           ),
         ],
       ),
@@ -416,16 +416,16 @@ class TextButtonShowcase extends StatelessWidget {
         children: <Widget>[
           TextButton(
             onPressed: () {},
-            child: const Text('Text button'),
+            child: const Text('Text'),
           ),
           TextButton.icon(
             onPressed: () {},
             icon: const Icon(Icons.add),
-            label: const Text('Text icon'),
+            label: const Text('Text'),
           ),
           const TextButton(
             onPressed: null,
-            child: Text('Text button'),
+            child: Text('Text'),
           ),
         ],
       ),
@@ -496,8 +496,7 @@ class _ToggleButtonsShowcaseState extends State<ToggleButtonsShowcase> {
 }
 
 class SegmentedButtonShowcase extends StatefulWidget {
-  const SegmentedButtonShowcase({this.showOutlinedButton, super.key});
-  final bool? showOutlinedButton;
+  const SegmentedButtonShowcase({super.key});
 
   @override
   State<SegmentedButtonShowcase> createState() =>
