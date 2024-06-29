@@ -16,6 +16,7 @@ sealed class AppTheme {
     // Convenience to check if theme is light or dark.
     final bool isLight = brightness == Brightness.light;
 
+    // Get our app color scheme based on the brightness.
     final ColorScheme scheme =
         isLight ? AppColorScheme.light : AppColorScheme.dark;
 
