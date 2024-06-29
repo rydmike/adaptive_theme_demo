@@ -31,7 +31,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
   final TextStyle? blogBody;
 
   // Fallback color value that is used for all colors in both theme modes.
-  // This should never be seen when theme extension is setup correctly.
+  // This will never be seen when the theme extension is setup correctly.
   static const int _fail = 0xFF1565C0; // Bright dark blue
 
   // You must override the copyWith method.
