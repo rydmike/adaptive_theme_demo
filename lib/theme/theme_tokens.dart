@@ -7,19 +7,19 @@ import 'package:flutter/material.dart';
 /// 3rd party design tools that have been imported into Flutter.
 sealed class ThemeTokens {
   // Colors used in the app brand palette.
-  static const Color avocado = Color(0xFF334601); // Verdun green, brand main
-  static const Color avocadoRipe = Color(0xFF3F4925); // Woodland, brand sec
-  static const Color avocadoLush = Color(0xFFC4D39D); // Pine glade, brand tert
+  static const Color avocado = Color(0xFF334601);
+  static const Color avocadoRipe = Color(0xFF3F4925);
+  static const Color avocadoLush = Color(0xFFC4D39D);
 
-  static const Color avocadoPrime = Color(0xFFFFFBD8); // Scotch mist, avo meat
-  static const Color avocadoMeat = Color(0xFFFFF5AD); // Drover, avocado meat
-  static const Color avocadoTender = Color(0xFFE2EEBC); // Caper avocado meat
+  static const Color avocadoPrime = Color(0xFFFFFBD8);
+  static const Color avocadoMeat = Color(0xFFFFF5AD);
+  static const Color avocadoTender = Color(0xFFE2EEBC);
 
-  static const Color avocadoCore = Color(0xFF4C1C0A); // Van Cleef, avocado core
-  static const Color effectLight = Color(0xFFF2B9CC); // Azalea, effect color
-  static const Color effectDark = Color(0xFF3E0021); // Toledo, effect color
+  static const Color avocadoCore = Color(0xFF4C1C0A);
+  static const Color effectLight = Color(0xFFF2B9CC);
+  static const Color effectDark = Color(0xFF3E0021);
 
-  // Semantic color token examples.
+  // Semantic color tokens for order status.
   static const Color receivedLight = Color(0xFF00257F);
   static const Color receivedDark = Color(0xFFC1CCFF);
   static const Color preparingLight = Color(0xFF045E72);
@@ -29,16 +29,25 @@ sealed class ThemeTokens {
   static const Color deliveredLight = Color(0xFF005305);
   static const Color deliveredDark = Color(0xFFCFFFC1);
 
-  // Tokens for used border radius.
+  // Boolean for using our adaptive theme response or not.
+  //
+  // We will use a custom platform adaptive theme for anything else than
+  // Android and we also always use it, if it is a web build.
+  static bool isNotAndroidOrIsWeb =
+      defaultTargetPlatform != TargetPlatform.android || kIsWeb;
+  // Tokens for used button border radius on none Android platforms.
   static const double appRadius = 10.0;
   static const BorderRadius borderRadius =
       BorderRadius.all(Radius.circular(appRadius));
-  static const BorderRadius borderRadiusStadiumLike =
-      BorderRadius.all(Radius.circular(100));
   static const OutlinedBorder buttonsShape = RoundedRectangleBorder(
     borderRadius: borderRadius,
   );
-  // Outlined width used by styled buttons.
+  // We need a stadium like border radius for our ToggleButtons on Android.
+  // If we make it big enough, it will look like a stadium shape.
+  static const BorderRadius borderRadiusStadiumLike =
+      BorderRadius.all(Radius.circular(100));
+
+  // Outlined width used by some styled buttons.
   static const double outlineWidth = 1.0;
 
   // Default minimum button size for ToggleButtons.
@@ -47,9 +56,4 @@ sealed class ThemeTokens {
   // opinionated choice in order to make ToggleButtons min size squared.
   static const Size toggleButtonMinSize =
       Size(kMinInteractiveDimension - 8, kMinInteractiveDimension - 8);
-
-  // We will use a custom platform adaptive theme for anything else than Android
-  // or if it is web build.
-  static bool isNotAndroidOrIsWeb =
-      defaultTargetPlatform != TargetPlatform.android || kIsWeb;
 }
