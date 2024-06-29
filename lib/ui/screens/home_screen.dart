@@ -189,25 +189,29 @@ class _HomePageState extends State<HomePage> {
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: customOverlayStyle(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(App.title(context)),
-          actions: const <Widget>[
-            AboutIconButton(),
-          ],
-        ),
-        extendBodyBehindAppBar: true,
-        extendBody: true,
-        body: PageBody(
-          controller: scrollController,
-          constraints: const BoxConstraints(maxWidth: App.maxBodyWidth),
-          child: ListView.builder(
-              controller: scrollController,
-              padding: EdgeInsets.fromLTRB(0, topPadding, 0, bottomPadding),
-              itemCount: content.length,
-              itemBuilder: (BuildContext context, int index) {
-                return content.elementAt(index);
-              }),
+      child: SafeArea(
+        top: false,
+        bottom: false,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(App.title(context)),
+            actions: const <Widget>[
+              AboutIconButton(),
+            ],
+          ),
+          extendBodyBehindAppBar: true,
+          extendBody: true,
+          body: PageBody(
+            controller: scrollController,
+            constraints: const BoxConstraints(maxWidth: App.maxBodyWidth),
+            child: ListView.builder(
+                controller: scrollController,
+                padding: EdgeInsets.fromLTRB(0, topPadding, 0, bottomPadding),
+                itemCount: content.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return content.elementAt(index);
+                }),
+          ),
         ),
       ),
     );
