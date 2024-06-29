@@ -29,7 +29,7 @@ In summary, Google’s new Material 3 design is a design system that makes theme
   @override
   Widget build(BuildContext context) {
     return StatefulHeaderCard(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       isOpen: false,
       leading: const Icon(Icons.text_snippet_outlined),
       title: const Text('Blog post'),

@@ -99,12 +99,10 @@ class _HomePageState extends State<HomePage> {
       const OrderStatesCard(useTheme: false),
       // Custom widget theme based style, has theme animation.
       const OrderStatesCard(useTheme: true),
-
       BlogPostCard(
         settings: widget.settings,
         onSettings: widget.onSettings,
       ),
-
       const Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
         child: ShowColorScheme(),

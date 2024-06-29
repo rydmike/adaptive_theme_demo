@@ -12,7 +12,7 @@ class OrderStatesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StatefulHeaderCard(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       isOpen: false,
       title: useTheme
           ? const Text('OrderStatus Theme Based')
