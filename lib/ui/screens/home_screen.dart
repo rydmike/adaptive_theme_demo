@@ -5,6 +5,7 @@ import '../../shared/const/app.dart';
 import '../../theme/custom_overlays_style.dart';
 import '../../theme/theme_settings.dart';
 import '../widgets/app/about.dart';
+import '../widgets/app/another_blog_post_card.dart';
 import '../widgets/app/blog_post_card.dart';
 import '../widgets/app/order_status/order_states_card.dart';
 import '../widgets/app/widget_cards.dart';
@@ -44,13 +45,14 @@ class _HomePageState extends State<HomePage> {
     super.didChangeDependencies();
     final ThemeData theme = Theme.of(context);
     final bool isDark = theme.brightness == Brightness.dark;
-    // The widgets we want to show in a long list view
+    // The widgets we want to show in a long list of widgets.
+    // Their style will need to be updated when the theme changes.
     content = <Widget>[
       const Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.0),
         child: Text(
-          'This demo app allows us to see the platform adaptive theme '
-          'style of "all" Material widgets.',
+          'This app demonstrates platform adaptive theming and other '
+          'advanced theming features and shows the result.',
         ),
       ),
       const SizedBox(height: 8),
@@ -87,6 +89,15 @@ class _HomePageState extends State<HomePage> {
           );
         },
       ),
+      SwitchListTile(
+        title: const Text('Zoom blog fonts theme'),
+        value: widget.settings.zoomBlogFonts,
+        onChanged: (bool value) {
+          widget.onSettings(
+            widget.settings.copyWith(zoomBlogFonts: value),
+          );
+        },
+      ),
       ListTile(
         title: const Text('Page with colors and themed widgets'),
         trailing: const Icon(Icons.arrow_forward_ios),
@@ -96,16 +107,17 @@ class _HomePageState extends State<HomePage> {
       ),
       // Custom widget token based style, no theme animation.
       const OrderStatesCard(useTheme: false),
-      // Custom widget theme based style, has theme animation.
+      // Custom widget theme extension based styles, has theme animation.
       const OrderStatesCard(useTheme: true),
-      BlogPostCard(
-        settings: widget.settings,
-        onSettings: widget.onSettings,
-      ),
+      // Blog posts demo with theme extension based TextStyles, theme animation.
+      const BlogPostCard(),
+      const AnotherBlogPostCard(),
+      // Show the active ColorScheme
       const Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
         child: ShowColorScheme(),
       ),
+      // Show various Material widgets
       const Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
         child: ButtonsSwitchesIconsShow(),
