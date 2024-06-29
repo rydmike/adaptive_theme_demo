@@ -16,8 +16,8 @@ class OrderStatesCard extends StatelessWidget {
       leading: const Icon(Icons.notifications_active_outlined),
       isOpen: false,
       title: useTheme
-          ? const Text('OrderStatus Theme Based')
-          : const Text('OrderStatus Token Based'),
+          ? const Text('OrderStatus Theme Extension Based')
+          : const Text('OrderStatus Const Token Based'),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Wrap(
