@@ -150,11 +150,20 @@ sealed class AppTheme {
         ),
       ),
 
-      // 11) The old button theme still has some usage, like aligning the
+      // 11) SegmentedButton, made to match the filled tonal button, but with
+      // an outline.
+      segmentedButtonTheme: SegmentedButtonThemeData(
+        style: SegmentedButton.styleFrom(
+            shape: ThemeTokens.isNotAndroidOrIsWeb
+                ? ThemeTokens.buttonsShape
+                : null),
+      ),
+
+      // 12) The old button theme still has some usage, like aligning the
       // DropdownButton and DropdownButtonFormField to their parent.
       buttonTheme: const ButtonThemeData(alignedDropdown: true),
 
-      // 12) FloatingActionButton.
+      // 13) FloatingActionButton.
       // With custom color mapping and classic round and stadium shapes.
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: scheme.primaryContainer,
@@ -162,17 +171,21 @@ sealed class AppTheme {
         shape: const StadiumBorder(),
       ),
 
-      // 13) ChipTheme
+      // 14) ChipTheme
       // With custom color mapping and platform adaptive shape, were it is
       // stadium shaped on none Android platform to not look like the buttons,
       // while on Android it is using default slightly rounded corners.
+      // We also want smaller and more compact Chips.
       chipTheme: ChipThemeData(
+        labelStyle:
+            textThemeFromStyles.labelSmall!.copyWith(color: scheme.onSurface),
+        padding: const EdgeInsets.all(4.0),
         backgroundColor:
             isLight ? scheme.primaryContainer : scheme.outlineVariant,
         shape: ThemeTokens.isNotAndroidOrIsWeb ? const StadiumBorder() : null,
       ),
 
-      // 14) NavigationBar
+      // 15) NavigationBar
       // We want a navigation bar that is slightly transparent and with more
       // distinct and clear selection indication. Also the default height 80
       // wastes space, so we make it lower.
@@ -196,22 +209,22 @@ sealed class AppTheme {
         }),
       ),
 
-      // 15) On none Android platforms we use an iOS like Switch theme,
+      // 16) On none Android platforms we use an iOS like Switch theme,
       // but on Android we use the default style.
       switchTheme: ThemeTokens.isNotAndroidOrIsWeb ? switchTheme(scheme) : null,
 
-      // 16) Input decorator
+      // 17) Input decorator
       // Input decorator is one of the more confusing components to theme.
       // Here we use the same custom style on all platforms.
       inputDecorationTheme: inputTheme(scheme),
 
-      // 17) Dropdown menu theme
+      // 18) Dropdown menu theme
       // We need to match the dropdown menu to the input decoration theme.
       dropdownMenuTheme: DropdownMenuThemeData(
         inputDecorationTheme: inputTheme(scheme),
       ),
 
-      // 18) Dialog theme
+      // 19) Dialog theme
       // We use a custom dialog theme with a custom color mapping and shadow.
       dialogTheme: DialogTheme(
         backgroundColor:
@@ -219,14 +232,14 @@ sealed class AppTheme {
         shadowColor: scheme.shadow,
       ),
 
-      // 19) Time picker should have a dial background color.
+      // 20) Time picker should have a dial background color.
       timePickerTheme: TimePickerThemeData(
         backgroundColor:
             isLight ? scheme.surfaceContainerLow : scheme.surfaceContainerHigh,
         dialBackgroundColor: scheme.surfaceContainerHighest,
       ),
 
-      // 20) Custom date picker style.
+      // 21) Custom date picker style.
       datePickerTheme: DatePickerThemeData(
         backgroundColor:
             isLight ? scheme.surfaceContainerLow : scheme.surfaceContainerHigh,
@@ -236,14 +249,14 @@ sealed class AppTheme {
         shadowColor: scheme.shadow,
       ),
 
-      // 21) Add a custom TextTheme with GoogleFonts.nnnTextTheme
+      // 22) Add a custom TextTheme with GoogleFonts.nnnTextTheme
       // textTheme: googleFontsTextTheme,
       primaryTextTheme: googleFontsTextTheme,
 
-      // 22) Add a custom TextTheme made from TextStyles
+      // 23) Add a custom TextTheme made from TextStyles
       textTheme: textThemeFromStyles,
 
-      // 23) Add all our custom theme extensions.
+      // 24) Add all our custom theme extensions.
       //
       // Demonstrate font animation and color and harmonization.
       extensions: <ThemeExtension<dynamic>>{
@@ -252,7 +265,7 @@ sealed class AppTheme {
     );
   }
 
-  // 13a) A custom SwitchTheme that resembles an iOS Switch.
+  // 16 a) A custom SwitchTheme that resembles an iOS Switch.
   // The intention is that feels familiar on iOS and be platform agnostic
   // on others, we can also use this on Android if we like.
   static SwitchThemeData switchTheme(ColorScheme scheme) {
@@ -287,7 +300,7 @@ sealed class AppTheme {
     );
   }
 
-  // 14a) A custom input decoration theme.
+  // 17 a) A custom input decoration theme.
   //
   // Making cool and nice InputDecorationThemes is one of the most tedious
   // and honestly annoying and tricky things to do in Flutter theming. You could
@@ -377,14 +390,14 @@ sealed class AppTheme {
     );
   }
 
-  // 24) Get our custom GoogleFonts TextTheme: poppins
+  // 25) Get our custom GoogleFonts TextTheme: poppins
   // Issue: https://github.com/material-foundation/flutter-packages/issues/401
   static TextTheme get googleFontsTextTheme {
     // Add ".fixColors", remove it to see how text color breaks.
     return GoogleFonts.poppinsTextTheme().fixColors;
   }
 
-  // 25) Make a TextTheme from TextStyles to customize more.
+  // 26) Make a TextTheme from TextStyles to customize more.
   // There is no color issue with GoogleFonts then since TextStyles
   // have null color by default.
   static TextTheme get textThemeFromStyles {
@@ -412,7 +425,7 @@ sealed class AppTheme {
     );
   }
 
-  // 26) Make a totally custom text style for a component theme: AppBar
+  // 27) Make a totally custom text style for a component theme: AppBar
   //
   // Generally don't try to change the app's TexTheme and its TextStyle to make
   // a given component use a different style by adjusting the default style in
@@ -428,7 +441,7 @@ sealed class AppTheme {
     );
   }
 
-  // 27) A "semantic" text theme that we will use for custom content.
+  // 28) A "semantic" text theme that we will use for custom content.
   //
   // Generally don't try to change the app's TexTheme and its TextStyle to fit
   // your content, instead make a new TextStyle that fits your content.
@@ -441,7 +454,7 @@ sealed class AppTheme {
     );
   }
 
-  // 28) A "semantic" text style that we will use for custom content.
+  // 29) A "semantic" text style that we will use for custom content.
   static TextStyle blogBody(ColorScheme scheme, double fontSize) {
     return GoogleFonts.notoSerif(
       fontWeight: FontWeight.w400,
