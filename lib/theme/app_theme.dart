@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'app_color_scheme.dart';
 import 'app_theme_extension.dart';
+import 'comfortable_platform_density.dart';
 import 'instant_splash.dart';
 import 'text_style_fix.dart';
 import 'theme_settings.dart';
@@ -17,35 +18,49 @@ sealed class AppTheme {
     final bool isLight = brightness == Brightness.light;
 
     // Get our app color scheme based on the brightness.
+    // When making custom component themes we typically need to use the app's
+    // ColorScheme to make sure our component designs match the rest of the app.
     final ColorScheme scheme =
         isLight ? AppColorScheme.light : AppColorScheme.dark;
 
-    // 1) We use fixed visual density
-    // For same size and proportions on desktop as we will see on mobile.
-    const VisualDensity visualDensity = VisualDensity.standard;
+    // Define a custom platform adaptive visual density.
+    // We also need to use this in a component theme (ToggleButtons) that does
+    // not have built-in visual density support.
+    final VisualDensity visualDensity = comfortablePlatformDensity;
 
-    // Let's make a ThemeData object.
+    // Let's make a custom ThemeData object. It's fun! Right!? :)
     return ThemeData(
+      // Just for demo purposes, forget Material-2, but in this example we
+      // can still try it to see what this demo and all widgets look like
+      // with Material-2 if we so desire.
       useMaterial3: settings.useMaterial3,
+
+      // Pass the ColorScheme to the theme. We do not need to set the
+      // brightness property in the ThemeData factory, passing a ColorScheme
+      // takes care of it, as it already contains the brightness.
       colorScheme: scheme,
 
-      // 1) Add the fixed visual density
+      // 1) Add our custom density.
       visualDensity: visualDensity,
 
-      // 2) Add our custom platform adaptive splash factory.
+      // 2) Add our custom instant splash factory on none Android and web
+      // platforms. For the Android we pass null so we get the defaults.
       splashFactory:
           ThemeTokens.isNotAndroidOrIsWeb ? InstantSplash.splashFactory : null,
 
-      // 3) We use M3 Typography even if you use M2 mode.
+      // 3) We use M3 Typography, even if you still use M2 mode I recommend this
+      // as it is a much nicer default.
       typography: Typography.material2021(
         platform: defaultTargetPlatform,
         colorScheme: scheme,
       ),
 
-      // 4) Fix the legacy divider color.
+      // 4) Fix the ThemeData legacy divider color to match our ColorScheme.
+      //    Planned to be deprecated in ThemeData.
       dividerColor: scheme.outlineVariant,
 
       // 5) Fix legacy primary colors and secondary header color.
+      //    Planned to be deprecated in ThemeData.
       primaryColor: scheme.primary,
       primaryColorDark: isLight ? scheme.secondary : scheme.onPrimary,
       primaryColorLight: isLight ? scheme.secondaryContainer : scheme.secondary,
@@ -53,6 +68,7 @@ sealed class AppTheme {
           isLight ? scheme.primaryContainer : scheme.secondaryContainer,
 
       // 6) Fix legacy surface colors.
+      //    Planned to be deprecated in ThemeData.
       canvasColor: scheme.surface,
       cardColor: scheme.surface,
       scaffoldBackgroundColor: scheme.surface,
@@ -69,7 +85,7 @@ sealed class AppTheme {
         backgroundColor: scheme.surface.withOpacity(isLight ? 0.97 : 0.96),
         foregroundColor: scheme.secondary,
         elevation: 0,
-        scrolledUnderElevation: isLight ? 0.5 : 1,
+        scrolledUnderElevation: isLight ? 0.5 : 2,
         shadowColor: scheme.shadow,
         // Adding this shape makes the scroll under effect animate as it should.
         // See issue: https://github.com/flutter/flutter/issues/131042
@@ -134,7 +150,11 @@ sealed class AppTheme {
         ),
       ),
 
-      // 11) FloatingActionButton.
+      // 11) The old button theme still has some usage, like aligning the
+      // DropdownButton and DropdownButtonFormField to their parent.
+      buttonTheme: const ButtonThemeData(alignedDropdown: true),
+
+      // 12) FloatingActionButton.
       // With custom color mapping and classic round and stadium shapes.
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: scheme.primaryContainer,
@@ -142,7 +162,7 @@ sealed class AppTheme {
         shape: const StadiumBorder(),
       ),
 
-      // 12) ChipTheme
+      // 13) ChipTheme
       // With custom color mapping and platform adaptive shape, were it is
       // stadium shaped on none Android platform to not look like the buttons,
       // while on Android it is using default slightly rounded corners.
@@ -152,26 +172,46 @@ sealed class AppTheme {
         shape: ThemeTokens.isNotAndroidOrIsWeb ? const StadiumBorder() : null,
       ),
 
-      // 13) On none Android platforms we use an iOS like Switch theme,
+      // 14) NavigationBar
+      // We want a navigation bar that is slightly transparent and with more
+      // distinct and clear selection indication. Also the default height 80
+      // wastes space, so we make it lower.
+      // The default background in light mode is also a bit to dark, so we
+      // make it a bit lighter in light mode.
+      navigationBarTheme: NavigationBarThemeData(
+        height: 72,
+        backgroundColor: isLight
+            ? scheme.surfaceContainerLow.withOpacity(0.97)
+            : scheme.surfaceContainer.withOpacity(0.96),
+        indicatorColor: scheme.primary,
+        iconTheme: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+          return IconThemeData(
+            size: 24.0,
+            color: states.contains(WidgetState.disabled)
+                ? scheme.onSurfaceVariant.withOpacity(0.38)
+                : states.contains(WidgetState.selected)
+                    ? scheme.onPrimary
+                    : scheme.onSurfaceVariant,
+          );
+        }),
+      ),
+
+      // 15) On none Android platforms we use an iOS like Switch theme,
       // but on Android we use the default style.
       switchTheme: ThemeTokens.isNotAndroidOrIsWeb ? switchTheme(scheme) : null,
 
-      // 14) Input decorator
+      // 16) Input decorator
       // Input decorator is one of the more confusing components to theme.
       // Here we use the same custom style on all platforms.
       inputDecorationTheme: inputTheme(scheme),
 
-      // 15) The old button theme still has some usage, like aligning the
-      // DropdownButton and DropdownButtonFormField to their parent.
-      buttonTheme: const ButtonThemeData(alignedDropdown: true),
-
-      // 16) Dropdown menu theme
+      // 17) Dropdown menu theme
       // We need to match the dropdown menu to the input decoration theme.
       dropdownMenuTheme: DropdownMenuThemeData(
         inputDecorationTheme: inputTheme(scheme),
       ),
 
-      // 17) Dialog theme
+      // 18) Dialog theme
       // We use a custom dialog theme with a custom color mapping and shadow.
       dialogTheme: DialogTheme(
         backgroundColor:
@@ -179,14 +219,14 @@ sealed class AppTheme {
         shadowColor: scheme.shadow,
       ),
 
-      // 18) Time picker should have a dial background color.
+      // 19) Time picker should have a dial background color.
       timePickerTheme: TimePickerThemeData(
         backgroundColor:
             isLight ? scheme.surfaceContainerLow : scheme.surfaceContainerHigh,
         dialBackgroundColor: scheme.surfaceContainerHighest,
       ),
 
-      // 19) Custom date picker style.
+      // 20) Custom date picker style.
       datePickerTheme: DatePickerThemeData(
         backgroundColor:
             isLight ? scheme.surfaceContainerLow : scheme.surfaceContainerHigh,
@@ -196,14 +236,14 @@ sealed class AppTheme {
         shadowColor: scheme.shadow,
       ),
 
-      // 20) Add a custom TextTheme with GoogleFonts.nnnTextTheme
+      // 21) Add a custom TextTheme with GoogleFonts.nnnTextTheme
       // textTheme: googleFontsTextTheme,
       primaryTextTheme: googleFontsTextTheme,
 
-      // 21) Add a custom TextTheme made from TextStyles
+      // 22) Add a custom TextTheme made from TextStyles
       textTheme: textThemeFromStyles,
 
-      // 22) Add all our custom theme extensions.
+      // 23) Add all our custom theme extensions.
       //
       // Demonstrate font animation and color and harmonization.
       extensions: <ThemeExtension<dynamic>>{
@@ -248,8 +288,14 @@ sealed class AppTheme {
   }
 
   // 14a) A custom input decoration theme.
+  //
+  // Making cool and nice InputDecorationThemes is one of the most tedious
+  // and honestly annoying and tricky things to do in Flutter theming. You could
+  // do a 2 hour talk and demo about this alone. Here is a "simple" example :)
+  //
   // You may need the input decoration theme in other components too, so it is
-  // good to define it separately so you can re-use its definition.
+  // good to define it separately so you can re-use its definition in other
+  // component themes.
   static InputDecorationTheme inputTheme(ColorScheme scheme) {
     final bool isLight = scheme.brightness == Brightness.light;
     return InputDecorationTheme(
@@ -331,14 +377,14 @@ sealed class AppTheme {
     );
   }
 
-  // 23) Get our custom GoogleFonts TextTheme: poppins
+  // 24) Get our custom GoogleFonts TextTheme: poppins
   // Issue: https://github.com/material-foundation/flutter-packages/issues/401
   static TextTheme get googleFontsTextTheme {
     // Add ".fixColors", remove it to see how text color breaks.
     return GoogleFonts.poppinsTextTheme().fixColors;
   }
 
-  // 24) Make a TextTheme from TextStyles to customize more.
+  // 25) Make a TextTheme from TextStyles to customize more.
   // There is no color issue with GoogleFonts then since TextStyles
   // have null color by default.
   static TextTheme get textThemeFromStyles {
@@ -366,7 +412,14 @@ sealed class AppTheme {
     );
   }
 
-  // 25) Make a totally custom text style for a component theme: AppBar
+  // 26) Make a totally custom text style for a component theme: AppBar
+  //
+  // Generally don't try to change the app's TexTheme and its TextStyle to make
+  // a given component use a different style by adjusting the default style in
+  // the ThemeData TextTheme it uses. Many other components may use the same
+  // style as their default, and you may not want them to use the same style.
+  // Instead make a new TextStyle that fits your component and use it in the
+  // component theme.
   static TextStyle appBarTextStyle(ColorScheme scheme) {
     return GoogleFonts.lobster(
       fontWeight: FontWeight.w400,
@@ -375,7 +428,11 @@ sealed class AppTheme {
     );
   }
 
-  // 26) A "semantic" text theme that we will use for content, not SDK widgets.
+  // 27) A "semantic" text theme that we will use for custom content.
+  //
+  // Generally don't try to change the app's TexTheme and its TextStyle to fit
+  // your content, instead make a new TextStyle that fits your content.
+  // Then add it as a ThemeExtension to ThemeData.
   static TextStyle blogHeader(ColorScheme scheme, double fontSize) {
     return GoogleFonts.limelight(
       fontWeight: FontWeight.w400,
@@ -384,7 +441,7 @@ sealed class AppTheme {
     );
   }
 
-  // 27) A "semantic" text style that we will use for content, not SDK widgets.
+  // 28) A "semantic" text style that we will use for custom content.
   static TextStyle blogBody(ColorScheme scheme, double fontSize) {
     return GoogleFonts.notoSerif(
       fontWeight: FontWeight.w400,
