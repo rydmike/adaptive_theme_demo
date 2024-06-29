@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 import 'theme/app_theme.dart';
 import 'theme/theme_settings.dart';
@@ -14,7 +16,12 @@ import 'ui/screens/home_screen.dart';
 /// Their theme is designed to be platform adaptive, with a Material 3
 /// style on Android but more platform agnostic and Cupertino like on
 /// all other platforms.
-void main() => runApp(const AdaptiveThemeDemoApp());
+void main() {
+  // To make it easy to observe some of the animations and transitions
+  // in the demo, we slow down all animations a bit in debug mode.
+  timeDilation = kDebugMode ? 1.5 : 1.0;
+  runApp(const AdaptiveThemeDemoApp());
+}
 
 class AdaptiveThemeDemoApp extends StatefulWidget {
   const AdaptiveThemeDemoApp({super.key});
