@@ -49,7 +49,7 @@ sealed class ThemeTokens {
       Size(kMinInteractiveDimension - 8, kMinInteractiveDimension - 8);
 
   // We will use a custom platform adaptive theme for anything else than Android
-  // or if it is web on Android we will use the M3 defaults.
+  // or if it is web build.
   static bool isNotAndroidOrIsWeb =
       defaultTargetPlatform != TargetPlatform.android || kIsWeb;
 }
