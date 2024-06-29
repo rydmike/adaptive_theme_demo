@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 /// These could be token definitions from a design made in Figma or other
 /// 3rd party design tools that have been imported into Flutter.
 sealed class ThemeTokens {
-  // Colors used in the AvoLish brand palette.
+  // Colors used in the app brand palette.
   static const Color avocado = Color(0xFF334601); // Verdun green, brand main
   static const Color avocadoRipe = Color(0xFF3F4925); // Woodland, brand sec
   static const Color avocadoLush = Color(0xFFC4D39D); // Pine glade, brand tert

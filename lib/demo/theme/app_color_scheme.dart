@@ -6,9 +6,11 @@ import 'theme_tokens.dart';
 /// The ColorScheme made from SeedColorScheme.fromSeeds.
 ///
 /// Begin with figuring out your ColorScheme.
+///
 /// Here we map our app theme color tokens to the SeedColorScheme.fromSeeds
-/// key colors and fixed scheme colors.
+/// key colors and pin tokens to scheme colors.
 sealed class AppColorScheme {
+  /// App's light ColorScheme
   static final ColorScheme light = SeedColorScheme.fromSeeds(
     brightness: Brightness.light,
     primaryKey: ThemeTokens.avocado,
@@ -24,6 +26,8 @@ sealed class AppColorScheme {
     tertiaryContainer: ThemeTokens.effectLight,
     onTertiaryContainer: ThemeTokens.effectDark,
   );
+
+  /// App's dark ColorScheme
   static final ColorScheme dark = SeedColorScheme.fromSeeds(
     brightness: Brightness.dark,
     primaryKey: ThemeTokens.avocado,
