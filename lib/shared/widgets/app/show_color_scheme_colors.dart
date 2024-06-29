@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flex_seed_scheme/flex_seed_scheme.dart';
 import 'package:flutter/material.dart';
 
+import '../../utils/color_extensions.dart';
 import '../../utils/copy_color_to_clipboard.dart';
 
 const Size _colorChipSize = Size(160, 50);
@@ -447,36 +447,6 @@ class ShowColorSchemeColors extends StatelessWidget {
               ),
             ],
           ),
-          // TODO(rydmike): Not showing deprecated colors in this demo
-          // Show the deprecated colors.
-          // ColorGroup(
-          //   children: <Widget>[
-          //     ColorChip(
-          //       label: 'background\n(deprecated)',
-          //       color: colorScheme.background,
-          //       onColor: colorScheme.onBackground,
-          //       size: _equalThreeChipSize,
-          //       showValue: showColorValue,
-          //       tone: 'N:${tones.backgroundTone}',
-          //     ),
-          //     ColorChip(
-          //       label: 'onBackground\n(deprecated)',
-          //       color: colorScheme.onBackground,
-          //       onColor: colorScheme.background,
-          //       size: _equalThreeChipSize,
-          //       showValue: showColorValue,
-          //       tone: 'N:${tones.onBackgroundTone}',
-          //     ),
-          //     ColorChip(
-          //       label: 'surfaceVariant\n(deprecated)',
-          //       color: colorScheme.surfaceVariant,
-          //       onColor: colorScheme.onSurfaceVariant,
-          //       size: _equalThreeChipSize,
-          //       showValue: showColorValue,
-          //       tone: 'NV:${tones.surfaceVariantTone}',
-          //     ),
-          //   ],
-          // ),
         ],
       ),
     );
@@ -543,7 +513,7 @@ class ColorChip extends StatelessWidget {
       child: Tooltip(
         waitDuration: const Duration(milliseconds: 700),
         message: copyEnabled
-            ? 'Color #${color.hexAlpha}.'
+            ? 'Color #${color.hexCode}.'
                 '\nTap box to copy RGB value to Clipboard.'
             : '',
         child: ColoredBox(
@@ -560,7 +530,7 @@ class ColorChip extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     child: Text(
-                      showValue ? '$label\n#${color.hexAlpha}  $tone' : label,
+                      showValue ? '$label\n#${color.hexCode}  $tone' : label,
                       style: TextStyle(color: labelColor, fontSize: 10),
                     ),
                   ),

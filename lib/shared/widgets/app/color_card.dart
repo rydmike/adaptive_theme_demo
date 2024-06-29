@@ -1,22 +1,20 @@
 import 'dart:async';
 
-import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 
 import '../../const/app.dart';
+import '../../utils/color_extensions.dart';
 import '../../utils/copy_color_to_clipboard.dart';
 
 /// This is just simple SizedBox in a Card, with a passed in label, background
 /// and text label color. Used to show the colors of a theme or scheme
 /// color property.
 ///
-/// It also has a tooltip to show the color code, its Material name, if it
-/// is a Material 2 color, and it always shows its general/common name, from
-/// a list of +1600 color names.
+/// It also has a tooltip to show the color code.
 ///
 /// When you tap the ColorCard the color value is copied to the clipboard
 /// in Dart format.
-class ColorCard extends StatefulWidget {
+class ColorCard extends StatelessWidget {
   const ColorCard({
     super.key,
     required this.label,
@@ -32,42 +30,7 @@ class ColorCard extends StatefulWidget {
   final Color textColor;
   final Color? shadowColor;
   final Size? size;
-
-  /// Default to 0 if not provided.
-  final double? elevation;
-
-  @override
-  State<ColorCard> createState() => _ColorCardState();
-}
-
-class _ColorCardState extends State<ColorCard> {
-  // late String materialName;
-  // late String nameThatColor;
-  // late String space;
-  late String hexCode;
-
-  // The nameThatColor and materialName lookups are expensive, especially
-  // nameThatColor. Widget stores them as stateful values to avoid computing
-  // them every time the widget rebuilds.
-  @override
-  void initState() {
-    super.initState();
-    // materialName = ColorTools.materialName(widget.color);
-    // nameThatColor = ColorTools.nameThatColor(widget.color);
-    // space = materialName == '' ? '' : ' ';
-    hexCode = widget.color.hexAlpha;
-  }
-
-  @override
-  void didUpdateWidget(covariant ColorCard oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.color != oldWidget.color) {
-      // materialName = ColorTools.materialName(widget.color);
-      // nameThatColor = ColorTools.nameThatColor(widget.color);
-      // space = materialName == '' ? '' : ' ';
-      hexCode = widget.color.hexAlpha;
-    }
-  }
+  final double? elevation; // Defaults to 0 if not provided.
 
   @override
   Widget build(BuildContext context) {
@@ -76,9 +39,7 @@ class _ColorCardState extends State<ColorCard> {
         mediaSize.height < App.phoneHeightBreakpoint;
     final double fontSize = isPhone ? 10 : 11;
     final Size effectiveSize =
-        widget.size ?? (isPhone ? const Size(74, 54) : const Size(86, 58));
-
-    final String hexCode = widget.color.hexAlpha;
+        size ?? (isPhone ? const Size(74, 54) : const Size(86, 58));
 
     return RepaintBoundary(
       child: SizedBox(
@@ -86,23 +47,23 @@ class _ColorCardState extends State<ColorCard> {
         height: effectiveSize.height,
         child: Tooltip(
           waitDuration: const Duration(milliseconds: 700),
-          message: 'Color #$hexCode\nTap to copy to Clipboard.',
+          message: 'Color #${color.hexCode}\nTap to copy to Clipboard.',
           child: Card(
-            elevation: widget.elevation ?? 0,
+            elevation: elevation ?? 0,
             surfaceTintColor: Colors.transparent,
-            shadowColor: widget.shadowColor,
+            shadowColor: shadowColor,
             margin: EdgeInsets.zero,
             clipBehavior: Clip.antiAlias,
-            color: widget.color,
+            color: color,
             child: InkWell(
               hoverColor: Colors.transparent,
               onTap: () {
-                unawaited(copyColorToClipboard(context, widget.color));
+                unawaited(copyColorToClipboard(context, color));
               },
               child: Center(
                 child: Text(
-                  widget.label,
-                  style: TextStyle(color: widget.textColor, fontSize: fontSize),
+                  label,
+                  style: TextStyle(color: textColor, fontSize: fontSize),
                   textAlign: TextAlign.center,
                 ),
               ),

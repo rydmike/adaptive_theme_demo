@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/colors_are_close.dart';
-
 /// A [Card] with a [ListTile] header that can be toggled via its trailing
 /// widget to open and reveal more content provided via [child] in the card.
 ///
@@ -130,20 +128,10 @@ class _StatefulHeaderCardState extends State<StatefulHeaderCard> {
     final bool isLight = theme.brightness == Brightness.light;
     final bool useMaterial3 = theme.useMaterial3;
     final ColorScheme scheme = theme.colorScheme;
-    final Color background = theme.scaffoldBackgroundColor;
-    // TODO(rydmike): Monitor deprecation of cardColor.
-    // Use passed in color for the Card, or scheme surface, used for Card.
-    // As long as cardColor exist in ThemeData, we use it here, to demonstrate
-    // the effect it has on an app using Card with default background in M2,
-    // if it does not have correct ColorScheme assignment in the theme.
-    final Color cardColor = widget.color ?? theme.cardColor;
+    final Color cardColor = widget.color ?? scheme.surface;
     // Compute a header color with fixed primary blend from the card color,
     final Color headerColor = Color.alphaBlend(
         scheme.surfaceTint.withAlpha(isLight ? 10 : 16), cardColor);
-
-    final bool useHeading = widget.title != null ||
-        widget.subtitle != null ||
-        widget.leading != null;
 
     // Default starting point value based on M3 and M2 mode spec values.
     double borderRadius = useMaterial3 ? 12 : 4;
@@ -153,20 +141,16 @@ class _StatefulHeaderCardState extends State<StatefulHeaderCard> {
       final BorderRadius shape = cardShape.borderRadius as BorderRadius;
       borderRadius = shape.bottomLeft.x;
     }
-    final bool useBorderSide = colorsAreClose(cardColor, background, isLight) ||
-        (useHeading && colorsAreClose(headerColor, background, isLight));
     final ShapeBorder shapeBorder = RoundedRectangleBorder(
       borderRadius: BorderRadiusDirectional.horizontal(
         start:
             widget.startStraight ? Radius.zero : Radius.circular(borderRadius),
         end: widget.endStraight ? Radius.zero : Radius.circular(borderRadius),
       ),
-      side: useBorderSide
-          ? BorderSide(
-              color: theme.dividerColor,
-              width: 0, // This gives a hairline 1 pc border
-            )
-          : BorderSide.none,
+      side: BorderSide(
+        color: theme.dividerColor,
+        width: 0, // This gives a hairline 1 pc border
+      ),
     );
 
     return FocusTraversalGroup(
