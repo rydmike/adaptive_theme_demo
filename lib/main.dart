@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'demo/screens/home_screen.dart';
 import 'demo/theme/app_theme.dart';
 import 'demo/theme/theme_settings.dart';
+import 'demo/ui/screens/home_screen.dart';
 
 /// [AvoDelishApp] demonstrates the theme design for a fictive
 /// company that sells mouth-watering salads and sandwiches with

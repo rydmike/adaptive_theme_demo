@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../shared/widgets/universal/stateful_header_card.dart';
 import '../../theme/app_theme_extension.dart';
 import '../../theme/theme_settings.dart';
+import 'universal/stateful_header_card.dart';
 
 class BlogPostCard extends StatelessWidget {
   const BlogPostCard({

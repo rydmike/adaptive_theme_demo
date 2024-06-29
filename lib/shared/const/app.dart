@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 // ignore_for_file: comment_references
 
-/// App static functions and constants used in the example applications.
+/// App static functions and constants used in the demo application.
 ///
-/// In a real app you probably prefer putting these into different static
+/// In a real app you probably prefer putting these into different sealed
 /// classes that serves your application's usage. For these examples I
-/// put them all in the same class, except the colors that are in their
-/// own class.
+/// put them all in the same class, except the theme tokens that are in their
+/// own theme related class.
 sealed class App {
   /// Returns the title of the MaterialApp.
   ///
@@ -25,7 +25,7 @@ sealed class App {
   // triggering GitHub actions CI/CD that builds them.
   //
   // The name of the package this app demonstrates.
-  static const String company = 'AvoDelish';
+  static const String company = 'Avocado Deli';
   // Version of the WEB build, usually same as package, but it also has a
   // build numbers.
   static const String versionMajor = '1';

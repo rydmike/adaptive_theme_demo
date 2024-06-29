@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../shared/const/app.dart';
-import '../../shared/pages/subpage.dart';
-import '../../shared/widgets/app/about.dart';
-import '../../shared/widgets/universal/page_body.dart';
-import '../../shared/widgets/universal/theme_mode_switch.dart';
-import '../theme/custom_overlays_style.dart';
-import '../theme/theme_settings.dart';
-import 'widgets/blog_post_card.dart';
-import 'widgets/order_status/order_states_card.dart';
-import 'widgets/widget_cards.dart';
+import '../../../shared/const/app.dart';
+import '../../theme/custom_overlays_style.dart';
+import '../../theme/theme_settings.dart';
+import '../widgets/app/about.dart';
+import '../widgets/app/order_status/order_states_card.dart';
+import '../widgets/blog_post_card.dart';
+import '../widgets/universal/page_body.dart';
+import '../widgets/universal/theme_mode_switch.dart';
+import '../widgets/widget_cards.dart';
+import 'components_demo_screen.dart';
 
-/// Home page for the theme workshop AvoDelish.
+/// Home page for the theme demo app.
 class HomePage extends StatefulWidget {
   const HomePage({
     super.key,
@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
       const SizedBox(height: 8),
       ListTile(
         title: const Text('Theme mode'),
-        subtitle: Text('Theme ${widget.settings.themeMode.name}'),
+        subtitle: Text('Using ${widget.settings.themeMode.name}'),
         trailing: ThemeModeSwitch(
           themeMode: widget.settings.themeMode,
           onChanged: (ThemeMode mode) {
@@ -88,11 +88,10 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       ListTile(
-        title: const Text('Example page with all widgets'),
-        subtitle: const Text('Uses active ColorScheme and Theme'),
+        title: const Text('Page with Material widgets'),
         trailing: const Icon(Icons.arrow_forward_ios),
         onTap: () async {
-          await SubpageDemo.show(context);
+          await ComponentsDemoScreen.show(context);
         },
       ),
       // Custom widget token based style, no theme animation.

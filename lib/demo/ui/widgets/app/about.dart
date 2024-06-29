@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../const/app.dart';
-import '../../utils/link_text_span.dart';
+import '../../../../shared/const/app.dart';
+import '../../../../shared/utils/link_text_span.dart';
 
 /// An about icon button used on the example's app app bar.
 class AboutIconButton extends StatelessWidget {

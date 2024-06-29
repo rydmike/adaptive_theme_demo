@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../../const/app.dart';
-import '../../utils/color_extensions.dart';
-import '../../utils/copy_color_to_clipboard.dart';
+import '../../../../shared/const/app.dart';
+import '../../../../shared/utils/color_extensions.dart';
+import '../../../../shared/utils/copy_color_to_clipboard.dart';
 
 /// This is just simple SizedBox in a Card, with a passed in label, background
 /// and text label color. Used to show the colors of a theme or scheme

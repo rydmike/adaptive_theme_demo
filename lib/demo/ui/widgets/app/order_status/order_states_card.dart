@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../shared/widgets/universal/stateful_header_card.dart';
+import '../../universal/stateful_header_card.dart';
 import 'order_status_model.dart';
 import 'order_status_widgets.dart';
 
@@ -13,6 +13,7 @@ class OrderStatesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return StatefulHeaderCard(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      leading: const Icon(Icons.notifications_active_outlined),
       isOpen: false,
       title: useTheme
           ? const Text('OrderStatus Theme Based')

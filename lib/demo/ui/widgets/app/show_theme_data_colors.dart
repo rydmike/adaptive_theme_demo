@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../const/app.dart';
+import '../../../../shared/const/app.dart';
 import 'color_card.dart';
 
 /// Draw a number of boxes showing the colors of key theme color properties

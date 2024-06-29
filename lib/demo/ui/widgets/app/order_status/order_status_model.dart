@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../theme/app_theme_extension.dart';
-import '../../../theme/theme_tokens.dart';
+import '../../../../theme/app_theme_extension.dart';
+import '../../../../theme/theme_tokens.dart';
 
 /// An enum used to model our order status value
 ///

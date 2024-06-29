@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../demo/theme/custom_overlays_style.dart';
-import '../const/app.dart';
-import '../utils/app_scroll_behavior.dart';
+import '../../../shared/const/app.dart';
+import '../../../shared/utils/app_scroll_behavior.dart';
+import '../../theme/custom_overlays_style.dart';
 import '../widgets/app/about.dart';
 import '../widgets/app/show_color_scheme_colors.dart';
 import '../widgets/app/show_sub_theme_colors.dart';
@@ -11,25 +11,25 @@ import '../widgets/app/show_theme_data_colors.dart';
 import '../widgets/universal/page_body.dart';
 import '../widgets/universal/showcase_material.dart';
 
-// This sub page is used as a demo in the default example and in examples
-// 4 and 5 to show a sub-page using the same FlexColorScheme based theme.
-class SubpageDemo extends StatefulWidget {
-  const SubpageDemo({super.key});
+/// This page is used as a demo in the app to show the themed Material
+/// widgets in a sub page.
+class ComponentsDemoScreen extends StatefulWidget {
+  const ComponentsDemoScreen({super.key});
 
   // A static convenience function show this screen, as pushed on top.
   static Future<void> show(BuildContext context) async {
     await Navigator.of(context).push<Widget>(
       MaterialPageRoute<Widget>(
-        builder: (BuildContext context) => const SubpageDemo(),
+        builder: (BuildContext context) => const ComponentsDemoScreen(),
       ),
     );
   }
 
   @override
-  State<SubpageDemo> createState() => _SubpageDemoState();
+  State<ComponentsDemoScreen> createState() => _ComponentsDemoScreenState();
 }
 
-class _SubpageDemoState extends State<SubpageDemo> {
+class _ComponentsDemoScreenState extends State<ComponentsDemoScreen> {
   int _buttonIndex = 0;
 
   @override
@@ -77,7 +77,7 @@ class _SubpageDemoState extends State<SubpageDemo> {
                   App.edgeInsetsTablet + bottomPadding,
                 ),
                 children: <Widget>[
-                  Text('Page Demo', style: headlineMedium),
+                  Text('Widgets Demo', style: headlineMedium),
                   const Text(
                     'This screen shows an example page with the same '
                     'ThemeData inherited theme being used. It also has a '
@@ -89,7 +89,7 @@ class _SubpageDemoState extends State<SubpageDemo> {
                   const Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: App.edgeInsetsTablet),
-                    child: ShowColorSchemeColors(),
+                    child: ShowColorSchemeColors(showColorValue: false),
                   ),
                   const Padding(
                     padding:
