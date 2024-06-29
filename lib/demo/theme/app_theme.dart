@@ -71,7 +71,7 @@ sealed class AppTheme {
         scrolledUnderElevation: isLight ? 0.5 : 1,
         shadowColor: scheme.shadow,
         // Adding this shape makes the scroll under effect animate as it should.
-        // TODO(rydmike): See issue: <add link>
+        // See issue: https://github.com/flutter/flutter/issues/131042
         shape: const RoundedRectangleBorder(),
         titleTextStyle: appBarTextStyle(scheme),
       ),
@@ -166,35 +166,39 @@ sealed class AppTheme {
         inputDecorationTheme: inputTheme(scheme),
       ),
 
+      // 17) Dialog theme
+      // We use a custom dialog theme with a custom color mapping and shadow.
       dialogTheme: DialogTheme(
         backgroundColor:
             isLight ? scheme.surfaceContainerLow : scheme.surfaceContainerHigh,
+        shadowColor: scheme.shadow,
       ),
 
-      // 17) Time picker should have a dial background color.
+      // 18) Time picker should have a dial background color.
       timePickerTheme: TimePickerThemeData(
         backgroundColor:
             isLight ? scheme.surfaceContainerLow : scheme.surfaceContainerHigh,
         dialBackgroundColor: scheme.surfaceContainerHighest,
       ),
 
-      // 18) Custom date picker style.
+      // 19) Custom date picker style.
       datePickerTheme: DatePickerThemeData(
         backgroundColor:
             isLight ? scheme.surfaceContainerLow : scheme.surfaceContainerHigh,
         headerBackgroundColor: scheme.primaryContainer,
         headerForegroundColor: scheme.onPrimaryContainer,
         dividerColor: Colors.transparent,
+        shadowColor: scheme.shadow,
       ),
 
-      // 19) Add a custom TextTheme with GoogleFonts.nnnTextTheme
+      // 20) Add a custom TextTheme with GoogleFonts.nnnTextTheme
       // textTheme: googleFontsTextTheme,
       primaryTextTheme: googleFontsTextTheme,
 
-      // 20) Add a custom TextTheme made from TextStyles
+      // 21) Add a custom TextTheme made from TextStyles
       textTheme: textThemeFromStyles,
 
-      // 21) Add all our custom theme extensions.
+      // 22) Add all our custom theme extensions.
       //
       // Demonstrate font animation and color and harmonization.
       extensions: <ThemeExtension<dynamic>>{
@@ -203,7 +207,7 @@ sealed class AppTheme {
     );
   }
 
-  // 13) A custom SwitchTheme that resembles an iOS Switch.
+  // 13a) A custom SwitchTheme that resembles an iOS Switch.
   // The intention is that feels familiar on iOS and be platform agnostic
   // on others, we can also use this on Android if we like.
   static SwitchThemeData switchTheme(ColorScheme scheme) {
@@ -238,7 +242,7 @@ sealed class AppTheme {
     );
   }
 
-  // 14) A custom input decoration theme.
+  // 14a) A custom input decoration theme.
   // You may need the input decoration theme in other components too, so it is
   // good to define it separately so you can re-use its definition.
   static InputDecorationTheme inputTheme(ColorScheme scheme) {
@@ -322,14 +326,14 @@ sealed class AppTheme {
     );
   }
 
-  // 22) Get our custom GoogleFonts TextTheme: poppins
+  // 23) Get our custom GoogleFonts TextTheme: poppins
   // Issue: https://github.com/material-foundation/flutter-packages/issues/401
   static TextTheme get googleFontsTextTheme {
     // Add ".fixColors", remove it to see how text color breaks.
     return GoogleFonts.poppinsTextTheme().fixColors;
   }
 
-  // 23) Make a TextTheme from TextStyles to customize more.
+  // 24) Make a TextTheme from TextStyles to customize more.
   // There is no color issue with GoogleFonts then since TextStyles
   // have null color by default.
   static TextTheme get textThemeFromStyles {
@@ -357,7 +361,7 @@ sealed class AppTheme {
     );
   }
 
-  // 24) Make a totally custom text style for a component theme: AppBar
+  // 25) Make a totally custom text style for a component theme: AppBar
   static TextStyle appBarTextStyle(ColorScheme scheme) {
     return GoogleFonts.lobster(
       fontWeight: FontWeight.w400,
@@ -366,7 +370,7 @@ sealed class AppTheme {
     );
   }
 
-  // 25) A "semantic" text theme that we will use for content, not SDK widgets.
+  // 26) A "semantic" text theme that we will use for content, not SDK widgets.
   static TextStyle blogHeader(ColorScheme scheme, double fontSize) {
     return GoogleFonts.limelight(
       fontWeight: FontWeight.w400,
@@ -375,7 +379,7 @@ sealed class AppTheme {
     );
   }
 
-  // 26) A "semantic" text style that we will use for content, not SDK widgets.
+  // 27) A "semantic" text style that we will use for content, not SDK widgets.
   static TextStyle blogBody(ColorScheme scheme, double fontSize) {
     return GoogleFonts.notoSerif(
       fontWeight: FontWeight.w400,
