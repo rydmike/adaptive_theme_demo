@@ -14,11 +14,6 @@ dependencies:
   # https://pub.dev/packages/cupertino_icons
   cupertino_icons: ^1.0.8
 
-  # Color picker package, by Mike Rydstrom, rydmike.com (@rydmike).
-  # Used for color selection in the Playground to make customized color schemes.
-  # https://pub.dev/packages/flex_color_picker
-  flex_color_picker: ^3.5.1
-
   # FlexSeedScheme package, by Mike Rydstrom, rydmike.com (@rydmike).
   # Used by the playground app to compute and display tonal palettes.
   # https://pub.dev/packages/flex_seed_scheme
@@ -43,16 +38,16 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # all image assets used by the program.
-  assets:
-    # images contains all different resolutions:
-    # mdpi (1.0x), hdpi (1.5x), xhdpi (2.0x), xxhdpi (3.0x), xxxhdpi (4.0x)
-    - assets/images/
-    # Google fonts, font assets
-    - assets/google_fonts/
-
-  # Custom icon font package with only needed and used icons.
-  fonts:
-    - family: FlexIcons
-      fonts:
-        - asset: assets/fonts/FlexIcons.ttf
+#  # all image assets used by the program.
+#  assets:
+#    # images contains all different resolutions:
+#    # mdpi (1.0x), hdpi (1.5x), xhdpi (2.0x), xxhdpi (3.0x), xxxhdpi (4.0x)
+#    - assets/images/
+#    # Google fonts, font assets
+#    - assets/google_fonts/
+#
+#  # Custom icon font package with only needed and used icons.
+#  fonts:
+#    - family: FlexIcons
+#      fonts:
+#        - asset: assets/fonts/FlexIcons.ttf
