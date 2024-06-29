@@ -1826,99 +1826,346 @@ class _ProgressIndicatorShowcaseState extends State<ProgressIndicatorShowcase> {
   }
 }
 
-class ChipShowcase extends StatelessWidget {
-  const ChipShowcase({super.key});
+class ChipShowcase extends StatefulWidget {
+  const ChipShowcase({super.key, this.showOptions = false});
+  final bool showOptions;
+
+  @override
+  State<ChipShowcase> createState() => _ChipShowcaseState();
+}
+
+class _ChipShowcaseState extends State<ChipShowcase> {
+  static const double _fontSize = 10;
+  static const double _textWidth = 85;
+
+  bool filterSelected = true;
+  bool inputSelected = true;
+  bool choiceSelected = true;
+  bool showCheckmark = true;
+  bool showAvatar = false;
 
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
-      child: Wrap(
-        crossAxisAlignment: WrapCrossAlignment.center,
-        spacing: 8,
-        runSpacing: 8,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Chip(
-            label: const Text('Chip'),
-            onDeleted: () {},
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.start,
+            alignment: WrapAlignment.center,
+            spacing: 4,
+            runSpacing: 8,
+            children: <Widget>[
+              const SizedBox(
+                width: _textWidth,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('Chip', style: TextStyle(fontSize: _fontSize)),
+                    Text('No M3 spec', style: TextStyle(fontSize: _fontSize))
+                  ],
+                ),
+              ),
+              Chip(
+                label: const Text('Chip'),
+                onDeleted: () {},
+              ),
+              const Chip(
+                label: Text('Chip'),
+                avatar: FlutterLogo(),
+              ),
+            ],
           ),
-          const Chip(
-            label: Text('Chip'),
-            avatar: FlutterLogo(),
+          const SizedBox(height: 4),
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 4,
+            runSpacing: 8,
+            children: <Widget>[
+              const SizedBox(
+                width: _textWidth,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('ActionChip', style: TextStyle(fontSize: _fontSize)),
+                    Text('Assist M3', style: TextStyle(fontSize: _fontSize)),
+                  ],
+                ),
+              ),
+              ActionChip(
+                label: const Text('Action'),
+                avatar: showAvatar
+                    ? const Icon(Icons.account_circle_rounded)
+                    : null,
+                onPressed: () {},
+              ),
+              ActionChip(
+                label: const Text('Action'),
+                avatar: showAvatar
+                    ? const Icon(Icons.account_circle_rounded)
+                    : null,
+                onPressed: null,
+              ),
+            ],
           ),
-          ActionChip(
-            label: const Text('ActionChip'),
-            avatar: const Icon(Icons.settings),
-            onPressed: () {},
+          const SizedBox(height: 4),
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 4,
+            runSpacing: 8,
+            children: <Widget>[
+              const SizedBox(
+                width: _textWidth,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('FilterChip', style: TextStyle(fontSize: _fontSize)),
+                    Text('Filter M3', style: TextStyle(fontSize: _fontSize)),
+                  ],
+                ),
+              ),
+              FilterChip(
+                label: const Text('Filter'),
+                avatar: showAvatar
+                    ? const Icon(Icons.account_circle_rounded)
+                    : null,
+                showCheckmark: showCheckmark,
+                selected: false,
+                onSelected: (bool value) {},
+              ),
+              FilterChip(
+                label: const Text('Filter'),
+                avatar: showAvatar
+                    ? const Icon(Icons.account_circle_rounded)
+                    : null,
+                showCheckmark: showCheckmark,
+                selected: false,
+                onSelected: null,
+              ),
+            ],
           ),
-          const ActionChip(
-            label: Text('ActionChip'),
-            avatar: Icon(Icons.settings),
-            onPressed: null,
+          const SizedBox(height: 4),
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 4,
+            runSpacing: 8,
+            children: <Widget>[
+              const SizedBox(
+                width: _textWidth,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('Selected', style: TextStyle(fontSize: _fontSize)),
+                    Text('FilterChip', style: TextStyle(fontSize: _fontSize)),
+                  ],
+                ),
+              ),
+              FilterChip(
+                label: const Text('Filter'),
+                avatar: showAvatar
+                    ? const Icon(Icons.account_circle_rounded)
+                    : null,
+                showCheckmark: showCheckmark,
+                selected: filterSelected,
+                onSelected: (bool value) {
+                  setState(() {
+                    filterSelected = value;
+                  });
+                },
+              ),
+              FilterChip(
+                label: const Text('Filter'),
+                avatar: showAvatar
+                    ? const Icon(Icons.account_circle_rounded)
+                    : null,
+                showCheckmark: showCheckmark,
+                selected: true,
+                onSelected: null,
+              ),
+            ],
           ),
-          FilterChip(
-            label: const Text('FilterChip'),
-            selected: true,
-            onSelected: (bool value) {},
+          const SizedBox(height: 4),
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 4,
+            runSpacing: 8,
+            children: <Widget>[
+              const SizedBox(
+                width: _textWidth,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('InputChip', style: TextStyle(fontSize: _fontSize)),
+                    Text('Input M3', style: TextStyle(fontSize: _fontSize)),
+                  ],
+                ),
+              ),
+              InputChip(
+                label: const Text('Input'),
+                avatar: showAvatar
+                    ? const Icon(Icons.account_circle_rounded)
+                    : null,
+                showCheckmark: showCheckmark,
+                onSelected: (bool value) {},
+                onDeleted: () {},
+              ),
+              InputChip(
+                label: const Text('Input'),
+                avatar: showAvatar
+                    ? const Icon(Icons.account_circle_rounded)
+                    : null,
+                showCheckmark: showCheckmark,
+                isEnabled: false,
+                onSelected: (bool value) {},
+                onDeleted: () {},
+                // onDeleted: () {},
+              ),
+            ],
           ),
-          const FilterChip(
-            label: Text('FilterChip'),
-            selected: true,
-            onSelected: null,
+          const SizedBox(height: 4),
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 4,
+            runSpacing: 8,
+            children: <Widget>[
+              const SizedBox(
+                width: _textWidth,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('Selected', style: TextStyle(fontSize: _fontSize)),
+                    Text('Input', style: TextStyle(fontSize: _fontSize)),
+                  ],
+                ),
+              ),
+              InputChip(
+                label: const Text('Input'),
+                avatar: showAvatar
+                    ? const Icon(Icons.account_circle_rounded)
+                    : null,
+                selected: inputSelected,
+                showCheckmark: showCheckmark,
+                onSelected: (bool value) {
+                  setState(() {
+                    inputSelected = value;
+                  });
+                },
+                onDeleted: () {},
+              ),
+              InputChip(
+                label: const Text('Input'),
+                avatar: showAvatar
+                    ? const Icon(Icons.account_circle_rounded)
+                    : null,
+                selected: true,
+                showCheckmark: showCheckmark,
+                isEnabled: false,
+                onSelected: (bool value) {},
+                onDeleted: () {},
+              ),
+            ],
           ),
-          FilterChip(
-            label: const Text('FilterChip'),
-            selected: false,
-            onSelected: (bool value) {},
+          const SizedBox(height: 4),
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 4,
+            runSpacing: 8,
+            children: <Widget>[
+              const SizedBox(
+                width: _textWidth,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('ChoiceChip', style: TextStyle(fontSize: _fontSize)),
+                    Text('Suggestion M3',
+                        style: TextStyle(fontSize: _fontSize)),
+                  ],
+                ),
+              ),
+              ChoiceChip(
+                label: const Text('Choice'),
+                avatar: showAvatar
+                    ? const Icon(Icons.account_circle_rounded)
+                    : null,
+                showCheckmark: showCheckmark,
+                selected: false,
+                onSelected: (bool value) {},
+              ),
+              ChoiceChip(
+                label: const Text('Choice'),
+                avatar: showAvatar
+                    ? const Icon(Icons.account_circle_rounded)
+                    : null,
+                showCheckmark: showCheckmark,
+                selected: false,
+                onSelected: null,
+              ),
+            ],
           ),
-          const FilterChip(
-            label: Text('FilterChip'),
-            selected: false,
-            onSelected: null,
+          const SizedBox(height: 4),
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 4,
+            runSpacing: 8,
+            children: <Widget>[
+              const SizedBox(
+                width: _textWidth,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('Selected', style: TextStyle(fontSize: _fontSize)),
+                    Text('ChoiceChip', style: TextStyle(fontSize: _fontSize)),
+                  ],
+                ),
+              ),
+              ChoiceChip(
+                label: const Text('Choice'),
+                avatar: showAvatar
+                    ? const Icon(Icons.account_circle_rounded)
+                    : null,
+                showCheckmark: showCheckmark,
+                selected: choiceSelected,
+                onSelected: (bool value) {
+                  setState(() {
+                    choiceSelected = value;
+                  });
+                },
+              ),
+              ChoiceChip(
+                label: const Text('Choice'),
+                avatar: showAvatar
+                    ? const Icon(Icons.account_circle_rounded)
+                    : null,
+                showCheckmark: showCheckmark,
+                selected: true,
+              ),
+            ],
           ),
-          ChoiceChip(
-            label: const Text('ChoiceChip'),
-            selected: true,
-            onSelected: (bool value) {},
-          ),
-          const ChoiceChip(
-            label: Text('ChoiceChip'),
-            selected: true,
-          ),
-          ChoiceChip(
-            label: const Text('ChoiceChip'),
-            selected: false,
-            onSelected: (bool value) {},
-          ),
-          const ChoiceChip(
-            label: Text('ChoiceChip'),
-            selected: false,
-            onSelected: null,
-          ),
-          InputChip(
-            selected: true,
-            label: const Text('InputChip'),
-            onSelected: (bool value) {},
-            onDeleted: () {},
-          ),
-          InputChip(
-            selected: true,
-            label: const Text('InputChip'),
-            isEnabled: false,
-            onSelected: (bool value) {},
-            onDeleted: () {},
-          ),
-          InputChip(
-            label: const Text('InputChip'),
-            onSelected: (bool value) {},
-            onDeleted: () {},
-          ),
-          InputChip(
-            label: const Text('InputChip'),
-            isEnabled: false,
-            onSelected: (bool value) {},
-            onDeleted: () {},
-            // onDeleted: () {},
-          ),
+          const SizedBox(height: 4),
+          if (widget.showOptions)
+            SwitchListTile(
+              dense: true,
+              contentPadding: EdgeInsets.zero,
+              title: const Text('Show checkmark when selected'),
+              value: showCheckmark,
+              onChanged: (bool value) {
+                setState(() {
+                  showCheckmark = value;
+                });
+              },
+            ),
+          if (widget.showOptions)
+            SwitchListTile(
+              dense: true,
+              contentPadding: EdgeInsets.zero,
+              title: const Text('Show optional avatar'),
+              value: showAvatar,
+              onChanged: (bool value) {
+                setState(() {
+                  showAvatar = value;
+                });
+              },
+            ),
         ],
       ),
     );
