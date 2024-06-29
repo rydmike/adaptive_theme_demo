@@ -20,7 +20,7 @@ Another feature of Material 3 design is the new component library, which provide
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       isOpen: false,
       leading: const Icon(Icons.text_snippet_outlined),
-      title: const Text('Blog Theme Extension Based'),
+      title: const Text('Blog Extension Based'),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Column(

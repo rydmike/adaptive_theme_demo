@@ -30,7 +30,7 @@ class AboutIconButton extends StatelessWidget {
 // that exist(ed) in the Flutter Gallery App.
 void showAppAboutDialog(BuildContext context, [bool useRootNavigator = true]) {
   final ThemeData theme = Theme.of(context);
-  final TextStyle aboutTextStyle = theme.textTheme.bodyLarge!;
+  final TextStyle aboutTextStyle = theme.textTheme.bodyMedium!;
   final TextStyle footerStyle = theme.textTheme.bodySmall!;
   final TextStyle linkStyle =
       theme.textTheme.bodyLarge!.copyWith(color: theme.colorScheme.primary);
@@ -63,10 +63,12 @@ void showAppAboutDialog(BuildContext context, [bool useRootNavigator = true]) {
             children: <TextSpan>[
               TextSpan(
                 style: aboutTextStyle,
-                text: 'The ${App.title(context)} app is used for a Flutter '
-                    'theming workshop. It uses a fictive ${App.company} '
+                text: 'The ${App.title(context)} app is used in a talk about '
+                    'Material design and shows adaptive '
+                    'theming in Flutter. It uses a fictive ${App.company} '
                     'company and their theming requirements.\n\n'
-                    'Advanced theming is demonstrated using package ',
+                    'Advanced ColorScheme generation is demonstrated '
+                    'using package ',
               ),
               LinkTextSpan(
                 style: linkStyle,

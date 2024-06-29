@@ -217,7 +217,7 @@ class AppTabBottomSearch extends StatelessWidget {
     return const StatefulHeaderCard(
       isOpen: false,
       leading: Icon(Icons.tab_outlined),
-      title: Text('AppBar TabBar BottomAppBar and SearchBar'),
+      title: Text('AppBar TabBar BottomAppBar SearchBar'),
       child: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
