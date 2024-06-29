@@ -43,7 +43,8 @@ sealed class AppColorScheme {
         .monochromeSurfaces(ThemeTokens.isNotAndroidOrIsWeb),
 
     // Color overrides to design token values.
-    // Overrides are different from light mode, typically inverse selections.
+    // Overrides are different from light mode,
+    // typically inverse selections.
     primary: ThemeTokens.avocadoLush,
     primaryContainer: ThemeTokens.avocadoPrime,
     onPrimaryContainer: ThemeTokens.avocado,
