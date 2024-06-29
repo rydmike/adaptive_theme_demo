@@ -33,7 +33,7 @@ sealed class AppTheme {
 
       // 2) Add our custom platform adaptive splash factory.
       splashFactory:
-          ThemeTokens.adaptiveTheme ? InstantSplash.splashFactory : null,
+          ThemeTokens.isNotAndroidOrIsWeb ? InstantSplash.splashFactory : null,
 
       // 3) We use M3 Typography even if you use M2 mode.
       typography: Typography.material2021(
@@ -81,24 +81,28 @@ sealed class AppTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: scheme.primaryContainer,
           foregroundColor: scheme.onPrimaryContainer,
-          shape: ThemeTokens.adaptiveTheme ? ThemeTokens.buttonsShape : null,
+          shape:
+              ThemeTokens.isNotAndroidOrIsWeb ? ThemeTokens.buttonsShape : null,
         ),
       ),
 
       // 9) Custom adaptive shape on other buttons
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          shape: ThemeTokens.adaptiveTheme ? ThemeTokens.buttonsShape : null,
+          shape:
+              ThemeTokens.isNotAndroidOrIsWeb ? ThemeTokens.buttonsShape : null,
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          shape: ThemeTokens.adaptiveTheme ? ThemeTokens.buttonsShape : null,
+          shape:
+              ThemeTokens.isNotAndroidOrIsWeb ? ThemeTokens.buttonsShape : null,
         ),
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          shape: ThemeTokens.adaptiveTheme ? ThemeTokens.buttonsShape : null,
+          shape:
+              ThemeTokens.isNotAndroidOrIsWeb ? ThemeTokens.buttonsShape : null,
         ),
       ),
 
@@ -116,7 +120,7 @@ sealed class AppTheme {
         splashColor: scheme.primary.withAlpha(0x1F),
         disabledColor: scheme.onSurface.withAlpha(0x61),
         disabledBorderColor: scheme.onSurface.withAlpha(0x1F),
-        borderRadius: ThemeTokens.adaptiveTheme
+        borderRadius: ThemeTokens.isNotAndroidOrIsWeb
             ? ThemeTokens.borderRadius
             : ThemeTokens.borderRadiusStadiumLike,
         constraints: BoxConstraints(
@@ -144,12 +148,12 @@ sealed class AppTheme {
       chipTheme: ChipThemeData(
         backgroundColor:
             isLight ? scheme.primaryContainer : scheme.outlineVariant,
-        shape: ThemeTokens.adaptiveTheme ? const StadiumBorder() : null,
+        shape: ThemeTokens.isNotAndroidOrIsWeb ? const StadiumBorder() : null,
       ),
 
       // 13) On none Android platforms we use an iOS like Switch theme,
       // but on Android we use the default style.
-      switchTheme: ThemeTokens.adaptiveTheme ? switchTheme(scheme) : null,
+      switchTheme: ThemeTokens.isNotAndroidOrIsWeb ? switchTheme(scheme) : null,
 
       // 14) Input decorator
       // Input decorator is one of the more confusing components to theme.

@@ -20,14 +20,14 @@ sealed class ThemeTokens {
   static const Color effectDark = Color(0xFF3E0021); // Toledo, effect color
 
   // Semantic color token examples.
-  static const Color receivedLight = Color(0xFF7E2549);
-  static const Color receivedDark = Color(0xFFFFD9E2);
-  static const Color preparingLight = Color(0xFF722082);
-  static const Color preparingDark = Color(0xFFFFD5FF);
-  static const Color deliveryLight = Color(0xFF004E5F);
-  static const Color deliveryDark = Color(0xFFB4EBFF);
-  static const Color deliveredLight = Color(0xFF145200);
-  static const Color deliveredDark = Color(0xFFA6F786);
+  static const Color receivedLight = Color(0xFF00257F);
+  static const Color receivedDark = Color(0xFFC1CCFF);
+  static const Color preparingLight = Color(0xFF045E72);
+  static const Color preparingDark = Color(0xFFDBF5FF);
+  static const Color deliveryLight = Color(0xFF00513D);
+  static const Color deliveryDark = Color(0xFFBBFFE4);
+  static const Color deliveredLight = Color(0xFF005305);
+  static const Color deliveredDark = Color(0xFFCFFFC1);
 
   // Tokens for used border radius.
   static const double appRadius = 10.0;
@@ -49,7 +49,7 @@ sealed class ThemeTokens {
       Size(kMinInteractiveDimension - 8, kMinInteractiveDimension - 8);
 
   // We will use a custom platform adaptive theme for anything else than Android
-  // on Android we will use the M3 defaults for Android.
-  static bool adaptiveTheme =
+  // or if it is web on Android we will use the M3 defaults.
+  static bool isNotAndroidOrIsWeb =
       defaultTargetPlatform != TargetPlatform.android || kIsWeb;
 }

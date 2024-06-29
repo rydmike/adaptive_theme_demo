@@ -7,17 +7,22 @@ import 'theme_tokens.dart';
 ///
 /// Begin with figuring out your ColorScheme.
 ///
-/// Here we map our app theme color tokens to the SeedColorScheme.fromSeeds
-/// key colors and pin tokens to scheme colors.
+/// Here we map our app color design tokens to the SeedColorScheme.fromSeeds
+/// key colors and pin color tokens to selected ColorScheme colors.
 sealed class AppColorScheme {
-  /// App's light ColorScheme
+  /// App's light ColorScheme.
   static final ColorScheme light = SeedColorScheme.fromSeeds(
     brightness: Brightness.light,
     primaryKey: ThemeTokens.avocado,
     secondaryKey: ThemeTokens.avocadoRipe,
     tertiaryKey: ThemeTokens.avocadoCore,
-    tones: FlexTones.candyPop(Brightness.light),
-    // Color overrides to token values
+    // We use the tones chroma that has colorfulness that is fully driven
+    // by the given key colors' chromacity. We also make all surface shades
+    // monochrome on none Android builds or if it is a web build.
+    tones: FlexTones.chroma(Brightness.light)
+        .monochromeSurfaces(ThemeTokens.isNotAndroidOrIsWeb),
+
+    // Color overrides to design token values.
     primary: ThemeTokens.avocado,
     primaryContainer: ThemeTokens.avocadoMeat,
     secondary: ThemeTokens.avocadoRipe,
@@ -27,14 +32,18 @@ sealed class AppColorScheme {
     onTertiaryContainer: ThemeTokens.effectDark,
   );
 
-  /// App's dark ColorScheme
+  /// App's dark ColorScheme.
   static final ColorScheme dark = SeedColorScheme.fromSeeds(
     brightness: Brightness.dark,
+    // Same key colors and tones as light mode.
     primaryKey: ThemeTokens.avocado,
     secondaryKey: ThemeTokens.avocadoRipe,
     tertiaryKey: ThemeTokens.avocadoCore,
-    tones: FlexTones.candyPop(Brightness.dark),
-    // Color overrides to token values
+    tones: FlexTones.chroma(Brightness.dark)
+        .monochromeSurfaces(ThemeTokens.isNotAndroidOrIsWeb),
+
+    // Color overrides to design token values.
+    // Overrides are different from light mode, typically inverse selections.
     primary: ThemeTokens.avocadoLush,
     primaryContainer: ThemeTokens.avocadoPrime,
     onPrimaryContainer: ThemeTokens.avocado,
