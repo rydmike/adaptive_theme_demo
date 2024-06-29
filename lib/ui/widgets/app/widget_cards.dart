@@ -48,7 +48,6 @@ class ButtonsSwitchesIconsShow extends StatelessWidget {
           children: <Widget>[
             //
             // Buttons
-            //
             Text('Material Buttons', style: headerStyle),
             SizedBox(height: 8),
             ElevatedButtonShowcase(),
@@ -63,7 +62,6 @@ class ButtonsSwitchesIconsShow extends StatelessWidget {
             SizedBox(height: 16),
             //
             // ToggleButtons and SegmentedButton
-            //
             Text('ToggleButtons and SegmentedButton', style: headerStyle),
             SizedBox(height: 8),
             ToggleButtonsShowcase(compareButtons: true),
@@ -72,7 +70,6 @@ class ButtonsSwitchesIconsShow extends StatelessWidget {
             SizedBox(height: 16),
             //
             // FloatingActionButton and Chip
-            //
             Text('FloatingActionButton and Chip', style: headerStyle),
             SizedBox(height: 8),
             FabShowcase(),
@@ -81,7 +78,6 @@ class ButtonsSwitchesIconsShow extends StatelessWidget {
             SizedBox(height: 16),
             //
             // Switch, CheckBox and Radio
-            //
             Text('Switch, CheckBox and Radio', style: headerStyle),
             SizedBox(height: 8),
             SwitchShowcase(showCupertinoSwitches: true),
@@ -90,14 +86,12 @@ class ButtonsSwitchesIconsShow extends StatelessWidget {
             SizedBox(height: 8),
             //
             // Icon
-            //
             Text('Icon', style: headerStyle),
             SizedBox(height: 16),
             IconShowcase(),
             SizedBox(height: 16),
             //
             // IconButton
-            //
             Text('IconButton', style: headerStyle),
             SizedBox(height: 16),
             IconButtonShowcase(),
@@ -106,7 +100,6 @@ class ButtonsSwitchesIconsShow extends StatelessWidget {
             SizedBox(height: 16),
             //
             // CircleAvatar
-            //
             Text('CircleAvatar', style: headerStyle),
             SizedBox(height: 16),
             CircleAvatarShowcase(),
@@ -135,21 +128,18 @@ class ToggleFabSwitchesChipsShow extends StatelessWidget {
           children: <Widget>[
             //
             // Tooltip
-            //
             Text('Tooltip', style: headerStyle),
             SizedBox(height: 8),
             TooltipShowcase(),
             SizedBox(height: 16),
             //
             // ProgressIndicator
-            //
             Text('ProgressIndicator', style: headerStyle),
             SizedBox(height: 8),
             ProgressIndicatorShowcase(),
             SizedBox(height: 16),
             //
             // Slider and RangeSlider
-            //
             Text('Slider and RangeSlider', style: headerStyle),
             SizedBox(height: 8),
             SliderShowcase(),
@@ -180,14 +170,12 @@ class TextInputFieldShow extends StatelessWidget {
           children: <Widget>[
             //
             // TextField
-            //
             Text('TextField with InputDecorator', style: headerStyle),
             SizedBox(height: 8),
             TextFieldShowcase(),
             SizedBox(height: 16),
             //
-            // PopupMenuButton, DropdownButtonFormField, DropDownButton
-            //
+            // PopupMenuButton, DropdownButtonFormField
             Text('PopupMenuButton and DropdownButtons', style: headerStyle),
             PopupMenuButtonsShowcase(explain: true),
             SizedBox(height: 8),
@@ -195,7 +183,6 @@ class TextInputFieldShow extends StatelessWidget {
             SizedBox(height: 8),
             //
             // DropdownMenu, MenuBar, MenuAnchor
-            //
             Text('Dropdown Menus and MenuBar', style: headerStyle),
             DropDownMenuShowcase(explain: true),
             MenuAnchorShowcase(explain: true),
@@ -225,7 +212,6 @@ class AppTabBottomSearch extends StatelessWidget {
           children: <Widget>[
             //
             // AppBars and TabBar
-            //
             Text('AppBar and TabBar', style: headerStyle),
             SizedBox(height: 8),
             AppBarShowcase(),
@@ -236,7 +222,6 @@ class AppTabBottomSearch extends StatelessWidget {
             SizedBox(height: 32),
             //
             // BottomAppBar and SearchBar
-            //
             Text('BottomAppBar and SearchBar', style: headerStyle),
             BottomAppBarShowcase(explain: true),
             SearchBarShowcase(explain: true),
@@ -324,7 +309,6 @@ class DialogShow extends StatelessWidget {
         children: <Widget>[
           //
           // AlertDialog, TimePickerDialog, DatePickerDialog
-          //
           SizedBox(height: 8),
           AlertDialogShowcase(),
           SizedBox(height: 8),
@@ -353,7 +337,6 @@ class BottomSheetSnackBannerShow extends StatelessWidget {
           children: <Widget>[
             //
             // BottomSheet
-            //
             SizedBox(height: 16),
             BottomSheetShowcase(),
             SizedBox(height: 16),
@@ -361,7 +344,6 @@ class BottomSheetSnackBannerShow extends StatelessWidget {
             SizedBox(height: 16),
             //
             // SnackBar and MaterialBanner
-            //
             SizedBox(height: 8),
             MaterialBannerSnackBarShowcase(),
           ],
@@ -387,7 +369,7 @@ class CardsShow extends StatelessWidget {
             children: <Widget>[
               //
               // Card
-              //
+              CardTypesShowcase(),
               SizedBox(height: 8),
               CardShowcase(explain: true),
               SizedBox(height: 16),
