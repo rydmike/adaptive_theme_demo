@@ -135,7 +135,7 @@ sealed class AppTheme {
       ),
 
       // 11) FloatingActionButton.
-      // With custom color mapping and classic round and stadium shape.
+      // With custom color mapping and classic round and stadium shapes.
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: scheme.primaryContainer,
         foregroundColor: scheme.onPrimaryContainer,
@@ -349,7 +349,7 @@ sealed class AppTheme {
 
     return TextTheme(
       displayLarge: light.copyWith(fontSize: 54), // Default: regular, Size 57
-      displayMedium: light, // Default: regular
+      displayMedium: light.copyWith(fontSize: 42), // Default: regular
       displaySmall: light, // Default: regular
       headlineLarge: regular, //Default: regular
       headlineMedium: regular, // Default: regular
@@ -360,7 +360,7 @@ sealed class AppTheme {
       bodyLarge: regular, // Regular is default
       bodyMedium: regular, // Regular is default
       bodySmall: regular, // Regular is default
-      labelLarge: medium.copyWith(fontSize: 14), // Default: medium, Size 14
+      labelLarge: medium.copyWith(fontSize: 15), // Default: medium, Size 14
       labelMedium: medium, // Default: medium
       labelSmall: medium, // Default: medium
     );
