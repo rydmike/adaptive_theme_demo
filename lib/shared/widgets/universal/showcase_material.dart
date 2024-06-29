@@ -531,10 +531,6 @@ class _SegmentedButtonShowcaseState extends State<SegmentedButtonShowcase> {
                 value: Calendar.month,
                 label: Text('Month'),
               ),
-              ButtonSegment<Calendar>(
-                value: Calendar.year,
-                label: Text('Year'),
-              ),
             ],
             selected: <Calendar>{_selected},
             onSelectionChanged: (Set<Calendar> selected) {
@@ -559,11 +555,6 @@ class _SegmentedButtonShowcaseState extends State<SegmentedButtonShowcase> {
                 value: Calendar.month,
                 icon: Icon(Icons.calendar_view_month),
                 label: Text('Mont'),
-              ),
-              ButtonSegment<Calendar>(
-                value: Calendar.year,
-                icon: Icon(Icons.calendar_today),
-                label: Text('Year'),
               ),
             ],
             selected: <Calendar>{_selected},
@@ -591,11 +582,6 @@ class _SegmentedButtonShowcaseState extends State<SegmentedButtonShowcase> {
                 icon: Icon(Icons.calendar_view_month),
                 label: Text('Mont'),
                 enabled: false,
-              ),
-              ButtonSegment<Calendar>(
-                value: Calendar.year,
-                icon: Icon(Icons.calendar_today),
-                label: Text('Year'),
               ),
             ],
             selected: <Calendar>{_selected},
