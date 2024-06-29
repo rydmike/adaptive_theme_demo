@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 // ignore_for_file: comment_references
 
@@ -9,17 +8,14 @@ import 'package:google_fonts/google_fonts.dart';
 /// classes that serves your application's usage. For these examples I
 /// put them all in the same class, except the colors that are in their
 /// own class.
-class App {
-  // This class is not meant to be instantiated or extended; this constructor
-  // prevents instantiation and extension.
-  App._();
-
+sealed class App {
   /// Returns the title of the MaterialApp.
   ///
-  /// Used to set title on pages to
-  /// same one that is defined in each example as its app name. Handy as we only
-  /// need to update in one place, where it belongs and no need to put it as
-  /// a const somewhere and no need to pass it around via a title prop either.
+  /// Used to set title on pages to same one that is defined in its app name.
+  /// Handy as we only need to update in one place, where it belongs and no
+  /// need to put it as a const somewhere and no need to pass it around
+  /// via a title prop either.
+  ///
   /// Also used in the [showAppAboutDialog] About box as app name.
   static String title(BuildContext context) =>
       (context as Element).findAncestorWidgetOfExactType<MaterialApp>()!.title;
@@ -60,16 +56,6 @@ class App {
   /// typically via the [PageBody] screen content wrapper widget.
   static const double maxBodyWidth = 1000;
 
-  /// Breakpoint needed to show second panel in side-by-side view for the
-  /// [ThemeTopicPage] page view.
-  ///
-  /// This is available content layout width, not media size!
-  ///
-  /// This min width was chosen because it gives at least the primary, secondary
-  /// and tertiary colors in one Wrap row on panels Input Colors and Seeded
-  /// ColorScheme, also when the side-by-side code view appears.
-  static const double sideBySideViewBreakpoint = 760;
-
   /// The minimum media size needed for desktop/large tablet menu view,
   /// this is media size.
   ///
@@ -84,13 +70,6 @@ class App {
   /// but then that view switches temporarily to now showing the code view,
   /// and it is just to much dynamic changes happening, it does not nice.
   static const double desktopWidthBreakpoint = 1700;
-
-  /// A medium sized desktop, in panel view we switch to vertical
-  /// topic selector page [ThemeTwoTopicsPage], with topic selector on
-  /// left and right side, one for each theme topic panel.
-  ///
-  /// This is a media size breakpoint.
-  static const double mediumDesktopWidthBreakpoint = 1079;
 
   /// This breakpoint is only used to further increase margins and insets on
   /// very large desktops.
@@ -124,62 +103,4 @@ class App {
     if (width < bigDesktopWidthBreakpoint) return edgeInsetsDesktop;
     return edgeInsetsBigDesktop;
   }
-
-  /// The height when we want to pin the panel or color selector, instead of
-  /// letting it float and snap back.
-  // static const double pinnedSelector = 1090;
-
-  /// The width, and height of the scrolling panel buttons in Themes Playground
-  /// page view, and how much it shrinks when we go to phone size.
-  ///
-  /// The same shrunk sizes are reused in the compact view mode in larger
-  /// breakpoints, when the compact view mode is selected.
-  // static const double panelButtonWidth = 115;
-  // static const double panelButtonHeight = 100;
-  // static const double panelButtonPhoneWidthReduce = -20;
-  // static const double panelButtonPhoneHeightReduce = -30;
-
-  /// The width and height reduction of input color selection box in phone size.
-  ///
-  /// The same shrunk size is reused in the compact view mode in larger
-  /// breakpoints, when the compact view mode is selected.
-  // static const double colorButtonPhoneReduce = -12;
-
-  // Get the main font that is used in some of the examples.
-  // Feel free to try different fonts.
-  // For demonstration purposes the custom font is defined via Google fonts
-  // both as its fontFamily name and its TextTheme. In the playground we pass
-  // the textTheme to fontFamily and the textTheme to both textTheme and
-  // primaryTextTheme. You can remove either the fontFamily or the
-  // textTheme/primaryTextTheme usage and it will still work fine.
-  // FlexColorScheme will also sort out the right text theme contrasts for
-  // light and dark themes and for the primaryTextTheme to always have right
-  // contrast for whatever primary color is used. FlexColorScheme also retains
-  // the correct opacities on text style if M2 Typography is used, and removes
-  // it from style when M3 Typography is used.
-  static String? get font => GoogleFonts.notoSans().fontFamily;
-
-  static final TextStyle notoSansRegular =
-      GoogleFonts.notoSans(fontWeight: FontWeight.w400);
-  static final TextStyle notoSansMedium =
-      GoogleFonts.notoSans(fontWeight: FontWeight.w500);
-  static final TextStyle notoSansBold =
-      GoogleFonts.notoSans(fontWeight: FontWeight.w500);
-  static TextTheme? get textTheme => TextTheme(
-        displayLarge: notoSansRegular, // Regular is default
-        displayMedium: notoSansRegular, // Regular is default
-        displaySmall: notoSansRegular, // Regular is default
-        headlineLarge: notoSansRegular, // Regular is default
-        headlineMedium: notoSansRegular, // Regular is default
-        headlineSmall: notoSansRegular, // Regular is default
-        titleLarge: notoSansRegular, // Regular is default
-        titleMedium: notoSansMedium, // medium is default
-        titleSmall: notoSansMedium, // Medium is default
-        bodyLarge: notoSansRegular, // Regular is default
-        bodyMedium: notoSansRegular, // Regular is default
-        bodySmall: notoSansRegular, // Regular is default
-        labelLarge: notoSansMedium, // Medium is default
-        labelMedium: notoSansMedium, // Medium is default
-        labelSmall: notoSansMedium, // Medium is default
-      );
 }
