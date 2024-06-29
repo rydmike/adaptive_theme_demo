@@ -21,13 +21,13 @@ enum OrderStatus {
   ),
   inDelivery(
     label: 'In delivery',
-    describe: 'We are delivering your\nAvocado Delish meal to you.',
+    describe: 'We are delivering your\nAvocado Deli meal to you.',
     icon: Icons.electric_moped,
   ),
   delivered(
     label: 'Delivered',
     describe: 'Your order has been delivered.\nEnjoy your meal and thank '
-        'you\nfor choosing Avocado Delish!',
+        'you\nfor choosing Avocado Deli!',
     icon: Icons.ramen_dining,
   );
 

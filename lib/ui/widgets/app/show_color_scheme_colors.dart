@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flex_seed_scheme/flex_seed_scheme.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../shared/utils/color_extensions.dart';
-import '../../../../shared/utils/copy_color_to_clipboard.dart';
+import '../../../shared/utils/color_extensions.dart';
+import '../../../shared/utils/copy_color_to_clipboard.dart';
 
 const Size _colorChipSize = Size(160, 50);
 const Size _onChipSize = Size(160, 36);

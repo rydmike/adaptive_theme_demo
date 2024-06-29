@@ -3,12 +3,12 @@ import 'package:flutter/services.dart';
 
 import '../../../shared/const/app.dart';
 import '../../../shared/utils/app_scroll_behavior.dart';
-import '../../theme/custom_overlays_style.dart';
-import '../widgets/app/about.dart';
+import '../../../theme/custom_overlays_style.dart';
+import '../../../ui/widgets/app/about.dart';
+import '../../../ui/widgets/app/show_sub_theme_colors.dart';
+import '../../../ui/widgets/universal/page_body.dart';
 import '../widgets/app/show_color_scheme_colors.dart';
-import '../widgets/app/show_sub_theme_colors.dart';
 import '../widgets/app/show_theme_data_colors.dart';
-import '../widgets/universal/page_body.dart';
 import '../widgets/universal/showcase_material.dart';
 
 /// This page is used as a demo in the app to show the themed Material

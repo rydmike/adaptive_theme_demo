@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../shared/const/app.dart';
+import '../../shared/const/app.dart';
 import '../../theme/custom_overlays_style.dart';
 import '../../theme/theme_settings.dart';
 import '../widgets/app/about.dart';
+import '../widgets/app/blog_post_card.dart';
 import '../widgets/app/order_status/order_states_card.dart';
-import '../widgets/blog_post_card.dart';
+import '../widgets/app/widget_cards.dart';
 import '../widgets/universal/page_body.dart';
 import '../widgets/universal/theme_mode_switch.dart';
-import '../widgets/widget_cards.dart';
 import 'components_demo_screen.dart';
 
 /// Home page for the theme demo app.
@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       ListTile(
-        title: const Text('Page with Material widgets'),
+        title: const Text('Page with colors and themed widgets'),
         trailing: const Icon(Icons.arrow_forward_ios),
         onTap: () async {
           await ComponentsDemoScreen.show(context);

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'app/show_color_scheme_colors.dart';
-import 'app/show_sub_theme_colors.dart';
-import 'app/show_theme_data_colors.dart';
-import 'universal/showcase_material.dart';
-import 'universal/stateful_header_card.dart';
+import '../universal/showcase_material.dart';
+import '../universal/stateful_header_card.dart';
+import 'show_color_scheme_colors.dart';
+import 'show_sub_theme_colors.dart';
+import 'show_theme_data_colors.dart';
 
 class ShowColorScheme extends StatelessWidget {
   const ShowColorScheme({super.key});
