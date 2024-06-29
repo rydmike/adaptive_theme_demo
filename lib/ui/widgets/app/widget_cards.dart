@@ -64,7 +64,7 @@ class ButtonsSwitchesIconsShow extends StatelessWidget {
             // ToggleButtons and SegmentedButton
             Text('ToggleButtons and SegmentedButton', style: headerStyle),
             SizedBox(height: 8),
-            ToggleButtonsShowcase(compareButtons: true),
+            ToggleButtonsShowcase(),
             SizedBox(height: 8),
             SegmentedButtonShowcase(),
             SizedBox(height: 16),
