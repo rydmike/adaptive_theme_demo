@@ -16,6 +16,7 @@ Another feature of Material 3 design is the new component library, which provide
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     return StatefulHeaderCard(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       isOpen: false,
@@ -26,20 +27,18 @@ Another feature of Material 3 design is the new component library, which provide
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            // Blog post card using custom theme extension fonts
+            // Blog post using custom theme extension fonts
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text('Expressive Material 3',
-                  style: Theme.of(context)
-                      .extension<AppThemeExtension>()
-                      ?.blogHeader),
+                  style: theme.extension<AppThemeExtension>()?.blogHeader ??
+                      theme.textTheme.headlineSmall),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(_blogText,
-                  style: Theme.of(context)
-                      .extension<AppThemeExtension>()
-                      ?.blogBody),
+                  style: theme.extension<AppThemeExtension>()?.blogBody ??
+                      theme.textTheme.bodySmall),
             ),
           ],
         ),
