@@ -8,12 +8,7 @@ import 'package:flutter/services.dart';
 SystemUiOverlayStyle customOverlayStyle() {
   unawaited(SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge));
   return const SystemUiOverlayStyle(
-    // systemStatusBarContrastEnforced: false,
-    // statusBarColor: Colors.transparent,
-    // statusBarIconBrightness: Brightness.dark,
-    // statusBarBrightness: Brightness.dark,
     systemNavigationBarColor: Colors.transparent,
     systemNavigationBarDividerColor: Colors.transparent,
-    // systemNavigationBarIconBrightness: Brightness.dark,
   );
 }
