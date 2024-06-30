@@ -391,14 +391,7 @@ sealed class AppTheme {
     );
   }
 
-  // 25) Get our custom GoogleFonts TextTheme: poppins
-  // Issue: https://github.com/material-foundation/flutter-packages/issues/401
-  static TextTheme get googleFontsTextTheme {
-    // Add ".fixColors", remove it to see how text color breaks.
-    return GoogleFonts.poppinsTextTheme().fixColors;
-  }
-
-  // 26) Make a TextTheme from TextStyles to customize more.
+  // 22 a) Make a TextTheme from TextStyles to customize more.
   // There is no color issue with GoogleFonts then since TextStyles
   // have null color by default.
   static TextTheme get textThemeFromStyles {
@@ -426,7 +419,14 @@ sealed class AppTheme {
     );
   }
 
-  // 27) Make a totally custom text style for a component theme: AppBar
+  // 23 a) Get our custom GoogleFonts TextTheme: poppins
+  // Issue: https://github.com/material-foundation/flutter-packages/issues/401
+  static TextTheme get googleFontsTextTheme {
+    // Add ".fixColors", remove it to see how text color breaks.
+    return GoogleFonts.poppinsTextTheme().fixColors;
+  }
+
+  // 25) Make a totally custom text style for a component theme: AppBar
   //
   // Generally don't try to change the app's TexTheme and its TextStyle to make
   // a given component use a different style by adjusting the default style in
@@ -442,7 +442,7 @@ sealed class AppTheme {
     );
   }
 
-  // 28) A "semantic" text theme that we will use for custom content.
+  // 26) A "semantic" text theme that we will use for custom content.
   //
   // Generally don't try to change the app's TexTheme and its TextStyle to fit
   // your content, instead make a new TextStyle that fits your content.
@@ -455,7 +455,7 @@ sealed class AppTheme {
     );
   }
 
-  // 29) A "semantic" text style that we will use for custom content.
+  // 27) A "semantic" text style that we will use for custom content.
   static TextStyle blogBody(ColorScheme scheme, double fontSize) {
     return GoogleFonts.notoSerif(
       fontWeight: FontWeight.w400,
