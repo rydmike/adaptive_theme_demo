@@ -27,7 +27,6 @@ The update introduces dedicated surface color roles that are no longer tied to e
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            // Blog post using custom theme extension fonts
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text('Expressive Material 3',
