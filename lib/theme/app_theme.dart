@@ -187,7 +187,11 @@ sealed class AppTheme {
         shape: ThemeTokens.isNotAndroidOrIsWeb ? const StadiumBorder() : null,
       ),
 
-      // 15) NavigationBar
+      // 15) On none Android platforms we use an iOS like Switch theme,
+      // but on Android we use the default style.
+      switchTheme: ThemeTokens.isNotAndroidOrIsWeb ? switchTheme(scheme) : null,
+
+      // 16) NavigationBar
       // We want a navigation bar that is slightly transparent and with more
       // distinct and clear selection indication. Also the default height 80
       // wastes space, so we make it lower.
@@ -210,10 +214,6 @@ sealed class AppTheme {
           );
         }),
       ),
-
-      // 16) On none Android platforms we use an iOS like Switch theme,
-      // but on Android we use the default style.
-      switchTheme: ThemeTokens.isNotAndroidOrIsWeb ? switchTheme(scheme) : null,
 
       // 17) Input decorator
       // Input decorator is one of the more confusing components to theme.
@@ -251,12 +251,11 @@ sealed class AppTheme {
         shadowColor: scheme.shadow,
       ),
 
-      // 22) Add a custom TextTheme with GoogleFonts.nnnTextTheme
-      // textTheme: googleFontsTextTheme,
-      primaryTextTheme: googleFontsTextTheme,
-
-      // 23) Add a custom TextTheme made from TextStyles
+      // 22) Add a custom TextTheme made from TextStyles
       textTheme: textThemeFromStyles,
+
+      // 23) Add a custom TextTheme with GoogleFonts.nnnTextTheme
+      primaryTextTheme: googleFontsTextTheme,
 
       // 24) Add all our custom theme extensions.
       //
@@ -267,9 +266,9 @@ sealed class AppTheme {
     );
   }
 
-  // 16 a) A custom SwitchTheme that resembles an iOS Switch.
-  // The intention is that feels familiar on iOS and be platform agnostic
-  // on others, we can also use this on Android if we like.
+  // 15 a) A custom SwitchTheme that resembles an iOS Switch.
+  // The intention is that feels familiar on iOS and can ne used as platform
+  // agnostic on others, we could also use this on Android if we like.
   static SwitchThemeData switchTheme(ColorScheme scheme) {
     final bool isLight = scheme.brightness == Brightness.light;
     return SwitchThemeData(

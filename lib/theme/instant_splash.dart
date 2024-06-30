@@ -121,12 +121,10 @@ class InstantSplash extends InteractiveInkFeature {
     _alphaController!.forward();
   }
 
-  // coverage:ignore-start
   @override
   void cancel() {
     _alphaController?.forward();
   }
-  // coverage:ignore-end
 
   void _handleAlphaStatusChanged(AnimationStatus status) {
     if (status == AnimationStatus.completed) {
@@ -146,12 +144,10 @@ class InstantSplash extends InteractiveInkFeature {
   void paintFeature(Canvas canvas, Matrix4 transform) {
     final Paint paint = Paint()..color = color.withAlpha(_alpha.value);
     Offset? center = _position;
-    // coverage:ignore-start
     if (_repositionToReferenceBox) {
       center = Offset.lerp(center, referenceBox.size.center(Offset.zero),
           _radiusController.value);
     }
-    // coverage:ignore-end
     paintInkCircle(
       canvas: canvas,
       transform: transform,
