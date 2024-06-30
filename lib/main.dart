@@ -31,8 +31,6 @@ class AdaptiveThemeDemoApp extends StatefulWidget {
 }
 
 class _AdaptiveThemeDemoAppState extends State<AdaptiveThemeDemoApp> {
-  // Default theme settings.
-  //
   // We just have simple data class with 3 properties for demo purposes.
   // No state management package is used in this example. We just pass the
   // data class around and modify it where needed via callbacks.
