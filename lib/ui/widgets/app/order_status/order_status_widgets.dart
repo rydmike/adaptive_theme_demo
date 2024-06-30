@@ -4,9 +4,6 @@ import 'order_status_dialog.dart';
 import 'order_status_model.dart';
 
 /// Order status widget with color properties.
-///
-/// This could also represent a Flutter SDK UI widget. In this case it
-/// is custom widget that composes a number of Flutter SDK widget.
 class OrderStatusWithColor extends StatelessWidget {
   const OrderStatusWithColor({
     super.key,
@@ -78,7 +75,7 @@ class OrderStatusTokenBased extends StatelessWidget {
   }
 }
 
-/// Example of a theme based custom widget.
+/// Example of a theme extension based custom widget.
 ///
 /// Theme changes not get animated transitions. This is using a theme extension
 /// for the theme color, but the color could also of course come from any

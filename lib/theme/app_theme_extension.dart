@@ -81,7 +81,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     );
   }
 
-  // Custom const theme with our brand color in light mode.
+  // Constructor with our semantic order status colors in light mode.
   static const AppThemeExtension light = AppThemeExtension(
     received: ThemeTokens.receivedLight,
     onReceived: ThemeTokens.receivedDark,
@@ -93,7 +93,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     onDelivered: ThemeTokens.deliveredDark,
   );
 
-// Custom const theme with our brand color in dark mode.
+  // Constructor with our semantic order status colors in dark mode.
   static const AppThemeExtension dark = AppThemeExtension(
     received: ThemeTokens.receivedDark,
     onReceived: ThemeTokens.receivedLight,
