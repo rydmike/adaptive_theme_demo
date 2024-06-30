@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 
-import '../../../theme/app_theme_extension.dart';
-import '../universal/stateful_header_card.dart';
+import '../../../../theme/app_theme_extension.dart';
+import '../../universal/stateful_header_card.dart';
 
-class AnotherBlogPostCard extends StatelessWidget {
-  const AnotherBlogPostCard({super.key});
-
-  static const String _blogText = '''
-New surface color roles offer more flexibility for large screens and rich color features
-
-The previous way makers could achieve tinted surfaces, which are a hallmark of the M3 design language, was to assign the color role “surface” to a component, and increase its elevation to achieve the desired tinting which was applied via an opacity layer.
-
-The update introduces dedicated surface color roles that are no longer tied to elevation. Makers will be able to choose the right surface roles based on the containment needs of their products, and now have more layout flexibility for larger screens.
-''';
+@immutable
+class BlogPostCard extends StatelessWidget {
+  const BlogPostCard({
+    super.key,
+    required this.cardHeading,
+    required this.blogHeading,
+    required this.blogContent,
+  });
+  final String cardHeading;
+  final String blogHeading;
+  final String blogContent;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ The update introduces dedicated surface color roles that are no longer tied to e
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       isOpen: false,
       leading: const Icon(Icons.text_snippet_outlined),
-      title: const Text('Another Blog Example'),
+      title: Text(cardHeading),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Column(
@@ -29,13 +30,13 @@ The update introduces dedicated surface color roles that are no longer tied to e
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text('Expressive Material 3',
+              child: Text(blogHeading,
                   style: theme.extension<AppThemeExtension>()?.blogHeader ??
                       theme.textTheme.headlineSmall),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(_blogText,
+              child: Text(blogContent,
                   style: theme.extension<AppThemeExtension>()?.blogBody ??
                       theme.textTheme.bodySmall),
             ),

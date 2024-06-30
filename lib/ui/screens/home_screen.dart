@@ -5,8 +5,8 @@ import '../../shared/const/app.dart';
 import '../../theme/custom_overlays_style.dart';
 import '../../theme/theme_settings.dart';
 import '../widgets/app/about.dart';
-import '../widgets/app/another_blog_post_card.dart';
-import '../widgets/app/blog_post_card.dart';
+import '../widgets/app/blog_post/blog_post_card.dart';
+import '../widgets/app/blog_post/blog_texts.dart';
 import '../widgets/app/order_status/order_states_card.dart';
 import '../widgets/app/widget_cards.dart';
 import '../widgets/universal/page_body.dart';
@@ -111,8 +111,14 @@ class _HomePageState extends State<HomePage> {
       // Custom widget theme extension based styles, has theme animation.
       const OrderStatesCard(useTheme: true),
       // Blog posts demo with theme extension based TextStyles, theme animation.
-      const BlogPostCard(),
-      const AnotherBlogPostCard(),
+      const BlogPostCard(
+          cardHeading: 'Blog Example',
+          blogHeading: BlogTexts.blogHeading1,
+          blogContent: BlogTexts.blogContent1),
+      const BlogPostCard(
+          cardHeading: 'Another Blog Example',
+          blogHeading: BlogTexts.blogHeading2,
+          blogContent: BlogTexts.blogContent2),
       // Show the active ColorScheme
       const Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
