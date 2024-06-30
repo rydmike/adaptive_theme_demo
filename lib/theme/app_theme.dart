@@ -82,11 +82,14 @@ sealed class AppTheme {
       // opacity and very minor scroll under elevation that with shadow
       // will look like a faint underline in light theme mode.
       appBarTheme: AppBarTheme(
-        backgroundColor: scheme.surface.withOpacity(isLight ? 0.97 : 0.96),
+        backgroundColor: scheme.surface.withOpacity(isLight ? 0.96 : 0.95),
         foregroundColor: scheme.secondary,
         elevation: 0,
         scrolledUnderElevation: isLight ? 0.5 : 2,
         shadowColor: scheme.shadow,
+        centerTitle: defaultTargetPlatform == TargetPlatform.iOS,
+        surfaceTintColor:
+            ThemeTokens.isNotAndroidOrIsWeb ? scheme.outline : scheme.primary,
         // Adding this shape makes the scroll under effect animate as it should.
         // See issue: https://github.com/flutter/flutter/issues/131042
         shape: const RoundedRectangleBorder(),
@@ -102,7 +105,6 @@ sealed class AppTheme {
               ThemeTokens.isNotAndroidOrIsWeb ? ThemeTokens.buttonsShape : null,
         ),
       ),
-
       // 9) Custom adaptive shape on other buttons
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
@@ -194,8 +196,8 @@ sealed class AppTheme {
       navigationBarTheme: NavigationBarThemeData(
         height: 72,
         backgroundColor: isLight
-            ? scheme.surfaceContainerLow.withOpacity(0.97)
-            : scheme.surfaceContainer.withOpacity(0.96),
+            ? scheme.surfaceContainerLow.withOpacity(0.96)
+            : scheme.surfaceContainer.withOpacity(0.95),
         indicatorColor: scheme.primary,
         iconTheme: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
           return IconThemeData(
