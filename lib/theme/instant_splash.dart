@@ -15,9 +15,15 @@ const double _kSplashConfirmedVelocity = 1.0; // logical pixels per millisecond
 /// highlight effect instead of ink.
 ///
 /// This feature is a complete copy of Flutter SDK [InkSplash], but with the
-/// splash timing simply set to zero. This could certainly be made much more
-/// efficient, but it is no worse than the [InkSplash] and a quick way to make
+/// splash timing simply set to zero. This could probably be made in a simpler
+/// simpler, but it is no worse than the [InkSplash] and a quick way to make
 /// one that only has the ink highlight feature, without animated splash.
+///
+/// You can also use the [NoSplash.splashfactory] to defeat the default ink
+/// splash drawn by an [InkWell] or [ButtonStyle]. It is similar to this
+/// feature, but it animates the appearance of the tap highlight, whereas
+/// [InstantSplash] does not animate the appearance of the tap highlight,
+/// it is instant.
 ///
 /// This object is rarely created directly. Instead of creating an ink splash
 /// directly, consider using an [InkResponse] or [InkWell] widget, which uses
