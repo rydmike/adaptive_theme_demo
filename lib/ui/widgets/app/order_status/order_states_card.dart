@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../universal/stateful_header_card.dart';
 import 'order_status_model.dart';
-import 'order_status_widgets.dart';
+import 'order_status_widget.dart';
 
 // Display all the order status widgets in an expandable container.
 class OrderStatesCard extends StatelessWidget {
@@ -14,7 +14,6 @@ class OrderStatesCard extends StatelessWidget {
     return StatefulHeaderCard(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       leading: const Icon(Icons.notifications_active_outlined),
-      isOpen: false,
       title: useTheme
           ? const Text('OrderStatus Theme Based')
           : const Text('OrderStatus Const Based'),
@@ -26,8 +25,8 @@ class OrderStatesCard extends StatelessWidget {
           children: <Widget>[
             for (final OrderStatus status in OrderStatus.values)
               useTheme
-                  ? OrderStatusThemeBased(status: status)
-                  : OrderStatusTokenBased(status: status)
+                  ? OrderStatusWidget(status: status, useTheme: true)
+                  : OrderStatusWidget(status: status, useTheme: false)
           ],
         ),
       ),

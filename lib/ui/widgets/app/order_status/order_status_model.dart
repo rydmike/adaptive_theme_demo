@@ -41,9 +41,9 @@ enum OrderStatus {
   final String describe;
   final IconData icon;
 
-  /// Returns the foreground color associated with the order status. Uses the
+  /// Returns the color associated with the order status. Uses the
   /// context to determine if it should be the token for light or dark mode.
-  Color backgroundTokenColor(BuildContext context) {
+  Color orderStatusTokenColor(BuildContext context) {
     final bool isLight = Theme.of(context).brightness == Brightness.light;
     switch (this) {
       case OrderStatus.received:
@@ -57,9 +57,9 @@ enum OrderStatus {
     }
   }
 
-  /// Returns the background color associated with the order status. Uses the
+  /// Returns the on color associated with the order status. Uses the
   /// context to determine if it should be the token for light or dark mode.
-  Color foregroundTokenColor(BuildContext context) {
+  Color onOrderStatusTokenColor(BuildContext context) {
     final bool isLight = Theme.of(context).brightness == Brightness.light;
     switch (this) {
       case OrderStatus.received:
@@ -73,47 +73,47 @@ enum OrderStatus {
     }
   }
 
-  /// Returns the background color associated with the order status. Uses the
+  /// Returns the color associated with the order status. Uses the
   /// context the context to get it from Theme.of(context). In this case
   /// we are getting the color value from a Theme extension. If there is no
   /// theme extension defined, ot falls back to the direct token based value.
-  Color backgroundThemeColor(BuildContext context) {
+  Color orderStatusColor(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     switch (this) {
       case OrderStatus.received:
         return theme.extension<AppThemeExtension>()?.received ??
-            backgroundTokenColor(context);
+            orderStatusTokenColor(context);
       case OrderStatus.preparing:
         return theme.extension<AppThemeExtension>()?.making ??
-            backgroundTokenColor(context);
+            orderStatusTokenColor(context);
       case OrderStatus.inDelivery:
         return theme.extension<AppThemeExtension>()?.inDelivery ??
-            backgroundTokenColor(context);
+            orderStatusTokenColor(context);
       case OrderStatus.delivered:
         return theme.extension<AppThemeExtension>()?.delivered ??
-            backgroundTokenColor(context);
+            orderStatusTokenColor(context);
     }
   }
 
-  /// Returns the foreground color associated with the order status. Uses the
+  /// Returns the on color associated with the order status. Uses the
   /// context the context to get it from Theme.of(context). In this case
   /// we are getting the color value from a Theme extension. If there is no
   /// theme extension defined, ot falls back to the direct token based value.
-  Color foregroundThemeColor(BuildContext context) {
+  Color onOrderStatusColor(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     switch (this) {
       case OrderStatus.received:
         return theme.extension<AppThemeExtension>()?.onReceived ??
-            foregroundTokenColor(context);
+            onOrderStatusTokenColor(context);
       case OrderStatus.preparing:
         return theme.extension<AppThemeExtension>()?.onMaking ??
-            foregroundTokenColor(context);
+            onOrderStatusTokenColor(context);
       case OrderStatus.inDelivery:
         return theme.extension<AppThemeExtension>()?.onInDelivery ??
-            foregroundTokenColor(context);
+            onOrderStatusTokenColor(context);
       case OrderStatus.delivered:
         return theme.extension<AppThemeExtension>()?.onDelivered ??
-            foregroundTokenColor(context);
+            onOrderStatusTokenColor(context);
     }
   }
 }
