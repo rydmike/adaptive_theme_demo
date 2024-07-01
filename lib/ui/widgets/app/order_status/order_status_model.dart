@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../../theme/app_theme_extension.dart';
 import '../../../../theme/theme_tokens.dart';
 
-/// An enum used to model our order status value
-///
-/// It also includes labels, icons and colors for each status.
+/// Enum used to model our order status value,
+/// also includes labels, icons and colors for each status.
 enum OrderStatus {
   received(
     label: 'Order received',
@@ -57,7 +56,7 @@ enum OrderStatus {
     }
   }
 
-  /// Returns the on color associated with the order status. Uses the
+  /// Returns the on-color associated with the order status. Uses the
   /// context to determine if it should be the token for light or dark mode.
   Color onOrderStatusTokenColor(BuildContext context) {
     final bool isLight = Theme.of(context).brightness == Brightness.light;
@@ -73,10 +72,9 @@ enum OrderStatus {
     }
   }
 
-  /// Returns the color associated with the order status. Uses the
-  /// context the context to get it from Theme.of(context). In this case
-  /// we are getting the color value from a Theme extension. If there is no
-  /// theme extension defined, ot falls back to the direct token based value.
+  /// Returns the color associated with the order status. Uses
+  /// Theme.of(context).extension, to get the color. If the extension is not
+  /// defined, it falls back to the direct token based color.
   Color orderStatusColor(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     switch (this) {
@@ -95,10 +93,9 @@ enum OrderStatus {
     }
   }
 
-  /// Returns the on color associated with the order status. Uses the
-  /// context the context to get it from Theme.of(context). In this case
-  /// we are getting the color value from a Theme extension. If there is no
-  /// theme extension defined, ot falls back to the direct token based value.
+  /// Returns the on-color associated with the order status. Uses
+  /// Theme.of(context).extension, to get the color. If the extension is not
+  /// defined, it falls back to the direct token based on-color.
   Color onOrderStatusColor(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     switch (this) {
