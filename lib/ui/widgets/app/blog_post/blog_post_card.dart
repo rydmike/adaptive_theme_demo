@@ -20,7 +20,6 @@ class BlogPostCard extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     return StatefulHeaderCard(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      isOpen: false,
       leading: const Icon(Icons.text_snippet_outlined),
       title: Text(cardHeading),
       child: Padding(
@@ -30,15 +29,19 @@ class BlogPostCard extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(blogHeading,
-                  style: theme.extension<AppThemeExtension>()?.blogHeader ??
-                      theme.textTheme.headlineSmall),
+              child: Text(
+                blogHeading,
+                style: theme.extension<AppThemeExtension>()?.blogHeader ??
+                    theme.textTheme.headlineSmall,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(blogContent,
-                  style: theme.extension<AppThemeExtension>()?.blogBody ??
-                      theme.textTheme.bodySmall),
+              child: Text(
+                blogContent,
+                style: theme.extension<AppThemeExtension>()?.blogBody ??
+                    theme.textTheme.bodySmall,
+              ),
             ),
           ],
         ),
