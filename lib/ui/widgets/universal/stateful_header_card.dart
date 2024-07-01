@@ -26,7 +26,7 @@ class StatefulHeaderCard extends StatefulWidget {
     this.headerPadding,
     this.elevation = 0,
     this.enabled = true,
-    this.isOpen = true,
+    this.startsOpen,
     this.duration = const Duration(milliseconds: 200),
     this.startStraight = false,
     this.endStraight = false,
@@ -73,10 +73,10 @@ class StatefulHeaderCard extends StatefulWidget {
   /// Whether this list tile and card operation is interactive.
   final bool enabled;
 
-  /// Set to true top open card, to false to close.
+  /// Set to true initially build the card open.
   ///
-  /// Defaults to true.
-  final bool isOpen;
+  /// Defaults to false.
+  final bool? startsOpen;
 
   /// The duration of the show and hide animation of child.
   final Duration duration;
@@ -107,13 +107,7 @@ class _StatefulHeaderCardState extends State<StatefulHeaderCard> {
   @override
   void initState() {
     super.initState();
-    _isOpen = widget.isOpen;
-  }
-
-  @override
-  void didUpdateWidget(covariant StatefulHeaderCard oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.isOpen != oldWidget.isOpen) _isOpen = widget.isOpen;
+    _isOpen = widget.startsOpen ?? false;
   }
 
   void _handleTap() {
