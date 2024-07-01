@@ -6,7 +6,7 @@ import '../../../shared/utils/app_scroll_behavior.dart';
 import '../../../theme/custom_overlays_style.dart';
 import '../../../ui/widgets/app/about.dart';
 import '../../../ui/widgets/app/show_sub_theme_colors.dart';
-import '../../../ui/widgets/universal/page_body.dart';
+import '../../../ui/widgets/universal/responsive_center.dart';
 import '../widgets/app/show_color_scheme_colors.dart';
 import '../widgets/app/show_theme_data_colors.dart';
 import '../widgets/universal/showcase_material.dart';
@@ -65,7 +65,7 @@ class _ComponentsDemoScreenState extends State<ComponentsDemoScreen> {
               ],
             ),
           ),
-          body: PageBody(
+          body: ResponsiveCenter(
             child: ScrollConfiguration(
               behavior: const NoScrollbarBehavior(),
               child: ListView(

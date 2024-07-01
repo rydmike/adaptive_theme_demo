@@ -9,7 +9,7 @@ import '../widgets/app/blog_post/blog_post_card.dart';
 import '../widgets/app/blog_post/blog_texts.dart';
 import '../widgets/app/order_status/order_states_card.dart';
 import '../widgets/app/widget_cards.dart';
-import '../widgets/universal/page_body.dart';
+import '../widgets/universal/responsive_center.dart';
 import '../widgets/universal/theme_mode_icon_button.dart';
 import '../widgets/universal/theme_mode_switch.dart';
 import 'components_demo_screen.dart';
@@ -216,7 +216,7 @@ class _HomePageState extends State<HomePage> {
           ),
           extendBodyBehindAppBar: true,
           extendBody: true,
-          body: PageBody(
+          body: ResponsiveCenter(
             controller: scrollController,
             maxContentWidth: App.maxBodyWidth,
             child: ListView.builder(

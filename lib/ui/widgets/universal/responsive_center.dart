@@ -1,11 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-/// Layout with a centered and max width constrained layout.
+/// A layout with horizontally centered and max width constrained content.
 ///
 /// This type of layout is often used on web pages.
 ///
-/// It provides the following features to the content of the page:
+/// It provides the following additional features to the content of the page:
 /// - Adds a scrollbar
 /// - Adds the capability to un-focus a control like a TextFiled by clicking on
 ///   the background.
@@ -25,9 +25,9 @@ import 'package:flutter/material.dart';
 ///
 /// This is a Flutter "Universal" Widget that only depends on the SDK and
 /// can be dropped into any application.
-class PageBody extends StatelessWidget {
+class ResponsiveCenter extends StatelessWidget {
   /// Default constructor for the constrained PageBody.
-  const PageBody({
+  const ResponsiveCenter({
     super.key,
     this.controller,
     this.maxContentWidth = 1000,
