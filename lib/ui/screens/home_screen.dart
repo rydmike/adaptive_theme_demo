@@ -218,7 +218,7 @@ class _HomePageState extends State<HomePage> {
           extendBody: true,
           body: PageBody(
             controller: scrollController,
-            constraints: const BoxConstraints(maxWidth: App.maxBodyWidth),
+            maxContentWidth: App.maxBodyWidth,
             child: ListView.builder(
                 controller: scrollController,
                 padding: EdgeInsets.fromLTRB(0, topPadding, 0, bottomPadding),

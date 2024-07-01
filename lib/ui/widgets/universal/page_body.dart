@@ -1,6 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-/// A centered width constrained web style page body.
+/// Layout with a centered and max width constrained layout.
 ///
 /// This type of layout is often used on web pages.
 ///
@@ -11,9 +12,16 @@ import 'package:flutter/material.dart';
 /// - Center the content and limit the content width when a given max width
 ///   constraint is exceeded.
 ///
-///  This implementation has a flaw, you cannot mouse or touch/drag scroll from
-///  expanding margin areas like you could in a Web view. Read more about
-///  it here: https://rydmike.com/blog_layout_and_theming
+///  This version works around the flaw, that you cannot mouse or touch/drag
+///  scroll from the expanding margin areas like you could in a Web view.
+///  Read more about it here: https://rydmike.com/blog_layout_and_theming
+///  The solution is to use a Listener and PointerSignalEvent to manually
+///  scroll the content when the user tries to scroll from the margin areas.
+///  It still has one issue, and that is that it does not work correctly if
+///  the content has both horizontal and vertically scrolling content.
+///  Link to how the Listener workaround was obtained wih ChatGPT by
+///  Andrea Bizzotto (GH bizz84 Twitter @biz84)
+//   https://cloud.typingmind.com/share/cb35afba-1141-4db7-9201-e2fea9a92b16
 ///
 /// This is a Flutter "Universal" Widget that only depends on the SDK and
 /// can be dropped into any application.
@@ -22,7 +30,7 @@ class PageBody extends StatelessWidget {
   const PageBody({
     super.key,
     this.controller,
-    this.constraints = const BoxConstraints(maxWidth: 1000),
+    this.maxContentWidth = 1000,
     this.padding = EdgeInsets.zero,
     required this.child,
   });
@@ -35,10 +43,10 @@ class PageBody extends StatelessWidget {
   /// If null, a default controller is used.
   final ScrollController? controller;
 
-  /// The constraints for the constrained layout.
+  /// The max width of the constrained layout.
   ///
-  /// Default to max width constraint, with a value of 1000 dp.
-  final BoxConstraints constraints;
+  /// Defaults to 1000 dp.
+  final double maxContentWidth;
 
   /// Padding around the page body.
   ///
@@ -51,27 +59,46 @@ class PageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // We want the scroll bars to be at the edge of the screen, not next to the
-    // width constrained content. If we use the built in scroll bars of the
-    // in a scrolling child, it will be next to the child, not at the edge of
-    // the screen where it belongs.
-    return Scrollbar(
-      controller: controller,
-      child: GestureDetector(
-        // This allows us to un-focus a widget, typically a TextField with focus
-        // by tapping somewhere outside it. It is no longer needed on desktop
-        // builds, it is done automatically there, but not on tablet and phone
-        // app. In this demo we want it on them too.
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Center(
-          child: ConstrainedBox(
-            constraints: constraints,
-            child: ScrollConfiguration(
-              behavior:
-                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
-              child: Padding(
-                padding: padding,
-                child: child,
+    // Use a Listener on the outside to catch the PointerSignalEvent and
+    // manually scroll the content when the user tries to scroll from the
+    // margin areas.
+    return Listener(
+      onPointerSignal: (PointerSignalEvent pointerSignal) {
+        final ScrollController? c = controller;
+        if (pointerSignal is PointerScrollEvent && c != null) {
+          final double newOffset = c.offset + pointerSignal.scrollDelta.dy;
+          if (newOffset < c.position.minScrollExtent) {
+            c.jumpTo(c.position.minScrollExtent);
+          } else if (newOffset > c.position.maxScrollExtent) {
+            c.jumpTo(c.position.maxScrollExtent);
+          } else {
+            c.jumpTo(newOffset);
+          }
+        }
+      },
+      // The scroll bars should be at the edge of the screen, not next to the
+      // width constrained content. If we use the built-in scroll bars of the
+      // ones in the scrolling child, it will be next to the child, not at the
+      // edge of the screen where it belongs, this fixes that.
+      child: Scrollbar(
+        controller: controller,
+        // This GestureDetector and tap allows us to un-focus a widget,
+        // typically a TextField, by tapping somewhere outside it. This addition
+        // is no longer needed on desktop builds, where it is built-in, but
+        // it is not on tablet and phone builds. Here we want this feature on
+        // them too and add it.
+        child: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: maxContentWidth),
+              child: ScrollConfiguration(
+                behavior:
+                    ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                child: Padding(
+                  padding: padding,
+                  child: child,
+                ),
               ),
             ),
           ),
