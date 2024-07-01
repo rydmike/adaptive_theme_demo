@@ -715,7 +715,7 @@ class _SwitchShowcaseState extends State<SwitchShowcase> {
             onChanged: null,
           ),
           if (widget.showCupertinoSwitches) ...<Widget>[
-            const Text('iOS'),
+            const Text('iOS styled'),
             CupertinoSwitch(
               activeColor: colorScheme.primary,
               value: isOn1,
@@ -742,6 +742,32 @@ class _SwitchShowcaseState extends State<SwitchShowcase> {
             ),
             CupertinoSwitch(
               activeColor: colorScheme.primary,
+              value: !isOn1,
+              onChanged: null,
+            ),
+            const Text('Adaptive'),
+            Switch.adaptive(
+              value: isOn1,
+              onChanged: (bool value) {
+                setState(() {
+                  isOn1 = value;
+                });
+              },
+            ),
+            Switch.adaptive(
+              value: !isOn1,
+              onChanged: (bool value) {
+                setState(() {
+                  isOn1 = !value;
+                });
+              },
+            ),
+            const Text('Disabled'),
+            Switch.adaptive(
+              value: isOn1,
+              onChanged: null,
+            ),
+            Switch.adaptive(
               value: !isOn1,
               onChanged: null,
             ),
