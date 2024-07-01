@@ -12,7 +12,6 @@ class ShowColorScheme extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const StatefulHeaderCard(
-      isOpen: false,
       leading: Icon(Icons.palette_outlined),
       title: Text('Colors'),
       child: Padding(
@@ -38,7 +37,6 @@ class ButtonsSwitchesIconsShow extends StatelessWidget {
   Widget build(BuildContext context) {
     const TextStyle headerStyle = TextStyle(fontSize: 16);
     return const StatefulHeaderCard(
-      isOpen: false,
       leading: Icon(Icons.crop_16_9_outlined),
       title: Text('Buttons, Switches and Icons'),
       child: Padding(
@@ -118,7 +116,6 @@ class ToggleFabSwitchesChipsShow extends StatelessWidget {
   Widget build(BuildContext context) {
     const TextStyle headerStyle = TextStyle(fontSize: 16);
     return const StatefulHeaderCard(
-      isOpen: false,
       leading: Icon(Icons.tune),
       title: Text('Tooltips, Progress Indicators and Sliders'),
       child: Padding(
@@ -160,7 +157,6 @@ class TextInputFieldShow extends StatelessWidget {
     const TextStyle headerStyle = TextStyle(fontSize: 16);
 
     return const StatefulHeaderCard(
-      isOpen: false,
       leading: Icon(Icons.pin_outlined),
       title: Text('TextFields and Menus'),
       child: Padding(
@@ -202,7 +198,6 @@ class AppTabBottomSearch extends StatelessWidget {
   Widget build(BuildContext context) {
     const TextStyle headerStyle = TextStyle(fontSize: 16);
     return const StatefulHeaderCard(
-      isOpen: false,
       leading: Icon(Icons.tab_outlined),
       title: Text('AppBar TabBar BottomAppBar SearchBar'),
       child: Padding(
@@ -239,7 +234,6 @@ class BottomNavigationBarsShow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const StatefulHeaderCard(
-      isOpen: false,
       leading: Icon(Icons.video_label),
       title: Text('Bottom Navigation'),
       child: Padding(
@@ -263,7 +257,6 @@ class NavigationRailShow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const StatefulHeaderCard(
-      isOpen: false,
       leading: Icon(Icons.view_sidebar_outlined),
       title: Text('NavigationRail'),
       child: NavigationRailShowcase(explain: true),
@@ -277,7 +270,6 @@ class NavigationDrawerShow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const StatefulHeaderCard(
-      isOpen: false,
       leading: Icon(Icons.featured_video_outlined),
       title: Text('NavigationDrawer'),
       child: Padding(
@@ -301,7 +293,6 @@ class DialogShow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const StatefulHeaderCard(
-      isOpen: false,
       leading: Icon(Icons.branding_watermark_outlined),
       title: Text('Dialogs'),
       child: Column(
@@ -327,7 +318,6 @@ class BottomSheetSnackBannerShow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const StatefulHeaderCard(
-      isOpen: false,
       leading: Icon(Icons.call_to_action_outlined),
       title: Text('BottomSheet, SnackBar and Banner'),
       child: Padding(
@@ -359,7 +349,6 @@ class CardsShow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const StatefulHeaderCard(
-        isOpen: false,
         leading: Icon(Icons.picture_in_picture_alt_outlined),
         title: Text('Card'),
         child: Padding(
@@ -384,7 +373,6 @@ class ListTileShow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const StatefulHeaderCard(
-      isOpen: false,
       leading: Icon(Icons.dns_outlined),
       title: Text('ListTiles'),
       child: Column(
@@ -420,7 +408,6 @@ class _TextThemeShowState extends State<TextThemeShow> {
   @override
   Widget build(BuildContext context) {
     return StatefulHeaderCard(
-      isOpen: false,
       leading: const Icon(Icons.font_download_outlined),
       title: const Text('TextTheme'),
       child: Column(
@@ -459,7 +446,6 @@ class _PrimaryTextThemeShowState extends State<PrimaryTextThemeShow> {
   @override
   Widget build(BuildContext context) {
     return StatefulHeaderCard(
-      isOpen: false,
       leading: const Icon(Icons.font_download),
       title: const Text('PrimaryTextTheme'),
       child: Column(
