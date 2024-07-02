@@ -19,7 +19,7 @@ const double _kSplashConfirmedVelocity = 1.0; // logical pixels per millisecond
 /// simpler, but it is no worse than the [InkSplash] and a quick way to make
 /// one that only has the ink highlight feature, without animated splash.
 ///
-/// You can also use the [NoSplash.splashfactory] to defeat the default ink
+/// You can also use the NoSplash.splashFactory to defeat the default ink
 /// splash drawn by an [InkWell] or [ButtonStyle]. It is similar to this
 /// feature, but it animates the appearance of the tap highlight, whereas
 /// [InstantSplash] does not animate the appearance of the tap highlight,
