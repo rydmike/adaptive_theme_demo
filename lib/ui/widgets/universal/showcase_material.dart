@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -715,36 +714,6 @@ class _SwitchShowcaseState extends State<SwitchShowcase> {
             onChanged: null,
           ),
           if (widget.showCupertinoSwitches) ...<Widget>[
-            const Text('iOS styled'),
-            CupertinoSwitch(
-              activeColor: colorScheme.primary,
-              value: isOn1,
-              onChanged: (bool value) {
-                setState(() {
-                  isOn1 = value;
-                });
-              },
-            ),
-            CupertinoSwitch(
-              activeColor: colorScheme.primary,
-              value: !isOn1,
-              onChanged: (bool value) {
-                setState(() {
-                  isOn1 = !value;
-                });
-              },
-            ),
-            const Text('Disabled'),
-            CupertinoSwitch(
-              activeColor: colorScheme.primary,
-              value: isOn1,
-              onChanged: null,
-            ),
-            CupertinoSwitch(
-              activeColor: colorScheme.primary,
-              value: !isOn1,
-              onChanged: null,
-            ),
             const Text('Adaptive'),
             Switch.adaptive(
               value: isOn1,

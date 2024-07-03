@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -34,6 +35,10 @@ sealed class AppTheme {
       // can still try it to see what this demo and all widgets look like
       // with Material-2 if we so desire.
       useMaterial3: settings.useMaterial3,
+
+      // Use the ambient CupertinoThemeData to style all widgets which would
+      // otherwise use iOS defaults.
+      cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true),
 
       // Pass the ColorScheme to the theme. We do not need to set the
       // brightness property in the ThemeData factory, passing a ColorScheme
@@ -189,6 +194,14 @@ sealed class AppTheme {
 
       // 15) On none Android platforms we use an iOS like Switch theme,
       // but on Android we use the default style.
+      // This will give u an iOS like on none Android platforms when we use
+      // vanilla Switch.
+      //
+      // If we use Switch.adaptive we will get the actual iOS Switch on iOS
+      // and macOS, it will use the ColorScheme colors and not iOS default
+      // system green. The none iOS and macOS adaptive response will be
+      // be the the themed vanilla Switch and Android default on Android, but
+      // the themed iOS look alike Switch on e.g. Windows and Linux.
       switchTheme: ThemeTokens.isNotAndroidOrIsWeb ? switchTheme(scheme) : null,
 
       // 16) NavigationBar
@@ -268,7 +281,7 @@ sealed class AppTheme {
 
   // 15 a) A custom SwitchTheme that resembles an iOS Switch.
   // The intention is that feels familiar on iOS and can ne used as platform
-  // agnostic on others, we could also use this on Android if we like.
+  // agnostic on others.
   static SwitchThemeData switchTheme(ColorScheme scheme) {
     final bool isLight = scheme.brightness == Brightness.light;
     return SwitchThemeData(
