@@ -15,7 +15,7 @@ We will create a custom theme that uses:
 * Generated theme is platform adaptive, where:   
   * We only have animated Material spreading ink effect splash on Android, on all other platform the splash taps are just an instant highlight color on tap. This makes tap interactions feel less like "Material" on iOS, desktop and web platforms.
   * Buttons have iOS like radius and style on none Android platforms, but Material style on Android.
-  * The Material Switch looks like an iOS switch on none Android platforms, but like Material Switch on Android. The Switch is themed to be adaptive, but not using the adaptive constructor.
+  * The Material Switch looks like an iOS switch on none Android platforms, but like Material Switch on Android.
   * The legacy ToggleButtons is themed to match the style of the FilledButton and OutlinedButton.
   * Chips are themed to be stadium shaped on none Android platforms, but Material rounded corners on Android. This gives them a style in both adaptive modes that differentiates them from the used button styles.
 
@@ -24,8 +24,8 @@ We will create a custom theme that uses:
 
 ## Slides
 
-Slide link to the talk will be added here later.
+Slide link to the talk will be added here.
 
 ## Theme Setup
 
-We will describe and explain the theme setup here.
+A description and code walk through may be added here, the slide also contains it. 
