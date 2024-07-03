@@ -680,7 +680,6 @@ class _SwitchShowcaseState extends State<SwitchShowcase> {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme colorScheme = Theme.of(context).colorScheme;
     return RepaintBoundary(
       child: Wrap(
         crossAxisAlignment: WrapCrossAlignment.center,
@@ -704,7 +703,6 @@ class _SwitchShowcaseState extends State<SwitchShowcase> {
               });
             },
           ),
-          const Text('Disabled'),
           Switch(
             value: isOn1,
             onChanged: null,
@@ -731,7 +729,6 @@ class _SwitchShowcaseState extends State<SwitchShowcase> {
                 });
               },
             ),
-            const Text('Disabled'),
             Switch.adaptive(
               value: isOn1,
               onChanged: null,
