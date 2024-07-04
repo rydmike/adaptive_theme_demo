@@ -24,8 +24,8 @@ We will create a custom theme that uses:
 
 ## Slides
 
-Slide link to the talk will be added here.
+You can watch the presentation deck used at Fluttercon 24 [here](https://docs.google.com/presentation/d/1-JH1vDJAjbj4XK-qb7le9hT7R-I_CW7THtPPUorJsTU/edit?usp=sharing). It contains all slides and often also more extensive speaker notes than what was explain during the talk.
 
 ## Theme Setup
 
-A description and code walk through may be added here, the slide also contains it. 
+A description and code walk through may be added here later for convenience, the slide deck already covers it well though. 
