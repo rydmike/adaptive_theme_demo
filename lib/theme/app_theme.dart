@@ -181,10 +181,12 @@ sealed class AppTheme {
       ),
 
       // 14) ChipTheme
-      // With custom color mapping and platform adaptive shape, were it is
-      // stadium shaped on none Android platform to not look like the buttons,
-      // while on Android it is using default slightly rounded corners.
-      // We also want smaller and more compact Chips.
+      // We want Chips with custom color mapping and a platform adaptive shape.
+      // We make them stadium shaped on none Android platform to not look like
+      // the buttons, while on Android they using default slightly rounded
+      // corners. We also want smaller and more compact Chips. The Chips
+      // grew so big in default Material-3 design that they almost look like
+      // buttons, we want them to be more compact.
       chipTheme: ChipThemeData(
         labelStyle:
             textThemeFromStyles.labelSmall!.copyWith(color: scheme.onSurface),
@@ -194,16 +196,16 @@ sealed class AppTheme {
         shape: ThemeTokens.isNotAndroidOrIsWeb ? const StadiumBorder() : null,
       ),
 
-      // 15) On none Android platforms we use an iOS like Switch theme,
-      // but on Android we use the default style.
-      // This will give u an iOS like on none Android platforms when we use
-      // vanilla Switch.
+      // 15) Switch theme
+      // On other than Android platforms we use an iOS like `Switch` theme, but on Android we use the default style.
       //
-      // If we use Switch.adaptive we will get the actual iOS Switch on iOS
-      // and macOS, it will use the ColorScheme colors and not iOS default
-      // system green. The none iOS and macOS adaptive response will be
-      // be the the themed vanilla Switch and Android default on Android, but
-      // the themed iOS look alike Switch on e.g. Windows and Linux.
+      // If we use `Switch.adaptive` we will get the actual iOS Switch design on
+      // iOS and macOS, it will use the ColorScheme colors and not iOS default
+      // system green, because we used the `cupertinoOverrideTheme:`
+      // `const CupertinoThemeData(applyThemeToAll: true)` in our `ThemeData`
+      // earlier. The none iOS and macOS adaptive response for `Switch.adaptive`
+      // will be the themed `Switch` that will use the Android default style on
+      // Android, but the themed iOS look alike `Switch` on Windows and Linux.
       switchTheme: ThemeTokens.isNotAndroidOrIsWeb ? switchTheme(scheme) : null,
 
       // 16) NavigationBar
@@ -281,8 +283,9 @@ sealed class AppTheme {
   }
 
   // 15 a) A custom SwitchTheme that resembles an iOS Switch.
-  // The intention is that feels familiar on iOS and can ne used as platform
-  // agnostic on others.
+  //
+  // The intention is that feels familiar on iOS and that it can also be used as
+  // a platform agnostic Switch on other platforms than Android.
   static SwitchThemeData switchTheme(ColorScheme scheme) {
     final bool isLight = scheme.brightness == Brightness.light;
     return SwitchThemeData(
