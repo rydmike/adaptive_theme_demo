@@ -707,12 +707,10 @@ With the above component themes in place, we get the following result for the `T
 
 ### Chip Theme
 
+We want **Chips** with custom color mapping and a platform adaptive shape (14). We make them stadium shaped on none Android platform to not look like the buttons, while on Android they using default slightly rounded corners. We also want smaller and more compact Chips. The Chips grew so big in default Material-3 design that they almost look like buttons, we want them to be more compact.
+
 ```dart
       // 14) ChipTheme
-      // With custom color mapping and platform adaptive shape, were it is
-      // stadium shaped on none Android platform to not look like the buttons,
-      // while on Android it is using default slightly rounded corners.
-      // We also want smaller and more compact Chips.
       chipTheme: ChipThemeData(
         labelStyle:
             textThemeFromStyles.labelSmall!.copyWith(color: scheme.onSurface),
@@ -725,27 +723,26 @@ With the above component themes in place, we get the following result for the `T
 
 ### Switch Theme
 
+On other than Android platforms we use an iOS like `Switch` theme, but on Android we use the default style.
+
+If we use `Switch.adaptive` we will get the actual iOS Switch design on iOS and macOS, it will use the ColorScheme colors and not iOS default system green, because we used the `cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true)` in our `ThemeData` earlier. The none iOS and macOS adaptive response for `Switch.adaptive` will be the themed `Switch` that will use the Android default style on Android, but the themed iOS look alike `Switch` on Windows and Linux.
+
 ```dart
-      // 15) On none Android platforms we use an iOS like Switch theme,
-      // but on Android we use the default style.
-      // This will give u an iOS like on none Android platforms when we use
-      // vanilla Switch.
-      //
-      // If we use Switch.adaptive we will get the actual iOS Switch on iOS
-      // and macOS, it will use the ColorScheme colors and not iOS default
-      // system green. The none iOS and macOS adaptive response will be
-      // be the the themed vanilla Switch and Android default on Android, but
-      // the themed iOS look alike Switch on e.g. Windows and Linux.
+      // 15) Switch theme
       switchTheme: ThemeTokens.isNotAndroidOrIsWeb ? switchTheme(scheme) : null,
 ```
 
-The actual theming of the `Switch` is quite elaborate so we added it as a function for better readability of the `ThemeData` definition. The `Switch` is a bit tricky to theme, as it does not have a `styleFrom` method like the buttons. We have to use the `SwitchThemeData` and its properties to theme it. 
+The actual theming of the `Switch` is quite elaborate, so we added it as a function for better readability of the `ThemeData` definition. 
 
+There is a slight trick used in this theme, and that is the invisible icon added to the `thumbIcon` property. By adding an icon to it, we get a `Switch` in Material-3 mode that has thumb with a fixed size when it is ON and OFF. Without on icon in the thumb, the size shrinks when it is OFF. To make a fake iOS look-alike we want the thumb size to remain fixed. It is not an exact size match for the iOS thumb, that is a bit bigger, but close enough for our purposes.
+
+The color mappings are also quite elaborate and the actual ones that are used by the Flutter `CupertionoSwitch` implementation. So they do match the iOS Switch. 
 
 ```dart
   // 15 a) A custom SwitchTheme that resembles an iOS Switch.
-  // The intention is that feels familiar on iOS and can ne used as platform
-  // agnostic on others.
+  //
+  // The intention is that feels familiar on iOS and it can also be used as a 
+  // platform agnostic Switch on other platforms.
   static SwitchThemeData switchTheme(ColorScheme scheme) {
     final bool isLight = scheme.brightness == Brightness.light;
     return SwitchThemeData(
