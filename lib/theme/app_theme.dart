@@ -197,7 +197,9 @@ sealed class AppTheme {
       ),
 
       // 15) Switch theme
-      // On other than Android platforms we use an iOS like `Switch` theme, but on Android we use the default style.
+      //
+      // On other than Android platforms we use an iOS like `Switch` theme,
+      // but on Android we use the default style.
       //
       // If we use `Switch.adaptive` we will get the actual iOS Switch design on
       // iOS and macOS, it will use the ColorScheme colors and not iOS default
@@ -209,10 +211,11 @@ sealed class AppTheme {
       switchTheme: ThemeTokens.isNotAndroidOrIsWeb ? switchTheme(scheme) : null,
 
       // 16) NavigationBar
+      //
       // We want a navigation bar that is slightly transparent and with more
-      // distinct and clear selection indication. Also the default height 80
-      // wastes space, so we make it lower.
-      // The default background in light mode is also a bit to dark, so we
+      // distinct and clear selection indication. Also the default height 80dp
+      // wastes vertical space, so we make it less tall.
+      // The default background in light mode is also a bit too dark, we
       // make it a bit lighter in light mode.
       navigationBarTheme: NavigationBarThemeData(
         height: 72,

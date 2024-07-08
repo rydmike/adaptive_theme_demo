@@ -576,7 +576,7 @@ Here (25) we do so for our custom `AppBar` title font, that will only apply to a
   }
 ```
 
-With this `AppBarTheme` we get an `AppBar` that looks like this:
+With this `AppBarTheme` we get an **AppBar** style that looks like this:
 
 <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/AppBar.gif" alt="AppBar theme" />
 
@@ -618,7 +618,7 @@ For the `ElevatedButton` we also change its default color mapping to use our `pr
         ),
       ),
 ```
-With the above theme in place for our Material Buttons, we get this result:
+With the above theme in place for our **Material Buttons**, we get this result:
 
 <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/buttons.gif" alt="Material Buttons theme" />
 
@@ -701,7 +701,7 @@ For the theme of the `FloatingActionButton` we use custom color mapping and a cu
       ),
 ```
 
-With the above component themes in place, we get the following result for the `ToggleButtons`, `SegmentedButton` and our `FloatingActionButton`:
+With the above component themes in place, we get the following styles for our **ToggleButtons**, **SegmentedButton** and **FloatingActionButton**:
 
 <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/ToggleButtons.gif" alt="ToggleButtons Buttons theme" />
 
@@ -776,17 +776,18 @@ The color mappings are also quite elaborate and the actual ones that are used by
   }
 ```
 
+With the above `ChipThemeData` and `SwitchThemeData` defined we get theses style on **Chips** and **Switches**: 
+
 <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/Chip_Switch.gif" alt="Chips and Switch theme" />
 
 ### Navigation Bar Theme
 
+Don’t be afraid to tweak the Material Navigation bar, you can for example make it less tall and use a more distinct selected option color than the default one
+
+We want a navigation bar that is slightly transparent and with more distinct and clear selection indication. Also, the default height 80dp wastes vertical space, so we make it less tall. The default background in light mode is also a bit too dark, we make it a bit lighter in light mode.
+
 ```dart
       // 16) NavigationBar
-      // We want a navigation bar that is slightly transparent and with more
-      // distinct and clear selection indication. Also the default height 80
-      // wastes space, so we make it lower.
-      // The default background in light mode is also a bit to dark, so we
-      // make it a bit lighter in light mode.
       navigationBarTheme: NavigationBarThemeData(
         height: 72,
         backgroundColor: isLight
@@ -807,6 +808,35 @@ The color mappings are also quite elaborate and the actual ones that are used by
 ```      
 
 ### Android System Navigation Style
+
+Consider making the Android system navigation look nice, like iOS. Make it edge-to-edge and transparent. Use the `AnnotatedRegion` to style it. 
+
+```dart
+  Widget build(BuildContext context) {
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: customOverlayStyle(),
+      child: ...
+```
+
+Using a custom `SystemUiOverlayStyle`.
+
+```dart
+/// A quick and easy way to style the navigation bar bar in Android
+/// to be transparent and edge-to-edge, like iOS is by default.
+SystemUiOverlayStyle customOverlayStyle() {
+  unawaited(SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge));
+  return const SystemUiOverlayStyle(
+    systemNavigationBarColor: Colors.transparent,
+    systemNavigationBarDividerColor: Colors.transparent,
+  );
+}
+```
+
+Seriously, can we please stop using system navigation bars on **Android** that do not follow the theme mode and also ones that do not match the color of the bottom navigation bar? 
+
+One reason why iOS always looked so much nicer is because it always did this. Same with AppBar status bar, but at least that is default now in Material-3. But the system navbar, **please** fix it in your apps! A coming change in Flutter might eventually make this the default for the system navigation bar on Android too. As it is the default in new Android versions and generally recommended.
+
+Here we can see the themed **Navigation Bar** and also the **Android System Navigation Bar** styled to be transparent and **edge-to-edge**. It always matches the color of the theme background color and the color used by the bottom navigation bar.  
 
 <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/nav_bar.gif" alt="Navigation Bar Theme" />
 
