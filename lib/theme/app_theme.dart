@@ -31,19 +31,21 @@ sealed class AppTheme {
 
     // Let's make a custom ThemeData object. It's fun! Right!? :)
     return ThemeData(
-      // Just for demo purposes, forget Material-2, but in this example we
-      // can still try it to see what this demo and all widgets look like
-      // with Material-2 if we so desire.
+      // For demo purposes M2 is supported, but don't use Material-2 in Flutter
+      // anymore in a new app. In this example we can still try it to see what
+      // this demo and all widgets look like with it if we so desire.
       useMaterial3: settings.useMaterial3,
-
-      // Use the ambient CupertinoThemeData to style all widgets which would
-      // otherwise use iOS defaults.
-      cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true),
 
       // Pass the ColorScheme to the theme. We do not need to set the
       // brightness property in the ThemeData factory, passing a ColorScheme
       // takes care of it, as it already contains the brightness.
       colorScheme: scheme,
+
+      // Make sure our theme and its colors apply to all Cupertino widgets,
+      // without this `CupertinoSwitch` and `Switch.adaptive` will use the
+      // default iOS colors, system green, we do not want that, we want it to
+      // match our primary color.
+      cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true),
 
       // 1) Add our custom density.
       visualDensity: visualDensity,

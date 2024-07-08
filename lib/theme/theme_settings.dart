@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 /// A Theme Settings class to bundle properties we want to modify in our
 /// theme interactively.
 ///
-/// We can pass it down  or used with a ValueNotifier if so desired.
+/// We can pass it down or use it with a ValueNotifier if so desired.
 @immutable
 class ThemeSettings with Diagnosticable {
   final bool useMaterial3;

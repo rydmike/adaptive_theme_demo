@@ -84,7 +84,7 @@ Some of our adaptive design examples are shown below:
 <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/adaptive_design4.png" alt="Adaptive design goals four" />
 
 
-To achieve this design goal we weill add some additional design tokes to our `ThemeTokens` class. These will be used to determine if the build is an Android build or not, and if it is a web build or not. We will also add some design tokens that will be used to determine the shape and style of the buttons, switches, and chips in the app.
+To achieve this design goal we weill add some additional design tokes to our `ThemeTokens` class. These will be used to determine if the build is an Android build or not, and if it is a web build or not. We will also add some design tokens that will be used to define the shape and style of the buttons, switches, and chips in the app. Mostly, these are just border radius and shapes that we will use on other platforms than Android. On Android, we will use the default Material-3 shapes.
 
 ```dart
 /// Const theme token values.
@@ -258,5 +258,325 @@ We can also see that the above generated `ColorsScheme`s all include our designe
 <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/design_colors_2.png" alt="Design colors 2" />
 
 
-## Defining the Theme
+## Setting up the Theme
+
+Now that we have our platform adaptive `ColorScheme` define we can start using it and defining our adaptive application theme.
+
+### Our MaterialApp
+
+The `MaterialApp` for our simple example app looks like this:
+
+```dart
+class AdaptiveThemeDemoApp extends StatefulWidget {
+  const AdaptiveThemeDemoApp({super.key});
+
+  @override
+  State<AdaptiveThemeDemoApp> createState() => _AdaptiveThemeDemoAppState();
+}
+
+class _AdaptiveThemeDemoAppState extends State<AdaptiveThemeDemoApp> {
+  // We just have simple data class with 3 properties for demo purposes.
+  // No state management package is used in this example. We just pass the
+  // data class around and modify it where needed via callbacks.
+  ThemeSettings themeSettings = const ThemeSettings(
+    useMaterial3: true,
+    zoomBlogFonts: false,
+    themeMode: ThemeMode.system,
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Avocado Deli',
+      theme: AppTheme.use(Brightness.light, themeSettings),
+      darkTheme: AppTheme.use(Brightness.dark, themeSettings),
+      themeMode: themeSettings.themeMode,
+      home: HomePage(
+        settings: themeSettings,
+        onSettings: (ThemeSettings settings) {
+          setState(() {
+            themeSettings = settings;
+          });
+        },
+      ),
+    );
+  }
+}
+```
+
+### Theme Settings
+
+The `ThemeSettings` is a simple data class that we use to hold the settings for our app. It is passed down to the `HomePage` widget, where we have a settings page that can change the theme settings. The `HomePage` widget will then call the `onSettings` callback to update the theme settings in the `AdaptiveThemeDemoApp` widget. We on purpose avoid all state management packages in this example, to keep it simple and focused on the theme design and adaptive theming.
+
+```dart
+/// A Theme Settings class to bundle properties we want to modify in our
+/// theme interactively.
+///
+/// We can pass it down or use it with a ValueNotifier if so desired.
+@immutable
+class ThemeSettings with Diagnosticable {
+  final bool useMaterial3;
+  final bool zoomBlogFonts;
+  final ThemeMode themeMode;
+
+  const ThemeSettings({
+    required this.useMaterial3,
+    required this.zoomBlogFonts,
+    required this.themeMode,
+  });
+
+  /// Flutter debug properties override, includes toString.
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<bool>('useMaterial3', useMaterial3));
+    properties.add(DiagnosticsProperty<bool>('zoomBlogFonts', zoomBlogFonts));
+    properties.add(EnumProperty<ThemeMode>('themeMode', themeMode));
+  }
+
+  /// Copy the object with one or more provided properties changed.
+  ThemeSettings copyWith({
+    bool? useMaterial3,
+    bool? zoomBlogFonts,
+    ThemeMode? themeMode,
+  }) {
+    return ThemeSettings(
+      useMaterial3: useMaterial3 ?? this.useMaterial3,
+      zoomBlogFonts: zoomBlogFonts ?? this.zoomBlogFonts,
+      themeMode: themeMode ?? this.themeMode,
+    );
+  }
+
+  /// Override the equality operator.
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other.runtimeType != runtimeType) return false;
+    return other is ThemeSettings &&
+        other.useMaterial3 == useMaterial3 &&
+        other.zoomBlogFonts == zoomBlogFonts &&
+        other.themeMode == themeMode;
+  }
+
+  /// Override for hashcode.
+  @override
+  int get hashCode => Object.hashAll(<Object?>[
+        useMaterial3.hashCode,
+        zoomBlogFonts.hashCode,
+        themeMode.hashCode,
+      ]);
+}
+```
+
+### The AppTheme
+
+We make a `class` called `AppTheme`, it is just `sealed` so it cannot be extended or implemented. It will only contain static methods and properties bundled together in a readable name space. To make a theme with our `AppTheme` helper we will use the `AppTheme.use(brightness, themeSettings)` function.
+
+In the `AppTheme.use` function we based on the passed `brightness` get our platform adaptive `ColorScheme` that we defined earlier. 
+
+```dart
+/// The platform adaptive application theme design for our app.
+sealed class AppTheme {
+  /// Select the used theme, based on theme settings and brightness.
+  static ThemeData use(Brightness brightness, ThemeSettings settings) {
+// Convenience to check if theme is light or dark.
+    final bool isLight = brightness == Brightness.light;
+
+    // Get our app color scheme based on the brightness.
+    // When making custom component themes we typically need to use the app's
+    // ColorScheme to make sure our component designs match the rest of the app.
+    final ColorScheme scheme =
+    isLight ? AppColorScheme.light : AppColorScheme.dark;
+
+    // Define a custom platform adaptive visual density.
+    // We also need to use this in a component theme (ToggleButtons) that does
+    // not have built-in visual density support.
+    final VisualDensity visualDensity = comfortablePlatformDensity;
+    // continued...
+  }
+}
+```
+
+We also define a custom `visualDensity` for our app. This is a platform adaptive visual density that we will use in our `ThemeData` and also in the `ToggleButtons` component theme that does not have built-in visual density support. This platform adaptation is used to demonstrate that you don't have to use the default one that is adaptive to `compact` on desktops. This is an alternative that is adaptive to `comfortable` on desktops and to `standard` on mobile platforms. 
+
+This approach makes desktop builds a bit less dense and more touch friendly. This is useful if an app is used on laptops with touch screens. It is still significantly denser than the `standard` density would be. Using `standard` on desktop builds makes the user interface a bit too large and space wasting looking. The usage of `comfortable` is here presented as an alternative that is more touch-friendly, but still not as space wasting as `standard` would be.
+
+```dart
+/// Returns a [VisualDensity] that is [defaultTargetPlatform] adaptive to
+/// [VisualDensity.comfortable] instead of to [VisualDensity.compact].
+///
+/// For desktop platforms, this returns [VisualDensity.comfortable], and
+/// for other platforms, it returns the default [VisualDensity.standard].
+///
+/// This is a variant of the [VisualDensity.adaptivePlatformDensity] that
+/// returns [VisualDensity.compact] for desktop platforms.
+///
+/// The comfortable visual density is useful on desktop and desktop web
+/// laptops that have touch screens, as it keeps touch targets a bit larger
+/// than when using compact.
+VisualDensity get comfortablePlatformDensity =>
+    defaultComfortablePlatformDensity(defaultTargetPlatform);
+
+/// Returns a [VisualDensity] that is adaptive based on the given [platform].
+///
+/// For desktop platforms, this returns [VisualDensity.comfortable], and for
+/// other platforms, it returns a default [VisualDensity.standard].
+///
+/// See also:
+///
+/// * [comfortablePlatformDensity] which returns a [VisualDensity] that is
+///   adaptive based on [defaultTargetPlatform].
+VisualDensity defaultComfortablePlatformDensity(TargetPlatform platform) {
+  switch (platform) {
+    case TargetPlatform.android:
+    case TargetPlatform.iOS:
+    case TargetPlatform.fuchsia:
+      break;
+    case TargetPlatform.linux:
+    case TargetPlatform.macOS:
+    case TargetPlatform.windows:
+      return VisualDensity.comfortable;
+  }
+  return VisualDensity.standard;
+}
+```
+
+### Building the ThemeData
+
+Time to define `ThemeData` since that is always fun and interesting.
+
+While this app allows us to toggle to Material-2, it is just provided for demo purposes. Please don't use M2 in a new app in Flutter anymore. Use Material-3, really don’t use Material-2 anymore!
+
+We apply our platform adaptive `ColorScheme` and `VisualDensity` (1) that we stored `scheme` and `visualDensity` in the `AppTheme.use` function. 
+
+We also set the `cupertinoOverrideTheme` to `true` this ensures that all `CupertinoThemeData` properties will inherit defaults from the `ColorScheme` in our `ThemeData`. This part is needed to ensure that `CupertinoSwitch` and `Switch.adaptive` will use the same colors as our themed `Switch`.
+
+```dart
+    // ...continued from above AppTheme and `use` function.
+    // Let's make a custom ThemeData object. It's fun! Right!? :)
+    return ThemeData(
+      // For demo purposes M2 is supported, but don't use Material-2 in Flutter
+      // anymore in a new app. In this example we can still try it to see what
+      // this demo and all widgets look like with it if we so desire.
+      useMaterial3: settings.useMaterial3,
+
+      // Pass the ColorScheme to the theme. We do not need to set the
+      // brightness property in the ThemeData factory, passing a ColorScheme
+      // takes care of it, as it already contains the brightness.
+      colorScheme: scheme,
+
+      // Make sure our theme and its colors apply to all Cupertino widgets, 
+      // without this `CupertinoSwitch` and `Switch.adaptive` will use the
+      // default iOS colors, system green, we do not want that, we want it to 
+      // match our primary color.
+      cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true),
+
+      // 1) Add our custom density.
+      visualDensity: visualDensity,
+
+      // 2) Add our custom instant splash factory on none Android and web
+      // platforms. For the Android we pass null so we get the defaults.
+      splashFactory:
+          ThemeTokens.isNotAndroidOrIsWeb ? InstantSplash.splashFactory : null,
+```
+
+Above we also use a custom splash factory `InstantSplash` (2) on any other platform than Android.
+
+The `InstantSplash` is a copy of built-in `InkSplash.splashFactory` with modified animation durations and splash velocity. There is also a built-in `NoSplash.splashFactory`, alternatively it can also be used. It animates the tap highlight, this custom one is instant. Used as an example in this demo app, you may prefer the `NoSplash.splashFactory` for a similar, but less instant effect.
+
+You can find the custom `InstantSplash.splashFactory` [here](https://github.com/rydmike/adaptive_theme_demo/blob/master/lib/theme/instant_splash.dart).
+
+Prefer using the Material-3 typography, even if you still use Material-2, it is much nicer. Below (3), we ensure that we use the Material-3 typography even if we switch to M2 mode, which this demo app allows.
+
+Next we fix all legacy colors (4, 5 and 6) in `ThemeData`. Eventually these will be deprecated, but as long as they exist, set them to our `ColorScheme` colors, that we have available in the `scheme` object.
+
+```dart
+      // 3) We use M3 Typography, even if you still use M2 mode I recommend this
+      // as it is a much nicer default.
+      typography: Typography.material2021(
+        platform: defaultTargetPlatform,
+        colorScheme: scheme,
+      ),
+
+      // 4) Fix the ThemeData legacy divider color to match our ColorScheme.
+      //    Planned to be deprecated in ThemeData.
+      dividerColor: scheme.outlineVariant,
+
+      // 5) Fix legacy primary colors and secondary header color.
+      //    Planned to be deprecated in ThemeData.
+      primaryColor: scheme.primary,
+      primaryColorDark: isLight ? scheme.secondary : scheme.onPrimary,
+      primaryColorLight: isLight ? scheme.secondaryContainer : scheme.secondary,
+      secondaryHeaderColor:
+          isLight ? scheme.primaryContainer : scheme.secondaryContainer,
+
+      // 6) Fix legacy surface colors.
+      //    Planned to be deprecated in ThemeData.
+      canvasColor: scheme.surface,
+      cardColor: scheme.surface,
+      scaffoldBackgroundColor: scheme.surface,
+      dialogBackgroundColor: scheme.surface,
+```
+
+The above mappings are important to make sure that all the legacy colors in `ThemeData` are set to the correct colors in our `ColorScheme`. This is important as these colors are used by many built-in components and widgets in Flutter in Material-2 mode. If you do not set them, they will not match the rest of your app's design. Also by setting them, you ensure that if they are used by accident in your custom widgets, they will still match the rest of your app's design.
+
+You can read more about these direct `ThemeData` color deprecations plan [in issue #91772](https://github.com/flutter/flutter/issues/91772).
+
+### Defining Component Themes
+
+Defining a lot of elaborate custom component themes can be tedious. However, with component themes you can often bring the Material components default styles exactly to where you want them to be, or close enough to what your design calls for.
+
+You can then avoid using custom widget wrappers to style the components. To build your app you use the default Material components and they have the correct style they should have in your app by default. This also makes it easy to on-board new developers to your codebase, as they can use the standard components to build user interfaces and everything will look as intended for your app's design.
+
+So while component theming can feel tedious, the benefits may also be worth the effort. Also, once you have set it up for one app, you can reuse the same definitions with slight modifications in other apps.
+
+#### AppBar Theme
+
+      
+We use a custom AppBar theme with a custom color mapping with slight opacity and very minor scroll under elevation that with shadow  will look like a faint underline in light theme mode.
+
+Our `AppBar` theme has minor “secret” sauce in it, which is a shape, that is just same as its default shape, but it is needed to get the scroll under effect change to animate, as it should in Material-3 design spec, but does not by default in Flutter. The need for this is actually a work-around to [issue #131042](https://github.com/flutter/flutter/issues/131042). 
+
+The scroll-under color is also modified by defining a custom `surfaceTintColor` for the `AppBarTheme` so that it is a monochrome color for other than Android platforms. After the **Flutter 3.22** release, the `AppBar` is one of the few widgets that still uses the elevation tint effect to change its color with elevation. Here we customize its tint color so we do not get any primary tint on it on other platforms than Android. Instead, we get just a monochrome color that is a bit darker than the surface color.  
+
+Shadow is put back and used for a faint underline separation on the scrolled under state. Background also has a hint of opacity, and we also use a custom font.
+
+```dart
+      // 7) AppBar
+
+      appBarTheme: AppBarTheme(
+        backgroundColor: scheme.surface.withOpacity(isLight ? 0.96 : 0.95),
+        foregroundColor: scheme.secondary,
+        elevation: 0,
+        scrolledUnderElevation: isLight ? 0.5 : 2,
+        shadowColor: scheme.shadow,
+        centerTitle: defaultTargetPlatform == TargetPlatform.iOS,
+        surfaceTintColor:
+            ThemeTokens.isNotAndroidOrIsWeb ? scheme.outline : scheme.primary,
+        shape: const RoundedRectangleBorder(),
+        titleTextStyle: appBarTextStyle(scheme),
+      ),
+```
+
+Generally don't try to change the app's `TexTheme` and its `TextStyle`s to make a given component use a different style by adjusting the style it uses by default from `ThemeData.textTheme`. Many other components may use the same style as their default, and you may not want them to use the same modified style. Instead make a new `TextStyle` that fits your component and use it in the component theme.
+
+Here (25) we do so for a very custom `AppBar` title font, that will only apply to all `AppBar`s in the app, nothing else.
+
+
+```dart
+  // 25) Make a totally custom text style for a component theme: AppBar
+  static TextStyle appBarTextStyle(ColorScheme scheme) {
+    return GoogleFonts.lobster(
+      fontWeight: FontWeight.w400,
+      fontSize: 26,
+      color: scheme.primary,
+    );
+  }
+```
+
+With this `AppBarTheme` we get an `AppBar` that looks like this:
+
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/
+AppBar.gif" alt="AppBar theme"/>
 
