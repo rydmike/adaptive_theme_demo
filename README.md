@@ -2,7 +2,9 @@ Readme
 
 # Adaptive Theming Demo at Fluttercon 2024
 
-This is the repo used at the Material talk held July 4th, 2024, in Berlin at the Fluttercon conference, in the adaptive theming part in the talk **"Everything Material All At Once"**, given by Mike Rydstrom and Taha Tesser.
+This is the repo used at the talk **"Everything Material All At Once"**, given by Mike Rydstrom and Taha Tesser, July 4th, 2024, in Berlin at the **Fluttercon** conference.
+
+This repo was used for the adaptive theming part in the talk.
 
 ## Theme Design Goal
 
