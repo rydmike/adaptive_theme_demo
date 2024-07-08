@@ -249,3 +249,8 @@ The dark mode `ColorScheme` result Android platform. There is a very subtle prim
 
 <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/result_and_dark.png" alt="ColorScheme result on Android in dark mode" />
 
+The tinting used is quite minor, but it there, we could of course use more agreessive tinting if we wanted to on Adnroid, but we chose to keep it very subtle.
+
+We can also see that these ColorsSchemes all included our designer color palette and generally match the design intent of the palette. Also for all generated supporting colors. The color schemes are also colorful and have good contrast, except for the `fixedDim` colors which intentionally have much lower contrast as it is in their design intent.
+
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/design_colors_2.png" alt="Design colors 2" />
