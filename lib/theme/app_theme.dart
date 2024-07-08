@@ -249,11 +249,10 @@ sealed class AppTheme {
         shadowColor: scheme.shadow,
       ),
 
-      // 20) Time picker should have a dial background color.
+      // 20) Custom time picker style.
       timePickerTheme: TimePickerThemeData(
         backgroundColor:
             isLight ? scheme.surfaceContainerLow : scheme.surfaceContainerHigh,
-        dialBackgroundColor: scheme.surfaceContainerHighest,
       ),
 
       // 21) Custom date picker style.
@@ -318,13 +317,14 @@ sealed class AppTheme {
 
   // 17 a) A custom input decoration theme.
   //
-  // Making cool and nice InputDecorationThemes is one of the most tedious
+  // Making a cool and nice InputDecorationThemes is one of the most tedious
   // and honestly annoying and tricky things to do in Flutter theming. You could
-  // do a 2 hour talk and demo about this alone. Here is a "simple" example :)
+  // do a 2 hour talk and demo about this alone. Here is the "simple" example
+  // we used in this demo app, to make a rather nice one.
   //
-  // You may need the input decoration theme in other components too, so it is
-  // good to define it separately so you can re-use its definition in other
-  // component themes.
+  // Since you typically need the input theme in other components too,
+  // it is a good idea good to define it separately so you can re-use its
+  // definition in other component themes.
   static InputDecorationTheme inputTheme(ColorScheme scheme) {
     final bool isLight = scheme.brightness == Brightness.light;
     return InputDecorationTheme(
