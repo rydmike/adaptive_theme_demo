@@ -28,9 +28,103 @@ We will create a custom theme that uses:
 
 You can watch the presentation deck used at Fluttercon 24 [here](https://docs.google.com/presentation/d/1-JH1vDJAjbj4XK-qb7le9hT7R-I_CW7THtPPUorJsTU/edit?usp=sharing). It contains all slides and also more extensive speaker notes than there time to go into during the talk.
 
-## Theme Setup
 
-A description and code walk through may be added here later for convenience, the slide deck already covers it well though. 
+## Design Colors
 
-## ColorScheme
+Typically, in a custom branded app, we have one or two brand colors that must be present in our app's colors to some extend. In some cases we may have an entire palette of colors that are part of the brand or desired ambiance of the app.
 
+In this fictive example, we will use a palette of nine colors that create the brand and ambiance for a Deli, that has Avocado as their signature ingredient. The colors are shown below.
+
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/design_colors.png" alt="Design colors" />
+
+Using and getting all these colors into a seed generated ColorScheme might seem challenging. In fact using more than just one seed color with Flutter's SDK and the `ColorScheme.fromSeed` API is not possible. How can we solve this start challenge?
+
+To begin, let's first capture all the color values as static const values, so we van easily use them.
+
+```dart
+/// Const theme token values.
+///
+/// These could be token definitions from a design made in Figma or other
+/// 3rd party design tools that have been imported into Flutter.
+sealed class ThemeTokens {
+  // Colors used in the app brand palette.
+  static const Color avocado = Color(0xFF334601);
+  static const Color avocadoRipe = Color(0xFF3F4925);
+  static const Color avocadoLush = Color(0xFFC4D39D);
+
+  static const Color avocadoPrime = Color(0xFFFFFBD8);
+  static const Color avocadoMeat = Color(0xFFFFF5AD);
+  static const Color avocadoTender = Color(0xFFE2EEBC);
+
+  static const Color avocadoCore = Color(0xFF4C1C0A);
+  static const Color effectLight = Color(0xFFF2B9CC);
+  static const Color effectDark = Color(0xFF3E0021);
+}
+```
+
+### ColorScheme
+
+Since `ColorScheme.fromSeed` can only use one seed color, we are going to take a pass on it and instead use a package that can generate a ColorScheme from multiple seed colors. We will use the [`flex_seed_scheme`](https://pub.dev/packages/flex_seed_scheme) package for this.
+
+By using it we can create a `ColorScheme` from multiple seed colors, and we can also create a `ColorScheme` that is colorful, which is what we want for our app. As `tones` for the `ColorScheme` we will use the `FlexTones.chroma` method, which creates a colorful `ColorScheme` based on the chromacity of each seed color.
+
+As primary color we will use the `avocado` color, as secondary the `avocadoRipe` color, and as tertiary the `avocadoCore` color. We will also pin some of the design tokens to the `ColorScheme` colors, like the `primaryContainer` color to the `avocadoMeat` color.
+
+
+
+
+```dart
+/// The ColorScheme made from SeedColorScheme.fromSeeds.
+///
+/// Begin with figuring out your ColorScheme.
+///
+/// Here we map our app color design tokens to the SeedColorScheme.fromSeeds
+/// key colors and pin color tokens to selected ColorScheme colors.
+sealed class AppColorScheme {
+  /// App's light ColorScheme.
+  static final ColorScheme light = SeedColorScheme.fromSeeds(
+    brightness: Brightness.light,
+    primaryKey: ThemeTokens.avocado,
+    secondaryKey: ThemeTokens.avocadoRipe,
+    tertiaryKey: ThemeTokens.avocadoCore,
+    // We use the tones chroma that has colorfulness that is fully driven
+    // by the given key colors' chromacity. We also make all surface shades
+    // monochrome on none Android builds or if it is a web build.
+    tones: FlexTones.chroma(Brightness.light)
+        .monochromeSurfaces(ThemeTokens.isNotAndroidOrIsWeb),
+
+    // Color overrides to design token values.
+    primary: ThemeTokens.avocado,
+    primaryContainer: ThemeTokens.avocadoMeat,
+    secondary: ThemeTokens.avocadoRipe,
+    secondaryContainer: ThemeTokens.avocadoTender,
+    tertiary: ThemeTokens.avocadoCore,
+    tertiaryContainer: ThemeTokens.effectLight,
+    onTertiaryContainer: ThemeTokens.effectDark,
+  );
+
+  /// App's dark ColorScheme.
+  static final ColorScheme dark = SeedColorScheme.fromSeeds(
+    brightness: Brightness.dark,
+    // Same key colors and tones as light mode.
+    primaryKey: ThemeTokens.avocado,
+    secondaryKey: ThemeTokens.avocadoRipe,
+    tertiaryKey: ThemeTokens.avocadoCore,
+    tones: FlexTones.chroma(Brightness.dark)
+        .monochromeSurfaces(ThemeTokens.isNotAndroidOrIsWeb),
+
+    // Color overrides to design token values.
+    // Overrides are different from light mode,
+    // typically inverse selections.
+    primary: ThemeTokens.avocadoLush,
+    primaryContainer: ThemeTokens.avocadoPrime,
+    onPrimaryContainer: ThemeTokens.avocado,
+    secondary: ThemeTokens.avocadoTender,
+    secondaryContainer: ThemeTokens.avocadoRipe,
+    tertiary: ThemeTokens.effectLight,
+    onTertiary: ThemeTokens.effectDark,
+    tertiaryContainer: ThemeTokens.avocadoCore,
+    onTertiaryContainer: ThemeTokens.effectLight,
+  );
+}
+```
