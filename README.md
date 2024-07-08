@@ -4,7 +4,7 @@ Readme
 
 This is the repo used at the Material talk held July 4th, 2024, in Berlin at the Fluttercon conference, in the adaptive theming part in the talk **"Everything Material All At Once"**, given by Mike Rydstrom and Taha Tesser.
 
-## The Theming Goal
+## Theme Design Goal
 
 We will create a custom theme that uses: 
 
@@ -229,6 +229,23 @@ It is also worth noticing that the `FlexTones.chroma` based seed generation conf
 
 ### Result Light Mode
 
+With the above settings we get a generated `ColorScheme` that incorporates all our design tokens and also is colorful and vibrant. It has a slight difference in result on Android, where there is a very subtle primary color tint in all the surface colors. This color tint is missing on iOS and other none Android platforms, where surfaces are fully monochrome. 
+
+The light mode `ColorScheme` result on iOS and other none Android platforms: 
+
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/result_ios_light.png" alt="ColorScheme result on iOS in light mode" />
+
+The light mode `ColorScheme` result Android platform. There is a very subtle primary color tint in all the surface colors:
+
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/result_and_light.png" alt="ColorScheme result on Android in light mode" />
+
 ### Result Dark Mode
 
+The dark mode `ColorScheme` result on iOS and other none Android platforms:
+
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/result_ios_dark.png" alt="ColorScheme result on iOS in dark mode" />
+
+The dark mode `ColorScheme` result Android platform. There is a very subtle primary color tint in all the surface colors:
+
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/result_and_dark.png" alt="ColorScheme result on Android in dark mode" />
 
