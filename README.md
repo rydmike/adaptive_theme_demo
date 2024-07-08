@@ -741,8 +741,8 @@ The color mappings are also quite elaborate and the actual ones that are used by
 ```dart
   // 15 a) A custom SwitchTheme that resembles an iOS Switch.
   //
-  // The intention is that feels familiar on iOS and it can also be used as a 
-  // platform agnostic Switch on other platforms.
+  // The intention is that feels familiar on iOS and that it can also be used as
+  // a platform agnostic Switch on other platforms than Android.
   static SwitchThemeData switchTheme(ColorScheme scheme) {
     final bool isLight = scheme.brightness == Brightness.light;
     return SwitchThemeData(
