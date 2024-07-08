@@ -19,12 +19,9 @@ We will create a custom theme that uses:
   * The legacy ToggleButtons is themed to match the style of the FilledButton and OutlinedButton.
   * Chips are themed to be stadium shaped on none Android platforms, but Material rounded corners on Android. This gives them a style in both adaptive modes that differentiates them from the used button styles.
 
-
-<img src="https://raw.githubusercontent.com/rydmike/theming_workshop/master/doc_images/avo-target.png" alt="avo-target"/>
-
-| Android                                                                                                                             | iOS |
-|-------------------------------------------------------------------------------------------------------------------------------------|---|
-| <img src=<"https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/iphone_demo.gif" alt="iphone result demo" /> | <img src=<"https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/iphone_demo.gif" alt="iphone result demo" /> |
+| iPhone iOS                                                                                                                         | Pixel Android                                                                                                                    |
+|------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/iphone-demo.gif" alt="iPhone result demo" /> | <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/pixel-demo.gif" alt="Pixel result demo" /> |
 
 
 ## Slides
@@ -34,3 +31,6 @@ You can watch the presentation deck used at Fluttercon 24 [here](https://docs.go
 ## Theme Setup
 
 A description and code walk through may be added here later for convenience, the slide deck already covers it well though. 
+
+## ColorScheme
+
