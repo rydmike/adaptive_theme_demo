@@ -29,7 +29,13 @@ We will create a custom theme that uses:
 You can watch the presentation deck used at Fluttercon 24 [here](https://docs.google.com/presentation/d/1-JH1vDJAjbj4XK-qb7le9hT7R-I_CW7THtPPUorJsTU/edit?usp=sharing). It contains all slides and also more extensive speaker notes than there time to go into during the talk.
 
 
-## Design Colors
+# Adaptive Theming
+
+This part of the readme is still **work in progress**. While in WIP phase the doc additions are being committed as they are written, they will be incomplete and may have error. When the doc section is completed, this WIP info will be removed.
+
+The intent is to make this readme into an article, describing the setup and how to achieve the adaptive theming in the demo. It will also explain some of the made choices and how they affect the app's look and feel.
+
+## Design Color Tokens
 
 Typically, in a custom branded app, we have one or two brand colors that must be present in our app's colors to some extend. In some cases we may have an entire palette of colors that are part of the brand or desired ambiance of the app.
 
@@ -59,6 +65,61 @@ sealed class ThemeTokens {
   static const Color avocadoCore = Color(0xFF4C1C0A);
   static const Color effectLight = Color(0xFFF2B9CC);
   static const Color effectDark = Color(0xFF3E0021);
+}
+```
+
+## Adaptive design 
+
+In this example, we will create a custom theme that is adaptive to the platform it runs on. We will let Android use default Material-3 design when it comes to its shapes and interaction effects. While all other platforms and also any build on web, we will use a more platform-agnostic design. It will be a bit more iOS like in its design for shapes and interaction effects.  
+
+The choice to make it impact all web platforms, means that when the app is run in a browser on Android, it will also then use the none Material default design. If you prefer, you could also make the platform adaptive response so that in a web browser on Android it also uses the default Material style. This might make more sense if you intend for the web build to be used as a PWA on Android devices. To use the PWA instead of compiled Android app, or as a solution for causal users that do not want to install an app. However, in this example, all web usage will look the same and use the none default Material design, while only the build as an Android app will use the Material default design. 
+
+Some of our adaptive design examples are shown below:
+
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/adaptive_design1.png" alt="Adaptive design goals one" />
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/adaptive_design2.png" alt="Adaptive design goals two" />
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/adaptive_design3.png" alt="Adaptive design goals three" />
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/adaptive_design4.png" alt="Adaptive design goals four" />
+
+
+To achieve this design goal we weill add some addtional design tokes to our `ThemeTokens` class. These will be used to determine if the build is an Android build or not, and if it is a web build or not. We will also add some design tokens that will be used to determine the shape and style of the buttons, switches, and chips in the app.
+
+```dart
+/// Const theme token values.
+///
+/// These could be token definitions from a design made in Figma or other
+/// 3rd party design tools that have been imported into Flutter.
+sealed class ThemeTokens {
+  // Colors used in the app brand palette.
+  // : as above ...
+
+  // Boolean for using our adaptive theme response or not.
+  //
+  // We will use a custom platform adaptive theme for anything else than
+  // Android and we also always use it, if it is a web build.
+  static bool isNotAndroidOrIsWeb =
+      defaultTargetPlatform != TargetPlatform.android || kIsWeb;
+  // Tokens for used button border radius on none Android platforms.
+  static const double appRadius = 10.0;
+  static const BorderRadius borderRadius =
+      BorderRadius.all(Radius.circular(appRadius));
+  static const OutlinedBorder buttonsShape = RoundedRectangleBorder(
+    borderRadius: borderRadius,
+  );
+  // We need a stadium like border radius for our ToggleButtons on Android.
+  // If we make it big enough, it will look like a stadium shape.
+  static const BorderRadius borderRadiusStadiumLike =
+      BorderRadius.all(Radius.circular(100));
+
+  // Outlined width used by some styled buttons.
+  static const double outlineWidth = 1.0;
+
+  // Default minimum button size for ToggleButtons.
+  // The values results in width 40 and height 40.
+  // The Material-3 guide specifies width 48 and height 40. This is an
+  // opinionated choice in order to make ToggleButtons min size squared.
+  static const Size toggleButtonMinSize =
+      Size(kMinInteractiveDimension - 8, kMinInteractiveDimension - 8);
 }
 ```
 
@@ -128,3 +189,9 @@ sealed class AppColorScheme {
   );
 }
 ```
+
+### Result Light Mode
+
+### Result Dark Mode
+
+
