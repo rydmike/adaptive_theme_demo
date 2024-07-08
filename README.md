@@ -35,9 +35,9 @@ This part of the readme is still **work in progress**. While in WIP phase the do
 
 The intent is to make this readme into an article, describing the setup and how to achieve the adaptive theming in the demo. It will also explain some of the made choices and how they affect the app's look and feel.
 
-## Design Color Tokens
+## Design Tokens
 
-Typically, in a custom branded app, we have one or two brand colors that must be present in our app's colors to some extend. In some cases we may have an entire palette of colors that are part of the brand or desired ambiance of the app.
+Typically, in a custom branded app, we have one or two brand colors that must be present in our app's colors to some extent. In some cases, we may have an entire palette of colors that are part of the brand or desired ambiance of the app.
 
 In this fictive example, we will use a palette of nine colors that create the brand and ambiance for a Deli, that has Avocado as their signature ingredient. The colors are shown below.
 
@@ -70,9 +70,9 @@ sealed class ThemeTokens {
 
 ## Adaptive design 
 
-In this example, we will create a custom theme that is adaptive to the platform it runs on. We will let Android use default Material-3 design when it comes to its shapes and interaction effects. While all other platforms and also any build on web, we will use a more platform-agnostic design. It will be a bit more iOS like in its design for shapes and interaction effects.  
+In this example, we will create a custom theme that is adaptive to the platform it runs on. We will let Android use default Material-3 design when it comes to its shapes and interaction effects. While for all other platforms and also any build used on the web, we will use a more platform-agnostic design. It will be a bit more iOS like in its design for shapes and interaction effects.  
 
-The choice to make it impact all web platforms, means that when the app is run in a browser on Android, it will also then use the none Material default design. If you prefer, you could also make the platform adaptive response so that in a web browser on Android it also uses the default Material style. This might make more sense if you intend for the web build to be used as a PWA on Android devices. To use the PWA instead of compiled Android app, or as a solution for causal users that do not want to install an app. However, in this example, all web usage will look the same and use the none default Material design, while only the build as an Android app will use the Material default design. 
+The choice to make our platform adaptive response impact web builds one all used platforms, means that when the app is run in a browser on Android, it will then also use the none Material default design. If you prefer, you could also make the platform adaptive response so that in a web browser on Android it also uses the default Material style. This might make more sense if you intend for the web build to be used as a PWA on Android devices. To use the PWA instead of compiled Android app, or as a solution for causal users that do not want to install an app. However, in this example, all web usage will look the same and use the none default Material design, while only the build as an Android app will use the Material default design. 
 
 Some of our adaptive design examples are shown below:
 
@@ -82,7 +82,7 @@ Some of our adaptive design examples are shown below:
 <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/adaptive_design4.png" alt="Adaptive design goals four" />
 
 
-To achieve this design goal we weill add some addtional design tokes to our `ThemeTokens` class. These will be used to determine if the build is an Android build or not, and if it is a web build or not. We will also add some design tokens that will be used to determine the shape and style of the buttons, switches, and chips in the app.
+To achieve this design goal we weill add some additional design tokes to our `ThemeTokens` class. These will be used to determine if the build is an Android build or not, and if it is a web build or not. We will also add some design tokens that will be used to determine the shape and style of the buttons, switches, and chips in the app.
 
 ```dart
 /// Const theme token values.
@@ -123,13 +123,32 @@ sealed class ThemeTokens {
 }
 ```
 
-### ColorScheme
+### ColorScheme.fromSeed
 
-Since `ColorScheme.fromSeed` can only use one seed color, we are going to take a pass on it and instead use a package that can generate a ColorScheme from multiple seed colors. We will use the [`flex_seed_scheme`](https://pub.dev/packages/flex_seed_scheme) package for this.
+If we seed the `ColorScheme` with `ThemeTokens.avocado` and pin it `primary` in light mode and `primaryContainer` in dark mode, we get these light and dark color schemes:
 
-By using it we can create a `ColorScheme` from multiple seed colors, and we can also create a `ColorScheme` that is colorful, which is what we want for our app. As `tones` for the `ColorScheme` we will use the `FlexTones.chroma` method, which creates a colorful `ColorScheme` based on the chromacity of each seed color.
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/from_tonal_spot_l.png" alt="ColorScheme.fromSeed light using avocado token" />
 
-As primary color we will use the `avocado` color, as secondary the `avocadoRipe` color, and as tertiary the `avocadoCore` color. We will also pin some of the design tokens to the `ColorScheme` colors, like the `primaryContainer` color to the `avocadoMeat` color.
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/from_tonal_spot_d.png" alt="ColorScheme.fromSeed light using avocado token" />
+
+They do not fully represent the desired vibe and ambiance of color token palette.
+
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/design_colors_2.png" alt="Design colors" />
+
+### SeedColorScheme.fromSeeds
+
+Since `ColorScheme.fromSeed` can only use one seed color, we are going to take a pass on it and instead use a package that can generate a `ColorScheme` from multiple seed colors. We will use the [`flex_seed_scheme`](https://pub.dev/packages/flex_seed_scheme) package for this. With the `flex_seed_scheme` package we can use the `SeedColorScheme.fromSeeds` constructor to generate a `ColorScheme` from multiple seed colors. It also offers many other useful methods to tune and modify the generated `ColorScheme`.
+
+In this example we not only use it to create a `ColorScheme` from multiple seed colors, we also create a `ColorScheme` that is **colorful**, which is what we want for our app. To do so, wew here as `tones` for the `ColorScheme` generation use the `FlexTones.chroma` configuration. It will create a colorful `ColorScheme` based on the chromacity of each seed color, or key colors, as they are called in the `flex_seed_scheme` package. If our key color inputs are colorful, then the genrated ColorScheme will also be so.
+
+As primary color we will use the `avocado` color, as secondary the `avocadoRipe` color. We selected the `avocadoRipe` color as secondary, as it is a color that is close to the primary color, but also a bit dimmer and less colorful that our primary `avocvado`selection. This selection fits well with the design intent of the Material-3 color system. 
+
+As tertiary seed or key color, we use the `avocadoCore` color. This is intended to be used as an effect color when so desired in app. By default, the tertiary palette colors are rarely used by Material-3 components as their default colors. It is only used by default for one element in the Material time picker. We can change mappings on some components if we want to use tertiary colors more, but in this demo we will not do so.
+
+You can always use any color in your `ColorScheme` by getting it with `Theme.of(context).colorScheme` and then using the color you want in your custom widgets, or as a one off override on defaults for some built-in components too. However, if you want a built-in Material component to use another color than its default all the time, you should change the default color mapping by creating a component theme in your `ThemeData`, with the desired override. We will see a lot of usage of that in this example, just not with the `tetiary` colors.
+
+
+To make our seed generated `ColorScheme` will also pin all the design color tokens to carefully selected `ColorScheme` colors, like the `primaryContainer` color to the `avocadoMeat` color in light mode, and to the `avocadoPrime` color in dark mode.
 
 
 
@@ -167,7 +186,7 @@ sealed class AppColorScheme {
   /// App's dark ColorScheme.
   static final ColorScheme dark = SeedColorScheme.fromSeeds(
     brightness: Brightness.dark,
-    // Same key colors and tones as light mode.
+    // Use the same key colors and tones as light mode in dark mode.
     primaryKey: ThemeTokens.avocado,
     secondaryKey: ThemeTokens.avocadoRipe,
     tertiaryKey: ThemeTokens.avocadoCore,
@@ -189,6 +208,23 @@ sealed class AppColorScheme {
   );
 }
 ```
+
+The first thing to pin in light theme mode, is to pin the seed colors, to the corresponding main palette colors. So in this case, in light mode:
+ 
+* The `primaryKey` color `ThemeTokens.avocado` is pinned to `primary`
+* The `secondaryKey` color `ThemeTokens.avocadoRipe` is pinned to `secondary` 
+* The `tertiaryKey` color `ThemeTokens.avocadoCore` is pinned to `tertiary`.  
+
+This guarantees that the `ColorScheme`'s main colors `primary`, `seondary` and `tertiary` will have exactly the same color values as the important design tokens. Typically, the seed or key color values do not end up in the generated `ColorScheme` otherwise. This override works well when the seed colors have high chromacity (are colorful) and also have a brightness that prefers white or light contrast color. Typically, if you have brand colors that are intended to be used on white printed papers, this is the case and they work well as main colors in light theme mode.
+
+
+Due to contrast issue of brand colors intended for printing on white paper they may nor work well if pinned and used as main colors in dark mode. If we had only had these tree colors as design tokens, and no colors sutiabel for dark mode, we would then typically pin them to `primaryContainer`, `secondaryContainer` and `tertiaryContainer`, to make sure the main colors are also present in dark mode. In this case we also did so for the `secondaryContainer` and `tertiaryContainer` colors in dark mode. However, for `primaryContainer` we used `ThemeTokens.avocadoPrime`.
+
+We also made sure to add all the rest of our `ThemeToken` colors to the `ColorScheme` as selected overrides in both light and dark mode for a few more colors. It is important to use care when doing so. Do it in a way that fits with the palettes generated by each seed color. As long as the override is a reasonable match in brightness and hue to the color generated by respective seed color, it will work well. If the override is too different, it may not work as well. 
+
+
+
+
 
 ### Result Light Mode
 
