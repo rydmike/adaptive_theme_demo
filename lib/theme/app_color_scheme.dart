@@ -23,6 +23,9 @@ sealed class AppColorScheme {
         .monochromeSurfaces(ThemeTokens.isNotAndroidOrIsWeb),
 
     // Color overrides to design token values.
+    // TIP: Visualize the color scheme without any pinned colors first and
+    // then see what colors you need to pin to get the desired result and where
+    // the colors in your palette will fit in the generated color scheme.
     primary: ThemeTokens.avocado,
     primaryContainer: ThemeTokens.avocadoMeat,
     secondary: ThemeTokens.avocadoRipe,
@@ -35,7 +38,7 @@ sealed class AppColorScheme {
   /// App's dark ColorScheme.
   static final ColorScheme dark = SeedColorScheme.fromSeeds(
     brightness: Brightness.dark,
-    // Same key colors and tones as light mode.
+    // Use the same key colors and tones as light mode in dark mode.
     primaryKey: ThemeTokens.avocado,
     secondaryKey: ThemeTokens.avocadoRipe,
     tertiaryKey: ThemeTokens.avocadoCore,
@@ -43,8 +46,8 @@ sealed class AppColorScheme {
         .monochromeSurfaces(ThemeTokens.isNotAndroidOrIsWeb),
 
     // Color overrides to design token values.
-    // Overrides are different from light mode,
-    // typically inverse selections.
+    // Overrides are different from light mode, typically inverse selections,
+    // but you can also deviate from this when appropriate as done here.
     primary: ThemeTokens.avocadoLush,
     primaryContainer: ThemeTokens.avocadoPrime,
     onPrimaryContainer: ThemeTokens.avocado,
