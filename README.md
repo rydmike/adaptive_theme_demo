@@ -6,7 +6,7 @@ This is the repo used at the talk **"Everything Material All At Once"**, present
 
 This repo was used for the adaptive theming part in the talk.
 
-## Theme Design Goal
+# Theme Design Goal
 
 We will create a custom theme that uses: 
 
@@ -26,7 +26,7 @@ We will create a custom theme that uses:
 | <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/iphone-demo.gif" alt="iPhone result demo" /> | <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/pixel-demo.gif" alt="Pixel result demo" /> |
 
 
-## Slides
+# Slides
 
 You can find and watch the entire presentation deck used at the **Fluttercon24** talk **"Everything Material All At Once"** [here](https://docs.google.com/presentation/d/1-JH1vDJAjbj4XK-qb7le9hT7R-I_CW7THtPPUorJsTU/edit?usp=sharing). It also contains more extensive and detailed speaker notes, with additional useful information, than there was time to go into during the _"all at once"_ fast-paced and packed talk.
 
@@ -124,6 +124,10 @@ sealed class ThemeTokens {
       Size(kMinInteractiveDimension - 8, kMinInteractiveDimension - 8);
 }
 ```
+
+## ColorScheme
+
+THe `ColorScheme` is the core of the `ThemeData` in Flutter. It is used to define the colors used by the Material components in the app. So let's start by first defining our `ColorScheme` for the app. 
 
 ### ColorScheme.fromSeed
 
@@ -229,7 +233,7 @@ You may have noticed that we also used one of the `tones` modifier functions, in
 
 It is also worth noticing that the `FlexTones.chroma` based seed generation configuration, is also **very** subtle in its surface color tinting, as typically `ColorScheme.fromSeed` and its `DynamicSchemeVariants` are too aggressive in their surface tinting, a matter of personal preference of course. 
 
-### Result Light Mode
+### ColorScheme Result in Light Mode
 
 With the above settings we get a generated `ColorScheme` that incorporates all our design tokens and also is colorful and vibrant. It has a slight different result on Android, where there is a very subtle primary color tint in all the surface colors. This color tint is missing on iOS and all other none Android platforms, their surface colors are fully monochrome. 
 
@@ -241,7 +245,7 @@ The light mode `ColorScheme` result Android platform. There is a very subtle pri
 
 <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/result_and_light.png" alt="ColorScheme result on Android in light mode" />
 
-### Result Dark Mode
+### ColorScheme Result in  Dark Mode
 
 The dark mode `ColorScheme` result on iOS and all none Android platforms:
 
@@ -258,11 +262,9 @@ We can also see that the above generated `ColorsScheme`s all include our designe
 <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/design_colors_2.png" alt="Design colors 2" />
 
 
-## Setting up the Theme
+Now that we have our platform adaptive `ColorScheme` defined we can start using it and defining our adaptive application theme. First let's quickly look at how we can use the theme in our app, once we have defined.
 
-Now that we have our platform adaptive `ColorScheme` define we can start using it and defining our adaptive application theme.
-
-### Our MaterialApp
+## MaterialApp
 
 The `MaterialApp` for our simple example app looks like this:
 
@@ -369,7 +371,7 @@ class ThemeSettings with Diagnosticable {
 }
 ```
 
-### The AppTheme
+## The AppTheme
 
 We make a `class` called `AppTheme`, it is just `sealed` so it cannot be extended or implemented. It will only contain static methods and properties bundled together in a readable name space. To make a theme with our `AppTheme` helper we will use the `AppTheme.use(brightness, themeSettings)` function.
 
@@ -442,7 +444,7 @@ VisualDensity defaultComfortablePlatformDensity(TargetPlatform platform) {
 }
 ```
 
-### Building the ThemeData
+## Defining our ThemeData
 
 Time to define `ThemeData` since that is always fun and interesting.
 
@@ -523,22 +525,21 @@ The above mappings are important to make sure that all the legacy colors in `The
 
 You can read more about these direct `ThemeData` color deprecations plan [in issue #91772](https://github.com/flutter/flutter/issues/91772).
 
-### Defining Component Themes
+## Defining Component Themes
 
-Defining a lot of elaborate custom component themes can be tedious. However, with component themes you can often bring the Material components default styles exactly to where you want them to be, or close enough to what your design calls for.
+Defining a lot of elaborate custom component themes can be tedious. However, with component themes, you can often bring the Material components default styles exactly to where you want them to be, or close enough to what your design calls for.
 
-You can then avoid using custom widget wrappers to style the components. To build your app you use the default Material components and they have the correct style they should have in your app by default. This also makes it easy to on-board new developers to your codebase, as they can use the standard components to build user interfaces and everything will look as intended for your app's design.
+You can then avoid using custom widget wrappers to style the components. To build your app, you then use the standard Material components, by default, they will now have the correct style they should have in your app. This also makes it easy to on-board new developers to your codebase, as they can use the standard components to build user interfaces, and everything will look as intended for your app's design.
 
 So while component theming can feel tedious, the benefits may also be worth the effort. Also, once you have set it up for one app, you can reuse the same definitions with slight modifications in other apps.
 
-#### AppBar Theme
+### AppBar Theme
 
-      
-We use a custom AppBar theme with a custom color mapping with slight opacity and very minor scroll under elevation that with shadow  will look like a faint underline in light theme mode.
+We use a custom AppBar theme with a custom color mapping with slight opacity and very minor scroll under elevation that with shadow will look like a faint underline in light theme mode.
 
 Our `AppBar` theme has minor “secret” sauce in it, which is a shape, that is just same as its default shape, but it is needed to get the scroll under effect change to animate, as it should in Material-3 design spec, but does not by default in Flutter. The need for this is actually a work-around to [issue #131042](https://github.com/flutter/flutter/issues/131042). 
 
-The scroll-under color is also modified by defining a custom `surfaceTintColor` for the `AppBarTheme` so that it is a monochrome color for other than Android platforms. After the **Flutter 3.22** release, the `AppBar` is one of the few widgets that still uses the elevation tint effect to change its color with elevation. Here we customize its tint color so we do not get any primary tint on it on other platforms than Android. Instead, we get just a monochrome color that is a bit darker than the surface color.  
+The scroll-under color is also modified by defining a custom `surfaceTintColor` for the `AppBarTheme` so that it is a monochrome color for other than Android platforms. After the **Flutter 3.22** release, the `AppBar` is one of the few widgets that still use the elevation tint effect to change its color with elevation. Here we customize its tint color, so we do not get any primary tint on it on other platforms than Android. Instead, we get just a monochrome color that is a bit darker than the surface color.  
 
 Shadow is put back and used for a faint underline separation on the scrolled under state. Background also has a hint of opacity, and we also use a custom font.
 
@@ -559,9 +560,9 @@ Shadow is put back and used for a faint underline separation on the scrolled und
       ),
 ```
 
-Generally don't try to change the app's `TexTheme` and its `TextStyle`s to make a given component use a different style by adjusting the style it uses by default from `ThemeData.textTheme`. Many other components may use the same style as their default, and you may not want them to use the same modified style. Instead make a new `TextStyle` that fits your component and use it in the component theme.
+Generally don't try to change the app's `TexTheme` and its `TextStyle`s to make a given component use a different style by adjusting the style it uses by default from `ThemeData.textTheme`. Many other components may use the same style as their default, and you may not want them to use the same modified style. Instead, prefer making a new `TextStyle` that fits your component and use it in the component theme.
 
-Here (25) we do so for a very custom `AppBar` title font, that will only apply to all `AppBar`s in the app, nothing else.
+Here (25) we do so for our custom `AppBar` title font, that will only apply to all `AppBar`s in the app, nothing else.
 
 
 ```dart
@@ -577,6 +578,403 @@ Here (25) we do so for a very custom `AppBar` title font, that will only apply t
 
 With this `AppBarTheme` we get an `AppBar` that looks like this:
 
-<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/
-AppBar.gif" alt="AppBar theme"/>
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/AppBar.gif" alt="AppBar theme" />
 
+In our theme, we also forced the `AppBar` to always be centered on iOS platform. It is actually so by default, but only if you have max one action button in the `AppBar`. If you have more than one action button, the title will be left aligned. For this demo, we wanted it to be centered, even if there are multiple action buttons, just to make it very easy to recongnize the iOS device in demos.
+
+### Material Button Themes
+
+We also define custom Material button themes that uses our custom `buttonsShape` (8 and 9) as our platform responsive shape on other than Android platforms. On the Android platform we just use null to get the default button shapes.
+
+For the `ElevatedButton` we also change its default color mapping to use our `primaryContainer` color as its background color and `onPrimaryContainer` color as its text color. This is done to make the `ElevatedButton` more colorful. Its default `surfaceContainerLow` background and `primary` foreground based mapping is kind of boring.
+
+```dart
+      // 8) ElevatedButton with custom color mapping and adaptive shape.
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: scheme.primaryContainer,
+          foregroundColor: scheme.onPrimaryContainer,
+          shape:
+              ThemeTokens.isNotAndroidOrIsWeb ? ThemeTokens.buttonsShape : null,
+        ),
+      ),
+      // 9) Custom adaptive shape on other buttons
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          shape:
+              ThemeTokens.isNotAndroidOrIsWeb ? ThemeTokens.buttonsShape : null,
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          shape:
+              ThemeTokens.isNotAndroidOrIsWeb ? ThemeTokens.buttonsShape : null,
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          shape:
+              ThemeTokens.isNotAndroidOrIsWeb ? ThemeTokens.buttonsShape : null,
+        ),
+      ),
+```
+With the above theme in place for our Material Buttons, we get this result:
+
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/buttons.gif" alt="Material Buttons theme" />
+
+### ToggleButtons Theme
+
+We can theme `ToggleButtons` and `SegmentedButton` differently and use them for different use cases. Toggle Buttons is an older Material-2 widget, theming is a bit tricky. In this case we want it to match the style of our `OutlinedButton` and `FilledButton`. 
+
+By default, the legacy `ToggleButtons` component does not react to `ThemeData` and its visual density changes. We can use the `visualDensity` we defined as input to its constraints in a way that makes it match height of `FilledButton` and `OutlinedButton` when they react to visual density on different platforms. **ToggleButtons** is an older M2 design, but it can still look nice when themed and fit in Material-3 dsign. It is e.g. nice for compact icon only based toggles, as shown in this example. Where we also make its shape follow the same platform adaptive button shapes as the other buttons. 
+
+```dart
+      // 10) ToggleButtons Theme, made to match the filled and outline buttons.
+      toggleButtonsTheme: ToggleButtonsThemeData(
+        borderWidth: ThemeTokens.outlineWidth,
+        selectedColor: scheme.onPrimary,
+        color: scheme.primary,
+        fillColor: scheme.primary,
+        borderColor: scheme.outline,
+        selectedBorderColor: scheme.primary,
+        hoverColor: scheme.primary.withAlpha(0x14),
+        focusColor: scheme.primary.withAlpha(0x1F),
+        highlightColor: scheme.primary.withAlpha(0x14),
+        splashColor: scheme.primary.withAlpha(0x1F),
+        disabledColor: scheme.onSurface.withAlpha(0x61),
+        disabledBorderColor: scheme.onSurface.withAlpha(0x1F),
+        borderRadius: ThemeTokens.isNotAndroidOrIsWeb
+            ? ThemeTokens.borderRadius
+            : ThemeTokens.borderRadiusStadiumLike,
+        constraints: BoxConstraints(
+          minWidth: ThemeTokens.toggleButtonMinSize.width -
+              ThemeTokens.outlineWidth * 2 +
+              visualDensity.baseSizeAdjustment.dx,
+          minHeight: ThemeTokens.toggleButtonMinSize.height -
+              ThemeTokens.outlineWidth * 2 +
+              visualDensity.baseSizeAdjustment.dy,
+        ),
+      ),
+```
+
+The colors and opacities above where also a bit tricky to figure out, they are used to make the highlight and splashes very similar to those used by the `FilledButton` and `OutlinedButton`. 
+
+The splash type cannot be changed for `ToggleButtons`, it does not follow the one defined by `ThemeData`, it is hard coded into the widget. It will thus sadly keep the Material-2 based ink style splashes on all platforms.
+
+### Segmented Button Theme
+
+For the `SegmentedButton` we use keep its default style, it is quite nice. We only add the platform adaptive shape to it (11). 
+
+```dart
+      // 11) SegmentedButton, made to match the filled tonal button, but with
+      // an outline.
+      segmentedButtonTheme: SegmentedButtonThemeData(
+        style: SegmentedButton.styleFrom(
+            shape: ThemeTokens.isNotAndroidOrIsWeb
+                ? ThemeTokens.buttonsShape
+                : null),
+      ),
+```
+
+### Legacy Button Theme
+
+The `buttonThme` and its `ButtonThemeData` is the old theme used by the old Material buttons that no longer exist at all in the Flutter framework. Oddly this old theme still has a property that can be considered quite important, the `alignedDropdown` property. It is used to set that we want to align the `DropdownButton` and `DropdownButtonFormField` to their parent. Without this setting, these older M2 based dropdowns will expand to a width slightly wider than the parent. You pretty much never want that.
+
+
+```dart
+      // 12) The old button theme still has some usage, like aligning the
+      // DropdownButton and DropdownButtonFormField to their parent.
+      buttonTheme: const ButtonThemeData(alignedDropdown: true),
+```
+
+### Floating Action Button Theme
+
+For the theme of the `FloatingActionButton` we use custom color mapping and a custom shape (13). We use the `stadium` shape for the `FloatingActionButton` we prefer the round shape in this demo app. We prefer this, it is just a better shape for the FAB than the new rounded corner defaults used in Material-3.
+
+```dart
+      // 13) FloatingActionButton.
+      // With custom color mapping and classic round and stadium shapes.
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: scheme.primaryContainer,
+        foregroundColor: scheme.onPrimaryContainer,
+        shape: const StadiumBorder(),
+      ),
+```
+
+With the above component themes in place, we get the following result for the `ToggleButtons`, `SegmentedButton` and our `FloatingActionButton`:
+
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/ToggleButtons.gif" alt="ToggleButtons Buttons theme" />
+
+### Chip Theme
+
+```dart
+      // 14) ChipTheme
+      // With custom color mapping and platform adaptive shape, were it is
+      // stadium shaped on none Android platform to not look like the buttons,
+      // while on Android it is using default slightly rounded corners.
+      // We also want smaller and more compact Chips.
+      chipTheme: ChipThemeData(
+        labelStyle:
+            textThemeFromStyles.labelSmall!.copyWith(color: scheme.onSurface),
+        padding: const EdgeInsets.all(4.0),
+        backgroundColor:
+            isLight ? scheme.primaryContainer : scheme.outlineVariant,
+        shape: ThemeTokens.isNotAndroidOrIsWeb ? const StadiumBorder() : null,
+      ),
+```
+
+### Switch Theme
+
+```dart
+      // 15) On none Android platforms we use an iOS like Switch theme,
+      // but on Android we use the default style.
+      // This will give u an iOS like on none Android platforms when we use
+      // vanilla Switch.
+      //
+      // If we use Switch.adaptive we will get the actual iOS Switch on iOS
+      // and macOS, it will use the ColorScheme colors and not iOS default
+      // system green. The none iOS and macOS adaptive response will be
+      // be the the themed vanilla Switch and Android default on Android, but
+      // the themed iOS look alike Switch on e.g. Windows and Linux.
+      switchTheme: ThemeTokens.isNotAndroidOrIsWeb ? switchTheme(scheme) : null,
+```
+
+The actual theming of the `Switch` is quite elaborate so we added it as a function for better readability of the `ThemeData` definition. The `Switch` is a bit tricky to theme, as it does not have a `styleFrom` method like the buttons. We have to use the `SwitchThemeData` and its properties to theme it. 
+
+
+```dart
+  // 15 a) A custom SwitchTheme that resembles an iOS Switch.
+  // The intention is that feels familiar on iOS and can ne used as platform
+  // agnostic on others.
+  static SwitchThemeData switchTheme(ColorScheme scheme) {
+    final bool isLight = scheme.brightness == Brightness.light;
+    return SwitchThemeData(
+      thumbIcon:
+          WidgetStateProperty.resolveWith<Icon?>((Set<WidgetState> states) {
+        return const Icon(Icons.minimize, color: Colors.transparent);
+      }),
+      trackOutlineColor:
+          WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+        return Colors.transparent;
+      }),
+      trackColor: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
+          if (states.contains(WidgetState.selected)) {
+            return scheme.primary.withOpacity(0.5);
+          }
+          return scheme.onSurface.withOpacity(0.07);
+        }
+        if (states.contains(WidgetState.selected)) {
+          return scheme.primary;
+        }
+        return scheme.surfaceContainerHighest;
+      }),
+      thumbColor: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
+          return isLight ? scheme.surface : scheme.onSurface.withOpacity(0.7);
+        }
+        return Colors.white;
+      }),
+    );
+  }
+```
+
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/Chip_Switch.gif" alt="Chips and Switch theme" />
+
+### Navigation Bar Theme
+
+```dart
+      // 16) NavigationBar
+      // We want a navigation bar that is slightly transparent and with more
+      // distinct and clear selection indication. Also the default height 80
+      // wastes space, so we make it lower.
+      // The default background in light mode is also a bit to dark, so we
+      // make it a bit lighter in light mode.
+      navigationBarTheme: NavigationBarThemeData(
+        height: 72,
+        backgroundColor: isLight
+            ? scheme.surfaceContainerLow.withOpacity(0.96)
+            : scheme.surfaceContainer.withOpacity(0.95),
+        indicatorColor: scheme.primary,
+        iconTheme: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+          return IconThemeData(
+            size: 24.0,
+            color: states.contains(WidgetState.disabled)
+                ? scheme.onSurfaceVariant.withOpacity(0.38)
+                : states.contains(WidgetState.selected)
+                    ? scheme.onPrimary
+                    : scheme.onSurfaceVariant,
+          );
+        }),
+      ),
+```      
+
+### Android System Navigation Style
+
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/nav_bar.gif" alt="Navigation Bar Theme" />
+
+### Input Decoration Theme
+
+Making a nice custom `InputDecorationTheme` can be tedious and complex. You also need to use it in some component themes that can accept an input decoration, like eg DropdownMenu.
+
+```dart
+      // 17) Input decorator
+      // Input decorator is one of the more confusing components to theme.
+      // Here we use the same custom style on all platforms.
+      inputDecorationTheme: inputTheme(scheme),
+
+      // 18) Dropdown menu theme
+      // We need to match the dropdown menu to the input decoration theme.
+      dropdownMenuTheme: DropdownMenuThemeData(
+        inputDecorationTheme: inputTheme(scheme),
+      ),
+```
+
+Making nice looking input decoration themes is one of the most tedious, annoying and tricky things to do in Flutter theming. Here is the "simple" example we used in this demo app, to make a rather nice one.
+
+Since we typically need the input decoration theme in other components too, it is a good to define it separately, so we can re-use its definition in other component themes.
+
+```dart
+  // 17 a) A custom input decoration theme.
+  static InputDecorationTheme inputTheme(ColorScheme scheme) {
+    final bool isLight = scheme.brightness == Brightness.light;
+    return InputDecorationTheme(
+      filled: true,
+      fillColor: WidgetStateColor.resolveWith((Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
+          return scheme.onSurface.withOpacity(0.04);
+        }
+        return isLight
+            ? scheme.primary.withOpacity(0.06)
+            : scheme.primary.withOpacity(0.15);
+      }),
+      prefixIconColor: WidgetStateColor.resolveWith((Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
+          return scheme.onSurface.withOpacity(0.38);
+        }
+        if (states.contains(WidgetState.error)) {
+          return scheme.error;
+        }
+        if (states.contains(WidgetState.focused)) {
+          return scheme.primary;
+        }
+        return scheme.onSurfaceVariant;
+      }),
+      floatingLabelStyle:
+          WidgetStateTextStyle.resolveWith((Set<WidgetState> states) {
+        const TextStyle textStyle = TextStyle();
+        if (states.contains(WidgetState.disabled)) {
+          return textStyle.copyWith(color: scheme.onSurface.withOpacity(0.38));
+        }
+        if (states.contains(WidgetState.error)) {
+          return textStyle.copyWith(color: scheme.error);
+        }
+        if (states.contains(WidgetState.hovered)) {
+          return textStyle.copyWith(color: scheme.onSurfaceVariant);
+        }
+        if (states.contains(WidgetState.focused)) {
+          return textStyle.copyWith(color: scheme.primary);
+        }
+        return textStyle.copyWith(color: scheme.onSurfaceVariant);
+      }),
+      border: MaterialStateOutlineInputBorder.resolveWith(
+          (Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
+          return const OutlineInputBorder(
+            borderRadius: ThemeTokens.borderRadius,
+            borderSide: BorderSide.none,
+          );
+        }
+        if (states.contains(WidgetState.error)) {
+          if (states.contains(WidgetState.focused)) {
+            return OutlineInputBorder(
+              borderRadius: ThemeTokens.borderRadius,
+              borderSide: BorderSide(color: scheme.error, width: 2.0),
+            );
+          }
+          return OutlineInputBorder(
+            borderRadius: ThemeTokens.borderRadius,
+            borderSide: BorderSide(color: scheme.error),
+          );
+        }
+        if (states.contains(WidgetState.focused)) {
+          return OutlineInputBorder(
+            borderRadius: ThemeTokens.borderRadius,
+            borderSide: BorderSide(color: scheme.primary, width: 2.0),
+          );
+        }
+        if (states.contains(WidgetState.hovered)) {
+          return const OutlineInputBorder(
+            borderRadius: ThemeTokens.borderRadius,
+            borderSide: BorderSide.none,
+          );
+        }
+        return const OutlineInputBorder(
+          borderRadius: ThemeTokens.borderRadius,
+          borderSide: BorderSide.none,
+        );
+      }),
+    );
+  }
+```
+
+With this `InputDecorationTheme` we get the following result:
+
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/text_field.gif" alt="Input Decoration Theme" />
+
+### Dialog Themes
+
+Little is done to the **Dialogs**, some minor custom color re-mapping. We want a brighter surface color in light mode and use `surfaceContainerLow` instead of default `surfaceContainerHigh`, that we still use for dark mode, where it fits well.
+
+We also bring back shadows to all dialogs, we think dialogs need shadows to stand out a bit more, like they did in Material-2.
+
+The surface colors on Android have minor primary chroma in them. On other platforms, the surface colors are monochrome. This comes automatically via the difference in the platform adaptive `ColorScheme` colors. 
+
+```dart
+      // 19) Dialog theme
+      // We use a custom dialog theme with a custom color mapping and shadow.
+      dialogTheme: DialogTheme(
+        backgroundColor:
+            isLight ? scheme.surfaceContainerLow : scheme.surfaceContainerHigh,
+        shadowColor: scheme.shadow,
+      ),
+
+      // 20) Time picker with customized colors.
+      timePickerTheme: TimePickerThemeData(
+        backgroundColor:
+            isLight ? scheme.surfaceContainerLow : scheme.surfaceContainerHigh,
+      ),
+
+      // 21) Custom date picker style.
+      datePickerTheme: DatePickerThemeData(
+        backgroundColor:
+            isLight ? scheme.surfaceContainerLow : scheme.surfaceContainerHigh,
+        headerBackgroundColor: scheme.primaryContainer,
+        headerForegroundColor: scheme.onPrimaryContainer,
+        dividerColor: Colors.transparent,
+        shadowColor: scheme.shadow,
+      ),
+```
+
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/dialogs.gif" alt="Dialog Themes" />
+
+### Text Theme
+
+```dart
+      // 22) Add a custom TextTheme made from TextStyles
+      textTheme: textThemeFromStyles,
+
+      // 23) Add a custom TextTheme with GoogleFonts.nnnTextTheme
+      primaryTextTheme: googleFontsTextTheme,
+```
+
+### Theme Extension
+
+```dart
+      // 24) Add all our custom theme extensions.
+      //
+      // Demonstrate font animation and color and harmonization.
+      extensions: <ThemeExtension<dynamic>>{
+        AppThemeExtension.make(scheme, settings.zoomBlogFonts)
+      },
+```
