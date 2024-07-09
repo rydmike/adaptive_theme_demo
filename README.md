@@ -1,22 +1,26 @@
-# Adaptive Theming Demo at Fluttercon 2024
+# Adaptive Theming Guide
 
-This is the repo used at the talk **"Everything Material All At Once"**, presented by Mike Rydstrom and Taha Tesser, July 4th, 2024, in Berlin at the **Fluttercon** conference.
+In this theming guide, we will walk through how to create a custom Flutter Material theme that is adaptive to the platform it runs on. We will use a custom seed generated `ColorScheme` that is colorful and vibrant and uses multiple seed colors. We will even make the `ColorScheme` have a platform adaptive response, so that surface colors are only primary color tinted on Android, while using monochrome greyscale surfaces on all other platforms.
 
-This repo was used for the adaptive theming part in the talk.
+We also go through several component theming tips and tricks. Additionally, we will look at a practical example of using theme extensions for semantic colors and content text styles. We also color harmonize the custom static semantic colors to the theme's primary color.
 
-# Fluttercon 24 Presentation Deck
+## Adaptive Theming Demo at Fluttercon 2024
+
+This theming guide repo is the same one that was used in the talk **"Everything Material All At Once"**, presented by Mike Rydstrom and Taha Tesser, July 4th, 2024, in Berlin at the **Fluttercon** conference. 
+
+### Fluttercon 24 Presentation Deck
 
 You can find and watch the entire presentation deck used at the **Fluttercon24** talk **"Everything Material All At Once"** [here](https://docs.google.com/presentation/d/1-JH1vDJAjbj4XK-qb7le9hT7R-I_CW7THtPPUorJsTU/edit?usp=sharing). It also contains more extensive and detailed speaker notes, with additional useful information, than there was time to go into during the _"all at once"_ fast-paced and packed talk.
 
 # Theme Design Goal
 
-We will create a custom theme that uses: 
+In this guide will create a custom platform adaptive Flutter Material theme that uses:
 
 * Multiple input colors to make a custom seed generated Colors scheme.
 * The seeded ColorScheme contains our brand color tokens and is colorful.
 * We have theme extensions for custom semantic colors and content text styles, their changes animate with the rest of theme changes.
 * The AppBar theme shows some nice tricks.
-* The application theme is platform adaptive, where:   
+* The application theme is platform adaptive, where:
   * We only have animated Material spreading ink effect splash on Android, on all other platforms the splash taps are just an instant highlight color on tap. This makes tap interactions feel less "Material" like on iOS, desktop and web platforms.
   * Buttons have iOS like radius and style on other than Android platforms, but Material defaults on Android.
   * The Material Switch looks like an iOS switch on other than Android platforms, but as a Material Switch on Android.
@@ -27,11 +31,6 @@ We will create a custom theme that uses:
 |------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
 | <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/iphone-demo.gif" alt="iPhone result demo" /> | <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/pixel-demo.gif" alt="Pixel result demo" /> |
 
-# Adaptive Theming Guide
-
-In this theming guide, we will walk through how to create a custom Flutter Material theme that is adaptive to the platform it runs on. We will use a custom seed generated `ColorScheme` that is colorful and vibrant and uses multiple seed colors. We will even make the `ColorScheme` have a platform adaptive response, so that surface colors are only primary color tinted on Android, while using monochrome greyscale surfaces on all other platforms.
-
-We also go through several component theming tips and tricks. Additionally, we will look at a practical example of using theme extensions for semantic colors and content text styles. We also color harmonize the custom static semantic colors to the theme's primary color.
 
 ## Design Tokens
 
