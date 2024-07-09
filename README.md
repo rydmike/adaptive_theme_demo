@@ -6,7 +6,7 @@ We also go through several component theming tips and tricks. Additionally, we w
 
 ## Adaptive Theming Demo at Fluttercon 2024
 
-This theming guide repo is the same one that was used in the talk **"Everything Material All At Once"**, presented by Mike Rydstrom and Taha Tesser, July 4th, 2024, in Berlin at the **Fluttercon** conference. 
+This theming guide repo is the same one that was used in the talk **"Everything Material All At Once"**, presented by Mike Rydstrom and Taha Tesser, July 4th, 2024, in Berlin at the **Fluttercon** conference. It was only used for the adaptive theming part of the talk.
 
 ### Fluttercon 24 Presentation Deck
 
