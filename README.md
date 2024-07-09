@@ -1131,8 +1131,7 @@ For our fictive app, we want to have some special semantic colors. Semantic colo
 * Order in delivery
 * Order delivered
 
-<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/order_status_token.png" alt="Order status semantic colors" />
-
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/order_status_tokens.png" alt="Order status semantic colors" />
 
 
 ```dart
