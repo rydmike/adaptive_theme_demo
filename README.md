@@ -381,7 +381,6 @@ class ThemeSettings with Diagnosticable {
 
 We make a `class` called `AppTheme`, it is `sealed` so it cannot be extended or implemented. It will only contain static methods and properties bundled together in a readable name space. To make a theme with our `AppTheme` helper we will call the `AppTheme.use(brightness, themeSettings)` function.
 
-[here](https://github.com/rydmike/adaptive_theme_demo/blob/master/lib/theme/app_theme.dart)
 
 > [!TIP]  
 > This theme setup walk-through will be quite long, you may also want to view the full code in the [AppTheme class here](https://github.com/rydmike/adaptive_theme_demo/blob/master/lib/theme/app_theme.dart) while going thotugh it.
@@ -1730,8 +1729,9 @@ We demonstrated how to make a `ColorScheme` that while seed generated, used seve
 
 We also looked at a practical example of using theme extensions for semantic colors and content text styles. Additionally, we harmonized the custom semantic colors to the theme's primary color.
 
-The walk through of the `AppTheme` class was pretty long, but the setup is not that long and complicated. It might be easier to get an overview by just looking at its code [here](https://github.com/rydmike/adaptive_theme_demo/blob/master/lib/theme/app_theme.dart).
+> [!TIP]  
+> The walk through of the `AppTheme` class was pretty long, but the setup is not that long and complicated. It might be easier to get an overview by looking at its code [here](https://github.com/rydmike/adaptive_theme_demo/blob/master/lib/theme/app_theme.dart).
 
 
-Hope you enjoyed this Flutter theming guide by [@RydMike (on X/Twitter)](https://x.com/RydMike) aka "MaterialMike" :smiley: 
+Hope you enjoyed this **Flutter adaptive theming guide** by [@RydMike (on X/Twitter)](https://x.com/RydMike) aka "MaterialMike" :smiley: 
 
