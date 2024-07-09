@@ -1102,8 +1102,8 @@ A better name for the extension would have been `.nullColors` to describe what i
 
 The above gives use the following text styles in our app in light and dark mode for our `Theme.of(context).primaryTextTheme`. This is the result on other than Android platforms. On Android it would be marginally different via the slightly tinted `onSurface` colors, since we have a slightly different `onSurface` color on Android in our platform adaptive `ColorScheme`.
 
-| ThemeData.primaryTextTheme (light)                                                                                                                                  | ThemeData.primaryTextTheme (dark)                                                                                                                         |
-|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ThemeData.primaryTextTheme (light)                                                                                                                         | ThemeData.primaryTextTheme (dark)                                                                                                                        |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/text_theme_prim_light.png" alt="ThemeData.primaryTextTheme light" /> | <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/text_theme_prim_dark.png" alt="ThemeData.PrimaryTextTheme dark" /> |
 
 
@@ -1124,7 +1124,7 @@ As the last piece, we will use `ThemeExtension` as a means to add custom theme p
 
 Theme extensions are well explained this [YouTube video](https://www.youtube.com/watch?v=8-szcYzFVao) where Craig from the Flutter team presents the `ThemeData` extension feature.
 
-For our fictive app, we want to have some special semantic colors. Semantic colors are colors that have specific meaning in your app. In the `ColorScheme` there is only one set of semantic colors and that is the **error** color. You could for example also add **warning** and **success** colors, that are often use din web design. However in this demo we will add semantic colors that are used to descirbe the status of orders for our Avocado Deli. We will hace
+For our fictive app, we want to have some special semantic colors. Semantic colors are colors that have specific meaning in your app. In the `ColorScheme` there is only one set of semantic colors and that is the **error** color. You could, for example, also add **warning** and **success** colors, that are often used in web design. However, in this demo we will add semantic colors that are used to describe the status of orders for our **Avocado Deli**. We will use these order status colors.
 
 * Order received
 * Order in preparation
@@ -1133,12 +1133,536 @@ For our fictive app, we want to have some special semantic colors. Semantic colo
 
 <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/order_status_tokens.png" alt="Order status semantic colors" />
 
+Again, to use them, we will first add them to our `ThemeTokens` class:
 
 ```dart
-      // 24) Add all our custom theme extensions.
+  // Semantic color tokens for order status.
+  static const Color receivedLight = Color(0xFF00257F);
+  static const Color receivedDark = Color(0xFFC1CCFF);
+  static const Color preparingLight = Color(0xFF045E72);
+  static const Color preparingDark = Color(0xFFDBF5FF);
+  static const Color deliveryLight = Color(0xFF00513D);
+  static const Color deliveryDark = Color(0xFFBBFFE4);
+  static const Color deliveredLight = Color(0xFF005305);
+  static const Color deliveredDark = Color(0xFFCFFFC1);
+```
+
+You can find `ThemeTokens` in its entirety [here](https://github.com/rydmike/adaptive_theme_demo/blob/master/lib/theme/theme_tokens.dart).
+
+We will also add two content related custom `TextStyle`s to our Theme extension. You can think of text style not used to style the `TextTheme` and not used to style built-in component themes or customized UI components, more as content `TextStyle`, or a form of semantic `TextStyle` as well. In this demo, we use them as styles for a blog header and blog body text. 
+
+Generally don't try to change the application's `TexTheme` and its `TextStyle`s to fit styles needed by content in your application, instead define new styles that fits your content. Then add them as a `ThemeExtension` to your `ThemeData`.
+
+For convenience, we added them as statics to the `AppTheme` class in this demo, where we had a few definitions already. They could just as well fir in your `ThemeTokens` class, as that is what they are as well.
+
+```dart
+  // 26) A "semantic" blog header text style that we use for custom content.
+  static TextStyle blogHeader(ColorScheme scheme, double fontSize) {
+    return GoogleFonts.limelight(
+      fontWeight: FontWeight.w400,
+      fontSize: fontSize,
+      color: scheme.onSurface,
+    );
+  }
+
+  // 27) A "semantic" blog body text style that we use for custom content.
+  static TextStyle blogBody(ColorScheme scheme, double fontSize) {
+    return GoogleFonts.notoSerif(
+      fontWeight: FontWeight.w400,
+      fontSize: fontSize,
+      color: scheme.onSurface,
+    );
+  }
+```
+
+#### Defining our Theme Extension
+
+Defining a **ThemeExtension** has some boilerplate. We need to define all our **properties**, extend **ThemeExtension** having a type of the class we define, plus we must override its **copyWith** and **lerp** methods.
+
+We begin by setting up the **AppThemeExtension** class. We define the properties for our semantic colors and content text styles. We also add a fallback color value, that is used for all colors in both theme modes. This will never be seen when the theme extension is defined correctly.
+
+```dart
+/// A theme extension for semantic colors and content text styles.
+class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
+  const AppThemeExtension({
+    required this.received,
+    required this.onReceived,
+    required this.making,
+    required this.onMaking,
+    required this.inDelivery,
+    required this.onInDelivery,
+    required this.delivered,
+    required this.onDelivered,
+    this.blogHeader,
+    this.blogBody,
+  });
+
+  final Color? received;
+  final Color? onReceived;
+  final Color? making;
+  final Color? onMaking;
+  final Color? inDelivery;
+  final Color? onInDelivery;
+  final Color? delivered;
+  final Color? onDelivered;
+  final TextStyle? blogHeader;
+  final TextStyle? blogBody;
+
+  // Fallback color value that is used for all colors in both theme modes.
+  // This will never be seen when the theme extension is setup correctly.
+  static const int _fail = 0xFF1565C0; // Bright dark blue
+```
+
+Next we define the `copyWith` method. This method is used to create a new instance of the `AppThemeExtension` with the properties we want to change. We use the `??` operator to check if the property is `null`, if it is, we use the current value. This is the well-known pattern in `copyWith` methods.
+
+```dart
+  // You must override the copyWith method.
+@override
+AppThemeExtension copyWith({
+  Color? received,
+  Color? onReceived,
+  Color? making,
+  Color? onMaking,
+  Color? inDelivery,
+  Color? onInDelivery,
+  Color? delivered,
+  Color? onDelivered,
+  TextStyle? blogHeader,
+  TextStyle? blogBody,
+}) =>
+        AppThemeExtension(
+          received: received ?? this.received,
+          onReceived: onReceived ?? this.onReceived,
+          making: making ?? this.making,
+          onMaking: onMaking ?? this.onMaking,
+          inDelivery: inDelivery ?? this.inDelivery,
+          onInDelivery: onInDelivery ?? this.onInDelivery,
+          delivered: delivered ?? this.delivered,
+          onDelivered: onDelivered ?? this.onDelivered,
+          blogHeader: blogHeader ?? this.blogHeader,
+          blogBody: blogBody ?? this.blogBody,
+        );
+```
+
+Next, we define the `lerp` method override for all properties. It is a bit more complex than the `copyWith` method. We must check if the other `ThemeExtension` is of the correct type, if it is not, we return the current instance. In our extension, we used the `Color.lerp` and `TextStyle.lerp` methods to lerp the properties. The lerp methods are used to animate theme transitions for each of our theme extension properties. This linear animated transition of every property in our theme extension will occur in sync with the rest of `ThemeData`, when it transitions from one value to a new one. 
+
+```dart
+  // You must override the lerp method.
+  @override
+  AppThemeExtension lerp(ThemeExtension<AppThemeExtension>? other, double t) {
+    if (other is! AppThemeExtension) {
+      return this;
+    }
+    return AppThemeExtension(
+      received: Color.lerp(received, other.received, t),
+      onReceived: Color.lerp(onReceived, other.onReceived, t),
+      making: Color.lerp(making, other.making, t),
+      onMaking: Color.lerp(onMaking, other.onMaking, t),
+      inDelivery: Color.lerp(inDelivery, other.inDelivery, t),
+      onInDelivery: Color.lerp(onInDelivery, other.onInDelivery, t),
+      delivered: Color.lerp(delivered, other.delivered, t),
+      onDelivered: Color.lerp(onDelivered, other.onDelivered, t),
+      blogHeader: TextStyle.lerp(blogHeader, other.blogHeader, t),
+      blogBody: TextStyle.lerp(blogBody, other.blogBody, t),
+    );
+  }
+```
+
+Next we define static consts constructors for `light` and `dark` theme mode colors, that return an `AppThemeExtension` where the correct color values for light and dark theme mode are used for our semantic order status colors. We use the light and dark token as the main color, and the inverse mode as their on color in the respective theme mode.
+
+```dart
+  // Constructor with our semantic order status colors in light mode.
+  static const AppThemeExtension light = AppThemeExtension(
+    received: ThemeTokens.receivedLight,
+    onReceived: ThemeTokens.receivedDark,
+    making: ThemeTokens.preparingLight,
+    onMaking: ThemeTokens.preparingDark,
+    inDelivery: ThemeTokens.deliveryLight,
+    onInDelivery: ThemeTokens.deliveryDark,
+    delivered: ThemeTokens.deliveredLight,
+    onDelivered: ThemeTokens.deliveredDark,
+  );
+
+  // Constructor with our semantic order status colors in dark mode.
+  static const AppThemeExtension dark = AppThemeExtension(
+    received: ThemeTokens.receivedDark,
+    onReceived: ThemeTokens.receivedLight,
+    making: ThemeTokens.preparingDark,
+    onMaking: ThemeTokens.preparingLight,
+    inDelivery: ThemeTokens.deliveryDark,
+    onInDelivery: ThemeTokens.deliveryLight,
+    delivered: ThemeTokens.deliveredDark,
+    onDelivered: ThemeTokens.deliveredLight,
+  );
+
+```
+
+As the final step, we will make a factory constructor called `make`, that makes our custom `AppThemeExtension` using a few input parameters. We will use `ColorScsheme` `scheme` and `bool` `zoomBlogFonts` as inputs.
+
+From the `ColorScheme` will use the `primary` color as source color, so we can harmonize all our input semantic order status colors to the themes primary color. 
+
+We will also as a demo use a boolean parameter that zooms the font size of our content blog text styles. We could have used a `double` parameter to set the font size directly, but we wanted to use a `bool` toggle to later demonstrate that we are not manually animating or manipulating the font size, we just give it a new immediate value via a bool toggle.
+
+```dart
+  /// A factory to make the light or dark extended theme with its custom
+  /// colors harmonized towards the used scheme primary color.
+  /// The custom blog fonts can be zoomed.
+  ///
+  /// Since we are using theme extensions all changes to the theme properties
+  /// will lerp animate when theme values are changed. Thus light/dark mode
+  /// color changes in our custom colors automatically animate with the
+  /// rest of the mode switch colors and when we turn ON/OFF the custom blog
+  /// fonts zooming, this text style size change also animates.
+  factory AppThemeExtension.make(ColorScheme scheme, bool zoom) {
+    if (scheme.brightness == Brightness.light) {
+      return light
+          .copyWith(
+            blogHeader: AppTheme.blogHeader(scheme, zoom ? 40 : 24),
+            blogBody: AppTheme.blogBody(scheme, zoom ? 24 : 12),
+          )
+          .harmonized(scheme.primary);
+    } else {
+      return dark
+          .copyWith(
+            blogHeader: AppTheme.blogHeader(scheme, zoom ? 40 : 24),
+            blogBody: AppTheme.blogBody(scheme, zoom ? 24 : 12),
+          )
+          .harmonized(scheme.primary);
+    }
+  }
+```
+
+The last piece is the `harmonized` method in our `AppThemeExtension`. It will slightly nudge the colors of each order status color, in the direction of the theme's primary color. This is done, so they will fit better with the ambient theme.
+
+```dart
+  /// An [AppThemeExtension], where all its colors are harmonized towards a
+  /// given [sourceColor], typically the theme's primary color.
+  AppThemeExtension harmonized(Color sourceColor) {
+    final int source = sourceColor.value;
+    return copyWith(
+      received: Color(Blend.harmonize(received?.value ?? _fail, source)),
+      onReceived: Color(Blend.harmonize(onReceived?.value ?? _fail, source)),
+      making: Color(Blend.harmonize(making?.value ?? _fail, source)),
+      onMaking: Color(Blend.harmonize(onMaking?.value ?? _fail, source)),
+      inDelivery: Color(Blend.harmonize(inDelivery?.value ?? _fail, source)),
+      onInDelivery:
+          Color(Blend.harmonize(onInDelivery?.value ?? _fail, source)),
+      delivered: Color(Blend.harmonize(delivered?.value ?? _fail, source)),
+      onDelivered: Color(Blend.harmonize(onDelivered?.value ?? _fail, source)),
+    );
+  }
+```
+
+Using color harmonization is useful if our theme is dynamic, or if we have many fixed themes user can select from. We can then use harmonization to ensure that our semantic or custom static colors outside the `ColorScheme` will always fit with the ambiance of the used `ColorScheme`. Plus, when we change theme, the custom semantic colors will also lerp animate to their new harmonized color value, when used in a theme extension like above. This also happens if you change to a new theme style within the same theme mode, and of course, between light and dark switches.
+
+You can read more about harmonizing your custom semantic and static colors in the [Material-3 guide style section](https://m3.material.io/styles/color/advanced/adjust-existing-colors#1cc12e43-237b-45b9-8fe0-9a3549c1f61e).
+
+In this demo the `Blend.harmonized` color function came from the [FlexSeedScheme](https://pub.dev/packages/flex_seed_scheme) package we already imported for the more advanced seed generated `ColorScheme` features. The same function also exists in the [Material Color Utilities](https://pub.dev/packages/material_color_utilities) package. 
+
+
+Finally, we add our ThemeExtension to our `AppTheme` utility in its static `use` function in the part where we return `ThemeData`. We add it as an extension in the `extensions` map. 
+
+```dart
+      // The AppTheme.use and its returned ThemeData, continued from earlier above.
       //
-      // Demonstrate font animation and color and harmonization.
+      // 24) Add all our custom theme extensions, we have only one in this demo.
+      // Used to demonstrate color and font animation and color harmonization.
       extensions: <ThemeExtension<dynamic>>{
         AppThemeExtension.make(scheme, settings.zoomBlogFonts)
       },
 ```
+
+#### Using the Theme Extension
+
+To use a theme extension in your application, you can access with it `Theme.of(context).extension<MyExtensionType>`. This is quite long and verbose, as a tip you can make convenience context extension functions to get the extension. We leave this as an exercise to the reader. 
+
+Why should you prefer adding your custom content text styles as a theme extensions?
+
+For one, there is no need to worry about clashes with TextTheme styles. You can get them anywhere via `Theme.of(context).extension`. The main kicker is that they animate their themed `TextStyle` property changes. This is really nice, let's look at that next.
+
+In this demo, we use the custom blog content text styles in a custom card widget that shows some fictive blog posts. It looks like this:
+
+```dart
+import 'package:flutter/material.dart';
+import '../../../../theme/app_theme_extension.dart';
+import '../../universal/stateful_header_card.dart';
+
+@immutable
+class BlogPostCard extends StatelessWidget {
+  const BlogPostCard({
+    super.key,
+    required this.cardHeading,
+    required this.blogHeading,
+    required this.blogContent,
+  });
+  final String cardHeading;
+  final String blogHeading;
+  final String blogContent;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    return StatefulHeaderCard(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      leading: const Icon(Icons.text_snippet_outlined),
+      title: Text(cardHeading),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                blogHeading,
+                style: theme.extension<AppThemeExtension>()?.blogHeader ??
+                    theme.textTheme.headlineSmall,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                blogContent,
+                style: theme.extension<AppThemeExtension>()?.blogBody ??
+                    theme.textTheme.bodySmall,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+The key part above is grabbing the text style from our extension. For example for the `blogHeader` text style. We use the `theme.extension<AppThemeExtension>()?.blogHeader` to get the text style. If it is `null` we use a default `headlineSmall` text style from the `TextTheme` as fallback.
+
+```dart
+   Text(blogHeading,
+     style: theme.extension<AppThemeExtension>()?.blogHeader ??
+            theme.textTheme.headlineSmall,
+   ),
+```
+
+In case there was no extension added to our `ThemeData` we should have a fallback text style. This is important if the extension cannot always be guaranteed to be added to `ThemeData`.
+
+This might be the case if you have made a custom packaged widget that comes with a theme extension for additional custom styling. In such cases you want to make sure your custom-packaged widget falls back to nice default values if its theme extension is not added to `ThemeData` to theme it. This is kind of like the Material UI widgets also behave when there is no component theme defined to get their default values.
+
+If you are using an extension in your own app for your own custom app properties, then you can guarantee that is added. You can then skip the fallback and just bang it.
+
+So what happens now when we use this font extension in a widget and toggle the font zooming ON and OFF with `zoomBlogFonts`? The font size will animate between the two sizes we defined, this will happen everywhere in your app where you have used the custom text styles. All we did was update the font size values it uses in its theme extension.
+
+In this demo we toggle a `ListTileSwitch` that creates a new `ThemeSettings` value and updates our theme with a new extension having another font size. Since `ThemeExtension` properties animate, the font size will animate between the two sizes we defined in the `AppThemeExtension.make` factory constructor.
+
+```dart
+  ListTileSwitch(
+    title: const Text('Zoom blog post fonts'),
+    value: settings.zoomBlogFonts,
+    onChanged: (bool value) {
+      settings = settings.copyWith(zoomBlogFonts: value);
+      AppTheme.update(context, settings);
+    },
+  ),
+```
+
+This will animate the font size change in all places in our app where we have used the custom font styles via our theme extension. Feels a bit like magic.
+
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/theme_font.gif" alt="Order status semantic colors" />
+
+#### Theme Extension Harmonized Colors
+
+We could use our theme extension for the semantic color in our app the same way as we used it for the blog text styles in the example above. But let's look at a more advanced and convenient usage. 
+
+If we have four colors tied to an order status, we may also have an enum representing this status. The enum may have a label, description and icon related to each order state as well.  
+
+```dart
+/// Enum used to model our order status value,
+/// also includes labels, icons and colors for each status.
+enum OrderStatus {
+  received(
+    label: 'Order received',
+    describe: 'Thank you!\nWe have received your order\n'
+        'and will prepare it shortly.',
+    icon: Icons.thumb_up,
+  ),
+  preparing(
+    label: 'Preparing',
+    describe: 'Our chef is preparing your order from\nfresh sustainably '
+        'produced ingredients.',
+    icon: Icons.soup_kitchen,
+  ),
+  inDelivery(
+    label: 'In delivery',
+    describe: 'We are delivering your\nAvocado Deli meal to you.',
+    icon: Icons.electric_moped,
+  ),
+  delivered(
+    label: 'Delivered',
+    describe: 'Your order has been delivered.\nEnjoy your meal and thank '
+        'you\nfor choosing Avocado Deli!',
+    icon: Icons.ramen_dining,
+  );
+
+  const OrderStatus({
+    required this.label,
+    required this.describe,
+    required this.icon,
+  });
+
+  final String label;
+  final String describe;
+  final IconData icon;
+
+}
+```
+
+To this enum we can add helper methods to get the color token values related to each status for the light and dark theme mode. We can also add a method to get the on-color for each status. 
+
+```dart
+  /// Returns the color associated with the order status. Uses the
+  /// context to determine if it should be the token for light or dark mode.
+  Color orderStatusTokenColor(BuildContext context) {
+    final bool isLight = Theme.of(context).brightness == Brightness.light;
+    switch (this) {
+      case OrderStatus.received:
+        return isLight ? ThemeTokens.receivedLight : ThemeTokens.receivedDark;
+      case OrderStatus.preparing:
+        return isLight ? ThemeTokens.preparingLight : ThemeTokens.preparingDark;
+      case OrderStatus.inDelivery:
+        return isLight ? ThemeTokens.deliveryLight : ThemeTokens.deliveryDark;
+      case OrderStatus.delivered:
+        return isLight ? ThemeTokens.deliveredLight : ThemeTokens.deliveredDark;
+    }
+  }
+
+  /// Returns the on-color associated with the order status. Uses the
+  /// context to determine if it should be the token for light or dark mode.
+  Color onOrderStatusTokenColor(BuildContext context) {
+    final bool isLight = Theme.of(context).brightness == Brightness.light;
+    switch (this) {
+      case OrderStatus.received:
+        return isLight ? ThemeTokens.receivedDark : ThemeTokens.receivedLight;
+      case OrderStatus.preparing:
+        return isLight ? ThemeTokens.preparingDark : ThemeTokens.preparingLight;
+      case OrderStatus.inDelivery:
+        return isLight ? ThemeTokens.deliveryDark : ThemeTokens.deliveryLight;
+      case OrderStatus.delivered:
+        return isLight ? ThemeTokens.deliveredDark : ThemeTokens.deliveredLight;
+    }
+  }
+```
+
+The above were just for the static token values, we can also add helper methods that gets the same order status related colors from our theme extension, that are then harmonized to the theme's primary color. 
+
+```dart
+  /// Returns the color associated with the order status. Uses
+/// Theme.of(context).extension, to get the color. If the extension is not
+/// defined, it falls back to the direct token based color.
+Color orderStatusColor(BuildContext context) {
+  final ThemeData theme = Theme.of(context);
+  switch (this) {
+    case OrderStatus.received:
+      return theme.extension<AppThemeExtension>()?.received ??
+              orderStatusTokenColor(context);
+    case OrderStatus.preparing:
+      return theme.extension<AppThemeExtension>()?.making ??
+              orderStatusTokenColor(context);
+    case OrderStatus.inDelivery:
+      return theme.extension<AppThemeExtension>()?.inDelivery ??
+              orderStatusTokenColor(context);
+    case OrderStatus.delivered:
+      return theme.extension<AppThemeExtension>()?.delivered ??
+              orderStatusTokenColor(context);
+  }
+}
+
+/// Returns the on-color associated with the order status. Uses
+/// Theme.of(context).extension, to get the color. If the extension is not
+/// defined, it falls back to the direct token based on-color.
+Color onOrderStatusColor(BuildContext context) {
+  final ThemeData theme = Theme.of(context);
+  switch (this) {
+    case OrderStatus.received:
+      return theme.extension<AppThemeExtension>()?.onReceived ??
+              onOrderStatusTokenColor(context);
+    case OrderStatus.preparing:
+      return theme.extension<AppThemeExtension>()?.onMaking ??
+              onOrderStatusTokenColor(context);
+    case OrderStatus.inDelivery:
+      return theme.extension<AppThemeExtension>()?.onInDelivery ??
+              onOrderStatusTokenColor(context);
+    case OrderStatus.delivered:
+      return theme.extension<AppThemeExtension>()?.onDelivered ??
+              onOrderStatusTokenColor(context);
+  }
+}
+```
+
+In the extension based getters we used the token-based unharmonized order status colors as fall back color values, should the extension not be defined in our `ThemeData`. 
+
+Now that we have an order status enum where we can get both color style based on order status, we can easily build some custom components that could be used to display on order status in our app. For example some order status boxes that show the order status icon and label. We added the color value for demo purposes as well. 
+
+```dart
+/// Order status widget
+class OrderStatusWidget extends StatelessWidget {
+  const OrderStatusWidget({
+    super.key,
+    required this.status,
+    required this.useTheme,
+  });
+
+  final OrderStatus status;
+  final bool useTheme;
+
+  @override
+  Widget build(BuildContext context) {
+    final Color backgroundColor = useTheme
+        ? status.orderStatusColor(context)
+        : status.orderStatusTokenColor(context);
+    final Color foregroundColor = useTheme
+        ? status.onOrderStatusColor(context)
+        : status.onOrderStatusTokenColor(context);
+
+    return GestureDetector(
+      onTap: () async {
+        await OrderStatusDialog.show(context, status, useTheme);
+      },
+      child: Card(
+        margin: EdgeInsets.zero,
+        color: backgroundColor,
+        child: SizedBox(
+          width: 170,
+          height: 50,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(status.icon, color: foregroundColor),
+                  const SizedBox(width: 8),
+                  Text(
+                    status.label,
+                    style: TextStyle(color: foregroundColor),
+                  )
+                ],
+              ),
+              Text(
+                backgroundColor.toString(),
+                style: TextStyle(color: foregroundColor, fontSize: 10),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+If we display them all in in light theme mode, bot the token basd ones and the theme extension based ones, that are color harmonized to the shown primary color, they will look like this.
+
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/order_status_widget.gif" alt="Order status widgets" />
+
+
+If we look at the example and light/dark toggle, the Token-based switch color instantly half-way through the rest of the theme transition. The theme extension based colors, lerp animate their color change with the rest of the theme transition.

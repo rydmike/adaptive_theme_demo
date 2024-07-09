@@ -276,9 +276,9 @@ sealed class AppTheme {
       // 23) Add a custom primary TextTheme with GoogleFonts.nnnTextTheme
       primaryTextTheme: googleFontsTextTheme,
 
-      // 24) Add all our custom theme extensions.
+      // 24) Add all our custom theme extensions, we have only one in this demo.
       //
-      // Demonstrate font animation and color and harmonization.
+      // Used to demonstrate color and font animation and color harmonization.
       extensions: <ThemeExtension<dynamic>>{
         AppThemeExtension.make(scheme, settings.zoomBlogFonts)
       },
@@ -461,7 +461,7 @@ sealed class AppTheme {
     );
   }
 
-  // 26) A "semantic" text theme that we will use for custom content.
+  // 26) A "semantic" blog header text style that we use for custom content.
   //
   // Generally don't try to change the app's TexTheme and its TextStyle to fit
   // your content, instead make a new TextStyle that fits your content.
@@ -474,7 +474,7 @@ sealed class AppTheme {
     );
   }
 
-  // 27) A "semantic" text style that we will use for custom content.
+  // 27) A "semantic" blog body text style that we use for custom content.
   static TextStyle blogBody(ColorScheme scheme, double fontSize) {
     return GoogleFonts.notoSerif(
       fontWeight: FontWeight.w400,
