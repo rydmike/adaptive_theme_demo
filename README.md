@@ -4,7 +4,6 @@ This is the repo used at the talk **"Everything Material All At Once"**, present
 
 This repo was used for the adaptive theming part in the talk.
 
-
 # Fluttercon 24 Presentation Deck
 
 You can find and watch the entire presentation deck used at the **Fluttercon24** talk **"Everything Material All At Once"** [here](https://docs.google.com/presentation/d/1-JH1vDJAjbj4XK-qb7le9hT7R-I_CW7THtPPUorJsTU/edit?usp=sharing). It also contains more extensive and detailed speaker notes, with additional useful information, than there was time to go into during the _"all at once"_ fast-paced and packed talk.
