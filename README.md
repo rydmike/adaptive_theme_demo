@@ -381,6 +381,11 @@ class ThemeSettings with Diagnosticable {
 
 We make a `class` called `AppTheme`, it is `sealed` so it cannot be extended or implemented. It will only contain static methods and properties bundled together in a readable name space. To make a theme with our `AppTheme` helper we will call the `AppTheme.use(brightness, themeSettings)` function.
 
+[here](https://github.com/rydmike/adaptive_theme_demo/blob/master/lib/theme/app_theme.dart)
+
+> [!TIP]  
+> This theme setup walk-through will be quite long, you may also want to view the full code in the [AppTheme class here](https://github.com/rydmike/adaptive_theme_demo/blob/master/lib/theme/app_theme.dart) while going thotugh it.
+
 In the `AppTheme.use` function, we use the passed in `brightness` to get the correct 
 platform adaptive `ColorScheme` that we defined earlier. 
 
@@ -1711,7 +1716,7 @@ class OrderStatesCard extends StatelessWidget {
 
 We can then open up both in our demo and examine the difference. 
 
-If we look at them and toggle between light/dark theme mode, we can see that the const token-based ones switch color values instantly half-way through the mode theme transition.
+If we look at them and toggle between light/dark theme mode, we can see that the const token-based ones switch color values instantly half-way through the theme mode transition.
 
 <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/order_status.gif" alt="Order status animations" />
 
