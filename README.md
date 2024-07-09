@@ -1118,7 +1118,22 @@ This is a legacy thing. The dark gray color on `primaryColor` in dark mode, was 
 Also be aware that the `primaryTextTheme` may be deprecated, as no longer needed or used. Instead, it is recommended to use the `ThemeData.colorScheme` and any of its relevant on-colors for the situation to get the correct contrasting color for text, depending on what color the text is being displayed on. 
 
 
-### Theme Extension
+### Theme Extensions
+
+As the last piece, we will use `ThemeExtension` as a means to add custom theme properties to our `ThemeData`. In this example we will only make one `ThemeExtension` with a few `color` and `TextStyle` properties. You can define as many `ThemeExtension`s as you need, but in this example we will only use one.
+
+Theme extensions are well explained this [YouTube video](https://www.youtube.com/watch?v=8-szcYzFVao) where Craig from the Flutter team presents the `ThemeData` extension feature.
+
+For our fictive app, we want to have some special semantic colors. Semantic colors are colors that have specific meaning in your app. In the `ColorScheme` there is only one set of semantic colors and that is the **error** color. You could for example also add **warning** and **success** colors, that are often use din web design. However in this demo we will add semantic colors that are used to descirbe the status of orders for our Avocado Deli. We will hace
+
+* Order received
+* Order in preparation
+* Order in delivery
+* Order delivered
+
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/order_status_token.png" alt="Order status semantic colors" />
+
+
 
 ```dart
       // 24) Add all our custom theme extensions.
