@@ -15,7 +15,7 @@ import 'theme_tokens.dart';
 sealed class AppTheme {
   /// Select the used theme, based on theme settings and brightness.
   static ThemeData use(Brightness brightness, ThemeSettings settings) {
-    // Convenience to check if theme is light or dark.
+    // Check if theme is light or dark, used repeatedly later in theming.
     final bool isLight = brightness == Brightness.light;
 
     // Get our app color scheme based on the brightness.
@@ -412,9 +412,7 @@ sealed class AppTheme {
     );
   }
 
-  // 22 a) Make a TextTheme from TextStyles to customize more.
-  // There is no color issue with GoogleFonts then since TextStyles
-  // have null color by default.
+  // 22 a) Make a TextTheme from TextStyles to customize fonts per style.
   static TextTheme get textThemeFromStyles {
     final TextStyle light = GoogleFonts.lato(fontWeight: FontWeight.w300);
     final TextStyle regular = GoogleFonts.poppins(fontWeight: FontWeight.w400);

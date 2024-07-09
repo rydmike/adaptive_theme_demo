@@ -262,11 +262,11 @@ We can also see that the above generated `ColorsScheme`s all include our designe
 <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/design_colors_2.png" alt="Design colors 2" />
 
 
-Now that we have our platform adaptive `ColorScheme` defined we can start using it and defining our adaptive application theme. First let's quickly look at how we can use the theme in our app, once we have defined.
+Now that we have our platform adaptive `ColorScheme` defined we can start using it and defining our adaptive application theme. Before we do so, let's look at how we will use the theme in our app, once we have defined it even further below.
 
 ## MaterialApp
 
-The `MaterialApp` for our simple example app looks like this:
+The `MaterialApp` for our adaptive theme demo app looks like this:
 
 ```dart
 class AdaptiveThemeDemoApp extends StatefulWidget {
@@ -277,9 +277,6 @@ class AdaptiveThemeDemoApp extends StatefulWidget {
 }
 
 class _AdaptiveThemeDemoAppState extends State<AdaptiveThemeDemoApp> {
-  // We just have simple data class with 3 properties for demo purposes.
-  // No state management package is used in this example. We just pass the
-  // data class around and modify it where needed via callbacks.
   ThemeSettings themeSettings = const ThemeSettings(
     useMaterial3: true,
     zoomBlogFonts: false,
@@ -307,15 +304,24 @@ class _AdaptiveThemeDemoAppState extends State<AdaptiveThemeDemoApp> {
 }
 ```
 
+There is no state management package is used in this example. We just pass the
+data class `ThemeSettings` around and modify it where needed via callbacks.
+
+The `MaterialApp`'s `theme` and `darkTheme`uses the `AppTheme.use(brightness, themeSettings)` with the `Brightness.light` and `Brightness.dark` respectively. The `themeMode` is set to `themeSettings.themeMode`. 
+
+The `HomePage` widget is the home of the app, it is passed the `themeSettings` and a callback `onSettings` that will update the `themeSettings` in the `AdaptiveThemeDemoApp` widget. 
+
 ### Theme Settings
 
-The `ThemeSettings` is a simple data class that we use to hold the settings for our app. It is passed down to the `HomePage` widget, where we have a settings page that can change the theme settings. The `HomePage` widget will then call the `onSettings` callback to update the theme settings in the `AdaptiveThemeDemoApp` widget. We on purpose avoid all state management packages in this example, to keep it simple and focused on the theme design and adaptive theming.
+The `ThemeSettings` is a small data class that we use to hold the settings for our app. It is passed down to the `HomePage` widget, where we have a settings page that can change the theme settings.
+
+The `HomePage` widget will then call the `onSettings` callback to update the theme settings in the `AdaptiveThemeDemoApp` widget. We on purpose avoid all state management packages in this example, to keep it focused on the theme design and adaptive theming.
+
+Since `ThemeSetting` is implemented as data class with equality and hashcode, we can easily compare it and use it in a `ValueNotifier` if we want to. We could also modify it and use it with a `ChangeNotifier` if we wanted to, but in this example we just pass it down and update it via callbacks.
 
 ```dart
 /// A Theme Settings class to bundle properties we want to modify in our
 /// theme interactively.
-///
-/// We can pass it down or use it with a ValueNotifier if so desired.
 @immutable
 class ThemeSettings with Diagnosticable {
   final bool useMaterial3;
@@ -373,16 +379,17 @@ class ThemeSettings with Diagnosticable {
 
 ## The AppTheme
 
-We make a `class` called `AppTheme`, it is just `sealed` so it cannot be extended or implemented. It will only contain static methods and properties bundled together in a readable name space. To make a theme with our `AppTheme` helper we will use the `AppTheme.use(brightness, themeSettings)` function.
+We make a `class` called `AppTheme`, it is `sealed` so it cannot be extended or implemented. It will only contain static methods and properties bundled together in a readable name space. To make a theme with our `AppTheme` helper we will call the `AppTheme.use(brightness, themeSettings)` function.
 
-In the `AppTheme.use` function we based on the passed `brightness` get our platform adaptive `ColorScheme` that we defined earlier. 
+In the `AppTheme.use` function, we use the passed in `brightness` to get the correct 
+platform adaptive `ColorScheme` that we defined earlier. 
 
 ```dart
 /// The platform adaptive application theme design for our app.
 sealed class AppTheme {
   /// Select the used theme, based on theme settings and brightness.
   static ThemeData use(Brightness brightness, ThemeSettings settings) {
-// Convenience to check if theme is light or dark.
+    // Check if theme is light or dark, used repeatedly later in theming.
     final bool isLight = brightness == Brightness.light;
 
     // Get our app color scheme based on the brightness.
@@ -402,7 +409,7 @@ sealed class AppTheme {
 
 We also define a custom `visualDensity` for our app. This is a platform adaptive visual density that we will use in our `ThemeData` and also in the `ToggleButtons` component theme that does not have built-in visual density support. This platform adaptation is used to demonstrate that you don't have to use the default one that is adaptive to `compact` on desktops. This is an alternative that is adaptive to `comfortable` on desktops and to `standard` on mobile platforms. 
 
-This approach makes desktop builds a bit less dense and more touch friendly. This is useful if an app is used on laptops with touch screens. It is still significantly denser than the `standard` density would be. Using `standard` on desktop builds makes the user interface a bit too large and space wasting looking. The usage of `comfortable` is here presented as an alternative that is more touch-friendly, but still not as space wasting as `standard` would be.
+This approach makes desktop builds a bit less dense and more touch friendly. This is useful if an app is used on laptops with touch screens. It is still significantly denser than the `standard` density would be. Using `standard` on desktop builds makes the user interface a bit too large and space wasting looking. The usage of `comfortable` is here presented as an alternative that is more touch-friendly than `dense`, but still not as space wasting as `standard` would be.
 
 ```dart
 /// Returns a [VisualDensity] that is [defaultTargetPlatform] adaptive to
@@ -448,14 +455,15 @@ VisualDensity defaultComfortablePlatformDensity(TargetPlatform platform) {
 
 Time to define `ThemeData` since that is always fun and interesting.
 
-While this app allows us to toggle to Material-2, it is just provided for demo purposes. Please don't use M2 in a new app in Flutter anymore. Use Material-3, really don’t use Material-2 anymore!
+While this app allows us to toggle to Material-2, it is just provided for demo purposes. Please do not use Material-2 in a new app in Flutter anymore. Use Material-3, really don’t use Material-2 anymore! Why not? Its support will eventually be removed from Flutter. 
 
-We apply our platform adaptive `ColorScheme` and `VisualDensity` (1) that we stored `scheme` and `visualDensity` in the `AppTheme.use` function. 
+We apply our platform adaptive `ColorScheme` and `VisualDensity` (1) that we stored in local variables `scheme` and `visualDensity` in the `AppTheme.use` function. 
 
-We also set the `cupertinoOverrideTheme` to `true` this ensures that all `CupertinoThemeData` properties will inherit defaults from the `ColorScheme` in our `ThemeData`. This part is needed to ensure that `CupertinoSwitch` and `Switch.adaptive` will use the same colors as our themed `Switch`.
+We also set the `cupertinoOverrideTheme` to `true`. This ensures that all `CupertinoThemeData` properties will inherit defaults from the `ColorScheme` in our `ThemeData`. This part is needed to ensure that `CupertinoSwitch` and `Switch.adaptive` will use the same colors as our themed `Switch`.
 
 ```dart
     // ...continued from above AppTheme and `use` function.
+    //
     // Let's make a custom ThemeData object. It's fun! Right!? :)
     return ThemeData(
       // For demo purposes M2 is supported, but don't use Material-2 in Flutter
@@ -483,15 +491,15 @@ We also set the `cupertinoOverrideTheme` to `true` this ensures that all `Cupert
           ThemeTokens.isNotAndroidOrIsWeb ? InstantSplash.splashFactory : null,
 ```
 
-Above we also use a custom splash factory `InstantSplash` (2) on any other platform than Android.
+Above we also use a custom splash factory called `InstantSplash` (2), on any other platform than Android.
 
-The `InstantSplash` is a copy of built-in `InkSplash.splashFactory` with modified animation durations and splash velocity. There is also a built-in `NoSplash.splashFactory`, alternatively it can also be used. It animates the tap highlight, this custom one is instant. Used as an example in this demo app, you may prefer the `NoSplash.splashFactory` for a similar, but less instant effect.
+The `InstantSplash` is a copy of built-in `InkSplash.splashFactory`, with modified animation durations and splash velocity. There is also a built-in `NoSplash.splashFactory` in Flutter, alternatively it can be used. It animates the tap highlight, this custom one is instant. Used as an example in this demo app, you may prefer the `NoSplash.splashFactory` for a similar, but less instant effect.
 
 You can find the custom `InstantSplash.splashFactory` [here](https://github.com/rydmike/adaptive_theme_demo/blob/master/lib/theme/instant_splash.dart).
 
-Prefer using the Material-3 typography, even if you still use Material-2, it is much nicer. Below (3), we ensure that we use the Material-3 typography even if we switch to M2 mode, which this demo app allows.
+Prefer using the Material-3 typography, even if you still use Material-2, it is much nicer. Below (3), we ensure that we use the Material-3 typography even if we switch to M2 mode, which this demo app allows us to do for demo purposes.
 
-Next we fix all legacy colors (4, 5 and 6) in `ThemeData`. Eventually these will be deprecated, but as long as they exist, set them to our `ColorScheme` colors, that we have available in the `scheme` object.
+Next we fix all legacy colors (4, 5 and 6) in `ThemeData`. Eventually these colors will be deprecated, but as long as they exist, set them to our `ColorScheme` colors that we have in the `scheme` object.
 
 ```dart
       // 3) We use M3 Typography, even if you still use M2 mode I recommend this
@@ -521,13 +529,13 @@ Next we fix all legacy colors (4, 5 and 6) in `ThemeData`. Eventually these will
       dialogBackgroundColor: scheme.surface,
 ```
 
-The above mappings are important to make sure that all the legacy colors in `ThemeData` are set to the correct colors in our `ColorScheme`. This is important as these colors are used by many built-in components and widgets in Flutter in Material-2 mode. If you do not set them, they will not match the rest of your app's design. Also by setting them, you ensure that if they are used by accident in your custom widgets, they will still match the rest of your app's design.
+The above color mappings are important to make sure that all the legacy colors in `ThemeData` are set to correct colors from our `ColorScheme`. This is important as these colors are used by many built-in components and widgets in Material-2 mode. If you do not set them, they will not match the rest of your app's design. By defining them, you also ensure that if they are used in your app anywhere, they will match the rest of your app's design.
 
-You can read more about these direct `ThemeData` color deprecations plan [in issue #91772](https://github.com/flutter/flutter/issues/91772).
+You can read more about these `ThemeData` colors deprecation plan [in issue #91772](https://github.com/flutter/flutter/issues/91772).
 
 ## Defining Component Themes
 
-Defining a lot of elaborate custom component themes can be tedious. However, with component themes, you can often bring the Material components default styles exactly to where you want them to be, or close enough to what your design calls for.
+Defining a lot of elaborate component themes can be tedious in Flutter. However, with component themes, you can often bring the Material components default styles exactly to where you want them to be, or close enough to what your design calls for.
 
 You can then avoid using custom widget wrappers to style the components. To build your app, you then use the standard Material components, by default, they will now have the correct style they should have in your app. This also makes it easy to on-board new developers to your codebase, as they can use the standard components to build user interfaces, and everything will look as intended for your app's design.
 
@@ -535,9 +543,9 @@ So while component theming can feel tedious, the benefits may also be worth the 
 
 ### AppBar Theme
 
-We use a custom AppBar theme with a custom color mapping with slight opacity and very minor scroll under elevation that with shadow will look like a faint underline in light theme mode.
+We will use a custom `AppBar` theme with a custom color mappings with slight opacity and very minor scroll under elevation, that with a shadow will look like a faint underline in light theme mode when it is scrolled under. This is a subtle effect that enhances the scrolled under separation.
 
-Our `AppBar` theme has minor “secret” sauce in it, which is a shape, that is just same as its default shape, but it is needed to get the scroll under effect change to animate, as it should in Material-3 design spec, but does not by default in Flutter. The need for this is actually a work-around to [issue #131042](https://github.com/flutter/flutter/issues/131042). 
+Our `AppBar` theme has a minor “secret sauce” in it. A shape that is the same as its default shape. Why? Adding it is needed to get the scroll under effect change to animate. It should do so in Material-3 design, but does not it, by default, it is instant in Flutter. The need for this trick is actually a work-around to [issue #131042](https://github.com/flutter/flutter/issues/131042). I had incorporated the work-around for more than a year in [FlexColorScheme package](https://pub.dev/packages/flex_color_scheme). When the issue was later discovered by others, I added an explanation of what causes the issue and offered this as a work-around until the issue is hopefully fixed one day.
 
 The scroll-under color is also modified by defining a custom `surfaceTintColor` for the `AppBarTheme` so that it is a monochrome color for other than Android platforms. After the **Flutter 3.22** release, the `AppBar` is one of the few widgets that still use the elevation tint effect to change its color with elevation. Here we customize its tint color, so we do not get any primary tint on it on other platforms than Android. Instead, we get just a monochrome color that is a bit darker than the surface color.  
 
@@ -580,13 +588,13 @@ With this `AppBarTheme` we get an **AppBar** style that looks like this:
 
 <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/AppBar.gif" alt="AppBar theme" />
 
-In our theme, we also forced the `AppBar` to always be centered on iOS platform. It is actually so by default, but only if you have max one action button in the `AppBar`. If you have more than one action button, the title will be left aligned. For this demo, we wanted it to be centered, even if there are multiple action buttons, just to make it very easy to recongnize the iOS device in demos.
+In our theme, we also forced the `AppBar` to always be centered on iOS platform. It is actually so by default, but only if you have max one action button in the `AppBar`. If you have more than one action button, the title will be left aligned. For this demo, we wanted it to be centered, even if there are multiple action buttons, just to make it easy to recognize the iOS device in the demos.
 
 ### Material Button Themes
 
-We also define custom Material button themes that uses our custom `buttonsShape` (8 and 9) as our platform responsive shape on other than Android platforms. On the Android platform we just use null to get the default button shapes.
+We also define custom Material button themes that use our custom `buttonsShape` (8 and 9) as our platform responsive shape on other than Android platforms. On the Android platform, we use null to get the default button shapes.
 
-For the `ElevatedButton` we also change its default color mapping to use our `primaryContainer` color as its background color and `onPrimaryContainer` color as its text color. This is done to make the `ElevatedButton` more colorful. Its default `surfaceContainerLow` background and `primary` foreground based mapping is kind of boring.
+For the `ElevatedButton` we also change its default color mapping to use our `primaryContainer` color as its background color and `onPrimaryContainer` color as its text color. This is done to make the `ElevatedButton` more colorful. Its default `surfaceContainerLow` background and `primary` foreground based mapping is kind of boring. This is just an example, you can keep the defaults or use any color mapping you want for your buttons. 
 
 ```dart
       // 8) ElevatedButton with custom color mapping and adaptive shape.
@@ -626,7 +634,9 @@ With the above theme in place for our **Material Buttons**, we get this result:
 
 We can theme `ToggleButtons` and `SegmentedButton` differently and use them for different use cases. Toggle Buttons is an older Material-2 widget, theming is a bit tricky. In this case we want it to match the style of our `OutlinedButton` and `FilledButton`. 
 
-By default, the legacy `ToggleButtons` component does not react to `ThemeData` and its visual density changes. We can use the `visualDensity` we defined as input to its constraints in a way that makes it match height of `FilledButton` and `OutlinedButton` when they react to visual density on different platforms. **ToggleButtons** is an older M2 design, but it can still look nice when themed and fit in Material-3 dsign. It is e.g. nice for compact icon only based toggles, as shown in this example. Where we also make its shape follow the same platform adaptive button shapes as the other buttons. 
+By default, the legacy `ToggleButtons` component does not react to `ThemeData` and its visual density changes. We can use the `visualDensity` we defined as input to its constraints in a way that makes it match height of `FilledButton` and `OutlinedButton` when they react to visual density on different platforms.
+
+**ToggleButtons** is an older Material-2 design based widget, but it can still look nice when themed and fit well with Material-3 design too. It is nice for compact icon-only based toggles, as shown in this example. Where we also make its shape follow the same platform adaptive button shapes as the other buttons. 
 
 ```dart
       // 10) ToggleButtons Theme, made to match the filled and outline buttons.
@@ -657,13 +667,13 @@ By default, the legacy `ToggleButtons` component does not react to `ThemeData` a
       ),
 ```
 
-The colors and opacities above where also a bit tricky to figure out, they are used to make the highlight and splashes very similar to those used by the `FilledButton` and `OutlinedButton`. 
+The colors and opacities above were a bit tricky to figure out, they are used to make the highlight and splashes very similar to those used by the `FilledButton` and `OutlinedButton`. 
 
-The splash type cannot be changed for `ToggleButtons`, it does not follow the one defined by `ThemeData`, it is hard coded into the widget. It will thus sadly keep the Material-2 based ink style splashes on all platforms.
+The splash type cannot be changed for `ToggleButtons`, it does not follow the one defined by `ThemeData`, it is hard coded into the widget. It will thus sadly keep its hard coded Material-2 based ink style splashes on all platforms.
 
 ### Segmented Button Theme
 
-For the `SegmentedButton` we use keep its default style, it is quite nice. We only add the platform adaptive shape to it (11). 
+For the `SegmentedButton` we keep its default style, it is quite nice. We only add the platform adaptive shape to it (11). 
 
 ```dart
       // 11) SegmentedButton, made to match the filled tonal button, but with
@@ -678,8 +688,7 @@ For the `SegmentedButton` we use keep its default style, it is quite nice. We on
 
 ### Legacy Button Theme
 
-The `buttonThme` and its `ButtonThemeData` is the old theme used by the old Material buttons that no longer exist at all in the Flutter framework. Oddly this old theme still has a property that can be considered quite important, the `alignedDropdown` property. It is used to set that we want to align the `DropdownButton` and `DropdownButtonFormField` to their parent. Without this setting, these older M2 based dropdowns will expand to a width slightly wider than the parent. You pretty much never want that.
-
+The `buttonThme` and its `ButtonThemeData` is the old theme used by the old Material buttons, that no longer exist at all in the Flutter framework. Oddly this old theme still has a property that can be considered **important**, the `alignedDropdown` property. It is used to set that we want to align the `DropdownButton` and `DropdownButtonFormField` to their parents. Without this setting, these older Material-2 based dropdown components will expand to a width slightly wider than the parent. You typically do not want that.
 
 ```dart
       // 12) The old button theme still has some usage, like aligning the
@@ -689,7 +698,7 @@ The `buttonThme` and its `ButtonThemeData` is the old theme used by the old Mate
 
 ### Floating Action Button Theme
 
-For the theme of the `FloatingActionButton` we use custom color mapping and a custom shape (13). We use the `stadium` shape for the `FloatingActionButton` we prefer the round shape in this demo app. We prefer this, it is just a better shape for the FAB than the new rounded corner defaults used in Material-3.
+For the theme of the `FloatingActionButton` we use custom color mapping and a custom shape (13). We use the `stadium` shape for the `FloatingActionButton` we prefer the round shape in this demo app. We prefer this design generally too, it is just a better shape for the FAB than the new rounded corner defaults used in Material-3. Just an example, use the default shape if you prefer it.
 
 ```dart
       // 13) FloatingActionButton.
@@ -707,7 +716,9 @@ With the above component themes in place, we get the following styles for our **
 
 ### Chip Theme
 
-We want **Chips** with custom color mapping and a platform adaptive shape (14). We make them stadium shaped on none Android platform to not look like the buttons, while on Android they using default slightly rounded corners. We also want smaller and more compact Chips. The Chips grew so big in default Material-3 design that they almost look like buttons, we want them to be more compact.
+We want **Chips** with custom color mapping and a platform adaptive shape (14). We make them stadium shaped on none Android platforms to look different from the buttons, while on Android they use the default slightly rounded corners.
+
+We also want smaller and more compact Chips. The Chips grew so big in default Material-3 design that they almost look like buttons, we want them to be more compact.
 
 ```dart
       // 14) ChipTheme
@@ -723,24 +734,25 @@ We want **Chips** with custom color mapping and a platform adaptive shape (14). 
 
 ### Switch Theme
 
-On other than Android platforms we use an iOS like `Switch` theme, but on Android we use the default style.
+On other than Android platforms we use an iOS like `Switch` theme, but on Android we use the default Material-3 design style.
 
-If we use `Switch.adaptive` we will get the actual iOS Switch design on iOS and macOS, it will use the ColorScheme colors and not iOS default system green, because we used the `cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true)` in our `ThemeData` earlier. The none iOS and macOS adaptive response for `Switch.adaptive` will be the themed `Switch` that will use the Android default style on Android, but the themed iOS look alike `Switch` on Windows and Linux.
+Additionally, if we use `Switch.adaptive` we will get the actual iOS Switch design on iOS and macOS. It will still use our `ColorScheme` colors and not iOS default system green. This happens because we used the `cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true)` in our `ThemeData` earlier. The none iOS and macOS adaptive response for `Switch.adaptive` will be the themed `Switch` that will use the Material default style on Android, but the themed iOS look alike `Switch` on Windows and Linux. 
 
 ```dart
       // 15) Switch theme
       switchTheme: ThemeTokens.isNotAndroidOrIsWeb ? switchTheme(scheme) : null,
 ```
 
-The actual theming of the `Switch` is quite elaborate, so we added it as a function for better readability of the `ThemeData` definition. 
+The actual theming of the `Switch` is quite elaborate, we added it as its own function for better readability of the `ThemeData` definition. 
 
-There is a slight trick used in this theme, and that is the invisible icon added to the `thumbIcon` property. By adding an icon to it, we get a `Switch` in Material-3 mode that has thumb with a fixed size when it is ON and OFF. Without on icon in the thumb, the size shrinks when it is OFF. To make a fake iOS look-alike we want the thumb size to remain fixed. It is not an exact size match for the iOS thumb, that is a bit bigger, but close enough for our purposes.
+There is a slight trick used in this theme, and that is the invisible icon added to the `thumbIcon` property. By adding an icon to it, we get a `Switch` in Material-3 mode that has a thumb with a fixed size when it is ON and OFF. Without an icon in the thumb, the size shrinks when it is OFF.
 
-The color mappings are also quite elaborate and the actual ones that are used by the Flutter `CupertionoSwitch` implementation. So they do match the iOS Switch. 
+To make a fake iOS look-alike `Switch` using Material, we want the thumb size to remain fixed. It is not an exact size match for the iOS thumb, which is a bit bigger, but close enough for our purposes.
+
+The color mappings are also quite elaborate and taken from the actual ones that are used by the Flutter `CupertionoSwitch` implementation. So they match Flutter's iOS Switch. 
 
 ```dart
   // 15 a) A custom SwitchTheme that resembles an iOS Switch.
-  //
   // The intention is that feels familiar on iOS and that it can also be used as
   // a platform agnostic Switch on other platforms than Android.
   static SwitchThemeData switchTheme(ColorScheme scheme) {
@@ -776,15 +788,15 @@ The color mappings are also quite elaborate and the actual ones that are used by
   }
 ```
 
-With the above `ChipThemeData` and `SwitchThemeData` defined we get theses style on **Chips** and **Switches**: 
+With the above `ChipThemeData` and `SwitchThemeData` defined, we get these styles on **Chips** and **Switches**: 
 
 <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/Chip_Switch.gif" alt="Chips and Switch theme" />
 
 ### Navigation Bar Theme
 
-Don’t be afraid to tweak the Material Navigation bar, you can for example make it less tall and use a more distinct selected option color than the default one
+Don’t be afraid to tweak the Material Navigation bar. For example, make it less tall and use a more distinct selected color than the default one.
 
-We want a navigation bar that is slightly transparent and with more distinct and clear selection indication. Also, the default height 80dp wastes vertical space, so we make it less tall. The default background in light mode is also a bit too dark, we make it a bit lighter in light mode.
+Here we make a navigation bar that is slightly transparent and with more distinct and clear selection indication. The default height 80 dp wastes vertical space, so we make it less tall. The default background in light mode is also a bit too dark, we make it a bit lighter in light mode.
 
 ```dart
       // 16) NavigationBar
@@ -809,7 +821,7 @@ We want a navigation bar that is slightly transparent and with more distinct and
 
 ### Android System Navigation Style
 
-Consider making the Android system navigation look nice, like iOS. Make it edge-to-edge and transparent. Use the `AnnotatedRegion` to style it. 
+Consider making the Android system navigation nicer, like on iOS. To do so, make it edge-to-edge and transparent. Use the `AnnotatedRegion` to style it. 
 
 ```dart
   Widget build(BuildContext context) {
@@ -818,7 +830,7 @@ Consider making the Android system navigation look nice, like iOS. Make it edge-
       child: ...
 ```
 
-Using a custom `SystemUiOverlayStyle`.
+With a custom `SystemUiOverlayStyle`.
 
 ```dart
 /// A quick and easy way to style the navigation bar bar in Android
@@ -832,17 +844,19 @@ SystemUiOverlayStyle customOverlayStyle() {
 }
 ```
 
-Seriously, can we please stop using system navigation bars on **Android** that do not follow the theme mode and also ones that do not match the color of the bottom navigation bar? 
+Seriously, can we please stop using system navigation bars on **Android** that do not follow the theme mode and also ones that do not match the color of any present bottom navigation bar? 
 
-One reason why iOS always looked so much nicer is because it always did this. Same with AppBar status bar, but at least that is default now in Material-3. But the system navbar, **please** fix it in your apps! A coming change in Flutter might eventually make this the default for the system navigation bar on Android too. As it is the default in new Android versions and generally recommended.
+One reason why iOS always looks nicer is because it always did this. Same with AppBar status bar, but at least that is default now in Material-3 as well. But the system navigation bar, **please** fix it in your Android apps! A coming change in Flutter might eventually make this the default for the system navigation bar on Android too. As it is the default in new Android versions and generally recommended. Until then, you need to fix it manually, and it cannot be themed.
 
-Here we can see the themed **Navigation Bar** and also the **Android System Navigation Bar** styled to be transparent and **edge-to-edge**. It always matches the color of the theme background color and the color used by the bottom navigation bar.  
+Below we can see the themed **Navigation Bar** and also the **Android System Navigation Bar** styled to be transparent and **edge-to-edge**. It always matches the color of the theme background color or the color used by the bottom navigation bar, since the system navigation is transparent, and the screen is set to extend edge-to-edge.
+
+When using a screen extended edge-to-edge, you may need to add safe area for the sides. In list views, you may also need to add padding widgets to the top and bottom of the list, to avoid content being hidden under the system navigation bar and `AppBar`.  
 
 <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/nav_bar.gif" alt="Navigation Bar Theme" />
 
 ### Input Decoration Theme
 
-Making a nice custom `InputDecorationTheme` can be tedious and complex. You also need to use it in some component themes that can accept an input decoration, like eg DropdownMenu.
+Making a nice custom `InputDecorationTheme` can be tedious and complex. You also need to use it in some component themes that can accept an input decoration, like `DropdownMenu`.
 
 ```dart
       // 17) Input decorator
@@ -857,9 +871,9 @@ Making a nice custom `InputDecorationTheme` can be tedious and complex. You also
       ),
 ```
 
-Making nice looking input decoration themes is one of the most tedious, annoying and tricky things to do in Flutter theming. Here is the "simple" example we used in this demo app, to make a rather nice one.
+Making nice looking input decoration themes is one of the most tedious, annoying and tricky things to do in Flutter theming. Here is the example design we used in this demo app to make a nicer one than the default.
 
-Since we typically need the input decoration theme in other components too, it is a good to define it separately, so we can re-use its definition in other component themes.
+Since we typically need the input decoration theme in other components too, it is good to define it separately, so we can re-use its definition in other component themes, as we did above.
 
 ```dart
   // 17 a) A custom input decoration theme.
@@ -955,7 +969,7 @@ Little is done to the **Dialogs**, some minor custom color re-mapping. We want a
 
 We also bring back shadows to all dialogs, we think dialogs need shadows to stand out a bit more, like they did in Material-2.
 
-The surface colors on Android have minor primary chroma in them. On other platforms, the surface colors are monochrome. This comes automatically via the difference in the platform adaptive `ColorScheme` colors. 
+The surface colors on Android have minor `primary` chroma in them. On other platforms, the surface colors are monochrome shades of gray. This comes automatically via the difference in the platform adaptive `ColorScheme` colors. 
 
 ```dart
       // 19) Dialog theme
@@ -983,9 +997,27 @@ The surface colors on Android have minor primary chroma in them. On other platfo
       ),
 ```
 
+This gets a more refined look for the **Dialogs**.
+
 <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/dialogs.gif" alt="Dialog Themes" />
 
+If you want to make the dialogs feel more native on **iOS** and **macOS**, one way to do so is to use the `.adaptive` constructor. It is however still only available on the `AlertDialog`. Using it will make the dialogs use the Cupertino style on iOS and macOS, while still using the Material style on other platforms.   
+
+
 ### Text Theme
+
+You should treat the `TextTheme` and its text styles only as styles that determine the text style of built-in UI and typically also your custom UI components.
+
+If you want a radically different text style for a specific component, make a new `TextStyle` for that component and use it in its component theme. Like we did for the `AppBar` title font in this demo.
+
+If you have a lot of content in your app, that requires different and more flexible text styles than what it is offered in the `TextTheme`, do not try to modify and use the `TextTheme` for that. Add such `TextStyle`s as a theme extension. We will look at an example of this later too.
+
+A common approach when customizing the `TextTheme` for your application UI components, is to use the `GoogleFonts` package and use maybe **two** or **max three** custom fonts for your applications `TextTheme` and the styles it contains. Maybe one font for the **Display** and **Headline** styles and another for the **Title**, **Body** and **Label** styles. Maybe even an own style for **Title**.
+
+When it comes to custom text style size definitions in the `TextTheme`, for the large **Display** style you can resize them a fair bit without breaking default component designs that use them. However, the more you go down in the styles default sizes, the less you can tweak their size, maybe just a few points or even just one point up or down. If you do more, you may break some default intended designs of UI Widgets that are based on these text styles by default.
+
+You can also modify the `TextStyles`s default font weights, but be careful with this too. The default font weights are often chosen to match the intended design of the UI components that use them. Again, tweaking it for the larger styles is typically fine.
+
 
 ```dart
       // 22) Add a custom TextTheme made from TextStyles
@@ -994,6 +1026,86 @@ The surface colors on Android have minor primary chroma in them. On other platfo
       // 23) Add a custom TextTheme with GoogleFonts.nnnTextTheme
       primaryTextTheme: googleFontsTextTheme,
 ```
+
+With **GoogleFonts** define styles for each `TextStyle` in a TextTheme using google fonts text styles. To actually get and download a font with another font weight, you must specify the weight in the `GoogleFonts` call. If you do it with a copyWith like the `fontSixe` size changed below on a download font ins the TextTheme definition, the weight will not have any effect, you get one of the two built in ones and not the actual one you defined. The same applies to italics.
+
+The `fontSize` you can however specify per style in the TextTheme, if you don't override it, the defaults from used `Typography` will be used.
+
+The default sizes and Typography and even some letter spacing also vary a bit by locale. If your app supports locales that have very different typography than English like typography, you may need to adjust font sizes, latter spacing based on application locale too, if you customize them. 
+
+
+```dart
+  // 22 a) Make a TextTheme from TextStyles to customize fonts per style.
+  static TextTheme get textThemeFromStyles {
+  final TextStyle light = GoogleFonts.lato(fontWeight: FontWeight.w300);
+  final TextStyle regular = GoogleFonts.poppins(fontWeight: FontWeight.w400);
+  final TextStyle medium = GoogleFonts.poppins(fontWeight: FontWeight.w500);
+  final TextStyle semiBold = GoogleFonts.poppins(fontWeight: FontWeight.w600);
+  
+      return TextTheme(
+        displayLarge: light.copyWith(fontSize: 54), // Default: regular, Size 57
+        displayMedium: light.copyWith(fontSize: 42), // Default: regular
+        displaySmall: light, // Default: regular
+        headlineLarge: regular, //Default: regular
+        headlineMedium: regular, // Default: regular
+        headlineSmall: regular, // Default: regular
+        titleLarge: semiBold.copyWith(fontSize: 20), // Default: regular, Size 22
+        titleMedium: medium, // Default: medium
+        titleSmall: medium, // Default: medium
+        bodyLarge: regular, // Regular is default
+        bodyMedium: regular, // Regular is default
+        bodySmall: regular, // Regular is default
+        labelLarge: medium.copyWith(fontSize: 15), // Default: medium, Size 14
+        labelMedium: medium, // Default: medium
+        labelSmall: medium, // Default: medium
+      );
+  }
+```
+
+| ThemeData.textTheme (light) | ThemeData.textTheme (dark) |
+|-----------------------------|----------------------------|
+|                             |                            |
+
+
+
+#### Entire TextTheme via GoogleFonts?
+
+The `GoogleFonts` package also comes with `nnnTextTheme` functions (where nnn = font name) that return an entire `TextTheme` with a single font used by all its `TextStyle`s. This can then in theory be easily assigned to `ThemeData.textTheme` or `ThemeData.primaryTextTheme`. This sounds good for when we just want a different font for everything. 
+
+Unfortunately, it is not that simple. This function contains a bug. It returns a `TextTheme` where font color is predefined to be `black` for all styles in the `TextTheme`. While this will work for `ThemeData.textTheme` in light theme. It is actually the incorrect color for all TextStyles in light and dark mode and also in Material-3 and Material-2 design. You can read more about this bug in [issue #401](https://github.com/material-foundation/flutter-packages/issues/401).
+
+If `GoogleFonts.nnnTextTheme` would return a `TextTheme` where the font color is `null` for all its `TextStyle`s, then we would get the correct color applied by the `ThemeData` factory regardless of if it is for light or dark mode, or used in Material-3 or Material-2 mode. 
+
+With the `TextTheme.apply()` function we can change, for example, the `color` property value in all its TextStyle to a given color with single call. Setting it to `ThemeData.textTheme.apply(displayColor: scheme.onSurface)` would be correct for Material-3, and for `ThemeData.primaryTextTheme.apply(displayColor: scheme.onPrimary)` would be correct in our theme in Material-3 mode. However, in an app that supports also Material-2, like this demo does, these colors are incorrect. Material-2 uses opacities on some text styles.
+
+The easiest way to get correct colors is if we can set the color property to `null` for all `TextStyle`s in the `TextTheme` before we pass it to `ThemeData`. Then we let the built-in color contrast logic in the `ThemeData` factory take care of assigning the colors depending on brightness and Material-2 or -3 mode.
+
+The `TextTheme.apply` function will however not do anything if we pass `null` as the `displayColor`. To get around this, we made a small `TextTheme` extension called `fixedColors`, that sets the color to `null` for all `TextStyle`s in the `TextTheme`. 
+
+Below we use it to fix the colors when we use the `GoogleFonts.poppinsTextTheme()` for our `primaryTextTheme`. You can find the code for the `.fixColors` TextTheme extension [here](https://github.com/rydmike/adaptive_theme_demo/blob/master/lib/theme/text_style_fix.dart)
+
+```dart
+  // 23 a) Get our custom GoogleFonts TextTheme: poppins
+  // Issue: https://github.com/material-foundation/flutter-packages/issues/401
+  static TextTheme get googleFontsTextTheme {
+    // Add ".fixColors", remove it to see how text color breaks.
+    return GoogleFonts.poppinsTextTheme().fixColors;
+  }
+```
+
+
+A better name for the extension would have been `.nullColors` to describe what it actually does. We just wanted to point out its "fixing" nature in this demo. 
+
+Typically, in `ThemeData`, you would use a `TextTheme` with the same `TextStyles` for your `primaryTextTheme` and `textTheme`, their only differences should be their color. However, for this adaptive theme demo app we used different ones to also demonstrate the `GoogleFonts.nnnTextTheme` API and its issue.
+
+#### What is the `primaryTextTheme` in `ThemeData`?
+
+As long as `primaryTextTheme` exists in `ThemeData` we use it as a `TextTheme` that has the right contrast color when used on the theme's `colorScheme.primary` color. However, it is actually defined as having the correct contrast color for the `ThemeData.primaryColor` color, which by default in dark mode is a dark gray color and not `colorScheme.primary`.
+
+This is a legacy thing. The dark gray color on `primaryColor` in dark mode, was used to make the `AppBar` dark gray in dark mode in early Material-2 designs in Flutter. In our theme we set `ThemeData.primaryColor` to be `colorScheme.primary` also in dark mode, so it does not contain any surprises. Thus, in our case it effectively becomes a `TextTheme` that always has the correct contrast for `colorScheme.primary`, as its name kind of implies. To read more about this, check out [issue 118146](https://github.com/flutter/flutter/issues/118146). 
+
+Also be aware that the `primaryTextTheme` may be deprecated, as no longer needed or used. Instead, it is recommended to use the `ThemeData.colorScheme` and any of its relevant on-colors for the situation to get the correct contrasting color for text, depending on what color the text is being displayed on. 
+
 
 ### Theme Extension
 
