@@ -273,7 +273,7 @@ sealed class AppTheme {
       // 22) Add a custom TextTheme made from TextStyles
       textTheme: textThemeFromStyles,
 
-      // 23) Add a custom TextTheme with GoogleFonts.nnnTextTheme
+      // 23) Add a custom primary TextTheme with GoogleFonts.nnnTextTheme
       primaryTextTheme: googleFontsTextTheme,
 
       // 24) Add all our custom theme extensions.
@@ -438,7 +438,7 @@ sealed class AppTheme {
     );
   }
 
-  // 23 a) Get our custom GoogleFonts TextTheme: poppins
+  // 23 a) Get our custom GoogleFonts primaryTextTheme: poppins
   // Issue: https://github.com/material-foundation/flutter-packages/issues/401
   static TextTheme get googleFontsTextTheme {
     // Add ".fixColors", remove it to see how text color breaks.

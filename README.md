@@ -1022,9 +1022,6 @@ You can also modify the `TextStyles`s default font weights, but be careful with 
 ```dart
       // 22) Add a custom TextTheme made from TextStyles
       textTheme: textThemeFromStyles,
-
-      // 23) Add a custom TextTheme with GoogleFonts.nnnTextTheme
-      primaryTextTheme: googleFontsTextTheme,
 ```
 
 With **GoogleFonts** define styles for each `TextStyle` in a TextTheme using google fonts text styles. To actually get and download a font with another font weight, you must specify the weight in the `GoogleFonts` call. If you do it with a copyWith like the `fontSixe` size changed below on a download font ins the TextTheme definition, the weight will not have any effect, you get one of the two built in ones and not the actual one you defined. The same applies to italics.
@@ -1062,15 +1059,22 @@ The default sizes and Typography and even some letter spacing also vary a bit by
   }
 ```
 
-| ThemeData.textTheme (light) | ThemeData.textTheme (dark) |
-|-----------------------------|----------------------------|
-|                             |                            |
+The above gives use the following text styles in our app in light and dark mode for our `Theme.of(context).textTheme`. This is the result on other than Android platforms. On Android it would be marginally different via the slightly tinted `onSurface` colors, since we have a slightly different `onSurface` color on Android in our platform adaptive `ColorScheme`.
+
+| ThemeData.textTheme (light)                                                                                                                    | ThemeData.textTheme (dark)                                                                                                                   |
+|------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/text_theme_light.png" alt="ThemeData.textTheme light" /> | <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/text_theme_dark.png" alt="ThemeData.textTheme dark" /> |
 
 
 
-#### Entire TextTheme via GoogleFonts?
+#### Entire TextTheme via GoogleFonts? Using primaryTextTheme as an Example
 
 The `GoogleFonts` package also comes with `nnnTextTheme` functions (where nnn = font name) that return an entire `TextTheme` with a single font used by all its `TextStyle`s. This can then in theory be easily assigned to `ThemeData.textTheme` or `ThemeData.primaryTextTheme`. This sounds good for when we just want a different font for everything. 
+
+```dart
+      // 23) Add a custom primary TextTheme with GoogleFonts.nnnTextTheme
+      primaryTextTheme: googleFontsTextTheme,
+```
 
 Unfortunately, it is not that simple. This function contains a bug. It returns a `TextTheme` where font color is predefined to be `black` for all styles in the `TextTheme`. While this will work for `ThemeData.textTheme` in light theme. It is actually the incorrect color for all TextStyles in light and dark mode and also in Material-3 and Material-2 design. You can read more about this bug in [issue #401](https://github.com/material-foundation/flutter-packages/issues/401).
 
@@ -1094,7 +1098,14 @@ Below we use it to fix the colors when we use the `GoogleFonts.poppinsTextTheme(
 ```
 
 
-A better name for the extension would have been `.nullColors` to describe what it actually does. We just wanted to point out its "fixing" nature in this demo. 
+A better name for the extension would have been `.nullColors` to describe what it actually does. We just wanted to point out its "fixing" nature in this demo.
+
+The above gives use the following text styles in our app in light and dark mode for our `Theme.of(context).primaryTextTheme`. This is the result on other than Android platforms. On Android it would be marginally different via the slightly tinted `onSurface` colors, since we have a slightly different `onSurface` color on Android in our platform adaptive `ColorScheme`.
+
+| ThemeData.primaryTextTheme (light)                                                                                                                                  | ThemeData.primaryTextTheme (dark)                                                                                                                         |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/text_theme_prim_light.png" alt="ThemeData.primaryTextTheme light" /> | <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/text_theme_prim_dark.png" alt="ThemeData.PrimaryTextTheme dark" /> |
+
 
 Typically, in `ThemeData`, you would use a `TextTheme` with the same `TextStyles` for your `primaryTextTheme` and `textTheme`, their only differences should be their color. However, for this adaptive theme demo app we used different ones to also demonstrate the `GoogleFonts.nnnTextTheme` API and its issue.
 
