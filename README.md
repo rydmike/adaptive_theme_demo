@@ -1662,7 +1662,7 @@ class OrderStatusWidget extends StatelessWidget {
 
 If we display them all in in light theme mode, bot the token basd ones and the theme extension based ones, that are color harmonized to the shown primary color, they will look like this.
 
-<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/order_status_widget.gif" alt="Order status widgets" />
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/order_status_widget.png" alt="Order status widgets" />
 
 
 If we look at the example and light/dark toggle, the Token-based switch color instantly half-way through the rest of the theme transition. The theme extension based colors, lerp animate their color change with the rest of the theme transition.
