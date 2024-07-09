@@ -26,16 +26,16 @@ We will create a custom theme that uses:
 | <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/iphone-demo.gif" alt="iPhone result demo" /> | <img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/pixel-demo.gif" alt="Pixel result demo" /> |
 
 
-# Slides
+# Fluttercon 24 Presentation Deck
 
 You can find and watch the entire presentation deck used at the **Fluttercon24** talk **"Everything Material All At Once"** [here](https://docs.google.com/presentation/d/1-JH1vDJAjbj4XK-qb7le9hT7R-I_CW7THtPPUorJsTU/edit?usp=sharing). It also contains more extensive and detailed speaker notes, with additional useful information, than there was time to go into during the _"all at once"_ fast-paced and packed talk.
 
 
-# Adaptive Theming
+# Adaptive Theming Guide
 
-This part of the readme is still **work in progress**. While in WIP phase the doc additions are being committed as they are written, they will be incomplete and may have error. When the doc section is completed, this WIP info will be removed.
+In this theming guide, we will walk through how to create a custom Flutter Material theme that is adaptive to the platform it runs on. We will use a custom seed generated `ColorScheme` that is colorful and vibrant and uses multiple seed colors. We will even make the `ColorScheme` have a platform adaptive response, so that surface colors are only primary color tinted on Android, while using monochrome greyscale surfaces on all other platforms.
 
-The intent is to make this readme into an article, describing the setup and how to achieve the adaptive theming in the demo. It will also explain some of the made choices and how they affect the app's look and feel.
+We also go through several component theming tips and tricks. Additionally, we will look at a practical example of using theme extensions for semantic colors and content text styles. We also color harmonize the custom static semantic colors to the theme's primary color.
 
 ## Design Tokens
 
@@ -383,7 +383,7 @@ We make a `class` called `AppTheme`, it is `sealed` so it cannot be extended or 
 
 
 > [!TIP]  
-> This theme setup walk-through will be quite long, you may also want to view the full code in the [AppTheme class here](https://github.com/rydmike/adaptive_theme_demo/blob/master/lib/theme/app_theme.dart) while going thotugh it.
+> This theme setup walk-through will be quite long, you may also want to view the full code in the [AppTheme class here](https://github.com/rydmike/adaptive_theme_demo/blob/master/lib/theme/app_theme.dart) while going through it.
 
 In the `AppTheme.use` function, we use the passed in `brightness` to get the correct 
 platform adaptive `ColorScheme` that we defined earlier. 
