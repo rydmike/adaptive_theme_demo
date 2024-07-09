@@ -1473,7 +1473,7 @@ This will animate the font size change in all places in our app where we have us
 
 We could use our theme extension for the semantic color in our app the same way as we used it for the blog text styles in the example above. But let's look at a more advanced and convenient usage. 
 
-If we have four colors tied to an order status, we may also have an enum representing this status. The enum may have a label, description and icon related to each order state as well.  
+If we have four colors tied to an order status, we may also have an enum representing this `OrderStatus`. The enum may have a `label` a `describe` text and an `icon` related to each order state as well.
 
 ```dart
 /// Enum used to model our order status value,
@@ -1516,7 +1516,7 @@ enum OrderStatus {
 }
 ```
 
-To this enum we can add helper methods to get the color token values related to each status for the light and dark theme mode. We can also add a method to get the on-color for each status. 
+To this enum we can add helper methods to get the color token values related to each `OrderStatus` value. This getter needs a `context` so we can know if we should get the token for the light or the dark theme mode. We can also add a method to get the on-color for each status. 
 
 ```dart
   /// Returns the color associated with the order status. Uses the
@@ -1552,55 +1552,55 @@ To this enum we can add helper methods to get the color token values related to 
   }
 ```
 
-The above were just for the static token values, we can also add helper methods that gets the same order status related colors from our theme extension, that are then harmonized to the theme's primary color. 
+The above definitions were getters for the static order status color token values. We can also add helper methods that get the same order status related colors from our theme extension, that are then harmonized to the theme's primary color. 
 
 ```dart
   /// Returns the color associated with the order status. Uses
-/// Theme.of(context).extension, to get the color. If the extension is not
-/// defined, it falls back to the direct token based color.
-Color orderStatusColor(BuildContext context) {
-  final ThemeData theme = Theme.of(context);
-  switch (this) {
-    case OrderStatus.received:
-      return theme.extension<AppThemeExtension>()?.received ??
-              orderStatusTokenColor(context);
-    case OrderStatus.preparing:
-      return theme.extension<AppThemeExtension>()?.making ??
-              orderStatusTokenColor(context);
-    case OrderStatus.inDelivery:
-      return theme.extension<AppThemeExtension>()?.inDelivery ??
-              orderStatusTokenColor(context);
-    case OrderStatus.delivered:
-      return theme.extension<AppThemeExtension>()?.delivered ??
-              orderStatusTokenColor(context);
+  /// Theme.of(context).extension, to get the color. If the extension is not
+  /// defined, it falls back to the direct token based color.
+  Color orderStatusColor(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    switch (this) {
+      case OrderStatus.received:
+        return theme.extension<AppThemeExtension>()?.received ??
+                orderStatusTokenColor(context);
+      case OrderStatus.preparing:
+        return theme.extension<AppThemeExtension>()?.making ??
+                orderStatusTokenColor(context);
+      case OrderStatus.inDelivery:
+        return theme.extension<AppThemeExtension>()?.inDelivery ??
+                orderStatusTokenColor(context);
+      case OrderStatus.delivered:
+        return theme.extension<AppThemeExtension>()?.delivered ??
+                orderStatusTokenColor(context);
+    }
   }
-}
-
-/// Returns the on-color associated with the order status. Uses
-/// Theme.of(context).extension, to get the color. If the extension is not
-/// defined, it falls back to the direct token based on-color.
-Color onOrderStatusColor(BuildContext context) {
-  final ThemeData theme = Theme.of(context);
-  switch (this) {
-    case OrderStatus.received:
-      return theme.extension<AppThemeExtension>()?.onReceived ??
-              onOrderStatusTokenColor(context);
-    case OrderStatus.preparing:
-      return theme.extension<AppThemeExtension>()?.onMaking ??
-              onOrderStatusTokenColor(context);
-    case OrderStatus.inDelivery:
-      return theme.extension<AppThemeExtension>()?.onInDelivery ??
-              onOrderStatusTokenColor(context);
-    case OrderStatus.delivered:
-      return theme.extension<AppThemeExtension>()?.onDelivered ??
-              onOrderStatusTokenColor(context);
+  
+  /// Returns the on-color associated with the order status. Uses
+  /// Theme.of(context).extension, to get the color. If the extension is not
+  /// defined, it falls back to the direct token based on-color.
+  Color onOrderStatusColor(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    switch (this) {
+      case OrderStatus.received:
+        return theme.extension<AppThemeExtension>()?.onReceived ??
+                onOrderStatusTokenColor(context);
+      case OrderStatus.preparing:
+        return theme.extension<AppThemeExtension>()?.onMaking ??
+                onOrderStatusTokenColor(context);
+      case OrderStatus.inDelivery:
+        return theme.extension<AppThemeExtension>()?.onInDelivery ??
+                onOrderStatusTokenColor(context);
+      case OrderStatus.delivered:
+        return theme.extension<AppThemeExtension>()?.onDelivered ??
+                onOrderStatusTokenColor(context);
+    }
   }
-}
 ```
 
-In the extension based getters we used the token-based unharmonized order status colors as fall back color values, should the extension not be defined in our `ThemeData`. 
+In the theme extension based getters, we used the direct token-based order status colors as fall back color values, should the extension not be defined in our `ThemeData`. 
 
-Now that we have an order status enum where we can get both color style based on order status, we can easily build some custom components that could be used to display on order status in our app. For example some order status boxes that show the order status icon and label. We added the color value for demo purposes as well. 
+Now that we have an order status `enum` where we can get both color styles based on order status, we can easily build some custom components that can be used to display an order status in our app. For example, some order status boxes that show the order status icon and label. We added the color value for demo purposes as well. We can even open a dialog with more details when we click on it.
 
 ```dart
 /// Order status widget
@@ -1660,9 +1660,73 @@ class OrderStatusWidget extends StatelessWidget {
 }
 ```
 
-If we display them all in in light theme mode, bot the token basd ones and the theme extension based ones, that are color harmonized to the shown primary color, they will look like this.
+If we display all `OrderStatus` states using above `OrderStatusWidget` via const token or theme extension, in light theme mode, they will look like this.
 
-<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/order_status_widget.png" alt="Order status widgets" />
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/order_status_widgets.png" alt="Order status widgets" />
+
+In the demo app we display on the home screen like this our list view:
+
+```dart
+  // Token based style, no theme animation.
+  const OrderStatesCard(useTheme: false),
+  // Theme extension based styles, has theme animation.
+  const OrderStatesCard(useTheme: true),
+
+```
+
+Where the `OrderStatesCard` is a `StatelessWidget` that shows `OrderStatusWidget`s using all `OrderStatus` values in a `Wrap` widget, either by using the theme-extension-based colors or the direct token values.
+
+```dart
+// Display all the order status widgets in an expandable container.
+class OrderStatesCard extends StatelessWidget {
+  const OrderStatesCard({super.key, required this.useTheme});
+  final bool useTheme;
+
+  @override
+  Widget build(BuildContext context) {
+    return StatefulHeaderCard(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      leading: const Icon(Icons.notifications_active_outlined),
+      title: useTheme
+          ? const Text('OrderStatus Theme Based')
+          : const Text('OrderStatus Const Based'),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: <Widget>[
+            for (final OrderStatus status in OrderStatus.values)
+              useTheme
+                  ? OrderStatusWidget(status: status, useTheme: true)
+                  : OrderStatusWidget(status: status, useTheme: false)
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+```
+
+We can then open up both in our demo and examine the difference. 
+
+If we look at them and toggle between light/dark theme mode, we can see that the const token-based ones switch color values instantly half-way through the mode theme transition.
+
+<img src="https://raw.githubusercontent.com/rydmike/adaptive_theme_demo/master/images/order_status.gif" alt="Order status animations" />
+
+The theme-extension-based colors, lerp animate their color change with the rest of the theme transition. We also see that the harmonized colors from the theme extension `OrderStatus` based widgets, have colors that fit a bit better with the theme's primary color.
+
+## Conclusion
+
+In this demo, we have shown how to make an application that uses a theme that is platform adaptive. It uses default Material-3 styles on Android, but the app gets another custom, more platform-agnostic style, a bit iOS inspired, on all other platforms. We also walked through many advanced custom component theming topics. 
+
+We demonstrated how to make a `ColorScheme` that while seed generated, used several seed key colors and pinned a custom app color palette, with nine colors, to the seed generated scheme. We even made the `ColorScheme` have a platform adaptive response so that surface colors are only primary color tinted on Android, while using monochrome greyscale surfaces on all other platforms.
+
+We also looked at a practical example of using theme extensions for semantic colors and content text styles. Additionally, we harmonized the custom semantic colors to the theme's primary color.
+
+The walk through of the `AppTheme` class was pretty long, but the setup is not that long and complicated. It might be easier to get an overview by just looking at its code [here](https://github.com/rydmike/adaptive_theme_demo/blob/master/lib/theme/app_theme.dart).
 
 
-If we look at the example and light/dark toggle, the Token-based switch color instantly half-way through the rest of the theme transition. The theme extension based colors, lerp animate their color change with the rest of the theme transition.
+Hope you enjoyed this Flutter theming guide by [@RydMike (on X/Twitter)](https://x.com/RydMike) aka "MaterialMike" :smiley: 
+
