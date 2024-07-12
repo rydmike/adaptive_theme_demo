@@ -1,6 +1,6 @@
 # Adaptive Theming Guide
 
-In this theming guide, we walk through how to create a custom Flutter Material theme that adapts to the platform it runs on. We use a custom seed generated `ColorScheme` that gets vibrant colors and uses multiple seed colors. We give the `ColorScheme` a platform adaptive response, so that surface colors are only primary color tinted on Android, while using monochrome greyscale surfaces on all other platforms.
+In this advanced theming guide, we walk through how to create a custom Flutter Material theme that adapts to the platform it runs on. We use a custom seed generated `ColorScheme` that gets vibrant colors and uses multiple seed colors. We give the `ColorScheme` a platform adaptive response, so that surface colors are only primary color tinted on Android, while using monochrome greyscale surfaces on all other platforms.
 
 We also go through several component theming tips and tricks. Additionally, we look at a practical example of using theme extensions for semantic colors and content text styles. Finally, we harmonize the custom static semantic colors towards the theme's primary color.
 
