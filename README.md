@@ -585,8 +585,7 @@ We also use a custom font on the `AppBar`.
 > [!CAUTION]
 > Generally do not try to change the application's `TexTheme` and its `TextStyle`s to make a given component use a different style by adjusting the style it uses by default from `ThemeData.textTheme`. Many other components may use the same style as their default, and you typically do not want them to use the same modified style. Instead, prefer making a new `TextStyle` that fits your component and use it in the component theme.
 
-Here (25) we do so for our custom `AppBar` title font. We define a custom `TextStyle` that will only be used by all `AppBar`s in the app, nothing else.
-
+We define a custom `TextStyle` that will only be used by all `AppBar`s in the app, nothing else.
 
 ```dart
   // 25) Make a totally custom text style for a component theme: AppBar
