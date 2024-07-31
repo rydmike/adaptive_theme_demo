@@ -44,7 +44,7 @@ class _AdaptiveThemeDemoAppState extends State<AdaptiveThemeDemoApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Avocado Deli',
+      title: 'Khalid Scheme Demo',
       theme: AppTheme.use(Brightness.light, themeSettings),
       darkTheme: AppTheme.use(Brightness.dark, themeSettings),
       themeMode: themeSettings.themeMode,

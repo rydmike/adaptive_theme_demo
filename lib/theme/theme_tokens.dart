@@ -7,17 +7,12 @@ import 'package:flutter/material.dart';
 /// 3rd party design tools that have been imported into Flutter.
 sealed class ThemeTokens {
   // Colors used in the app brand palette.
-  static const Color avocado = Color(0xFF334601);
-  static const Color avocadoRipe = Color(0xFF3F4925);
-  static const Color avocadoLush = Color(0xFFC4D39D);
-
-  static const Color avocadoPrime = Color(0xFFFFFBD8);
-  static const Color avocadoMeat = Color(0xFFFFF5AD);
-  static const Color avocadoTender = Color(0xFFE2EEBC);
-
-  static const Color avocadoCore = Color(0xFF4C1C0A);
-  static const Color effectLight = Color(0xFFF2B9CC);
-  static const Color effectDark = Color(0xFF3E0021);
+  // These examples from: https://x.com/KhalidWarsa/status/1818631997280997752
+  static const Color kwVerdigrisGreen = Color(0xFF5F6C37);
+  static const Color kwMallardGreen = Color(0xFF273617);
+  static const Color kwOffYellow = Color(0xFFFEFADF);
+  static const Color kwDiSierraOrange = Color(0xFFDCA15D);
+  static const Color kwBourbonOrange = Color(0xFFBC6C25);
 
   // Semantic color tokens for order status.
   static const Color receivedLight = Color(0xFF00257F);

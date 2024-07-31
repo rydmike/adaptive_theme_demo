@@ -90,7 +90,6 @@ sealed class AppTheme {
       // will look like a faint underline in light theme mode.
       appBarTheme: AppBarTheme(
         backgroundColor: scheme.surface.withOpacity(isLight ? 0.96 : 0.95),
-        foregroundColor: scheme.secondary,
         elevation: 0,
         scrolledUnderElevation: isLight ? 0.5 : 2,
         shadowColor: scheme.shadow,
@@ -191,8 +190,9 @@ sealed class AppTheme {
         labelStyle:
             textThemeFromStyles.labelSmall!.copyWith(color: scheme.onSurface),
         padding: const EdgeInsets.all(4.0),
-        backgroundColor:
-            isLight ? scheme.primaryContainer : scheme.outlineVariant,
+        backgroundColor: isLight ? scheme.onSecondary : scheme.outlineVariant,
+        selectedColor:
+            isLight ? scheme.inversePrimary : scheme.secondaryContainer,
         shape: ThemeTokens.isNotAndroidOrIsWeb ? const StadiumBorder() : null,
       ),
 
@@ -222,14 +222,14 @@ sealed class AppTheme {
         backgroundColor: isLight
             ? scheme.surfaceContainerLow.withOpacity(0.96)
             : scheme.surfaceContainer.withOpacity(0.95),
-        indicatorColor: scheme.primary,
+        indicatorColor: scheme.primaryContainer,
         iconTheme: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
           return IconThemeData(
             size: 24.0,
             color: states.contains(WidgetState.disabled)
                 ? scheme.onSurfaceVariant.withOpacity(0.38)
                 : states.contains(WidgetState.selected)
-                    ? scheme.onPrimary
+                    ? scheme.onPrimaryContainer
                     : scheme.onSurfaceVariant,
           );
         }),
