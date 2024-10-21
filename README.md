@@ -6,11 +6,11 @@ We also go through several component theming tips and tricks. Additionally, we l
 
 ## Adaptive Theming Demo at Fluttercon 2024
 
-The theming guide [repository](https://github.com/rydmike/adaptive_theme_demo) is the same one that was used in the talk **"Everything Material All At Once"**, presented by [Mike Rydstrom](https://x.com/RydMike) and [Taha Tesser](https://x.com/TahaTesser), July 4th, 2024, in Berlin at the **Fluttercon** conference. This repo was only used for the adaptive theming part of the talk, and the talk did not go into all the theming details. This article covers the gap.
+The theming guide [repository](https://github.com/rydmike/adaptive_theme_demo) is the same one that was used in the talk [Everything Material All At Once](https://www.droidcon.com/2024/09/02/everything-material-all-at-once/), presented by [Mike Rydstrom](https://x.com/RydMike) and [Taha Tesser](https://x.com/TahaTesser), July 4th, 2024, in Berlin at the **Fluttercon** conference. This repo was only used for the adaptive theming part of the talk, and the talk did not go into all the theming details. This article covers the gap.
 
 ### Fluttercon 24 Presentation Deck
 
-You can find the entire presentation deck that was used at the **Fluttercon24** talk [**"Everything Material All At Once"** here](https://docs.google.com/presentation/d/1-JH1vDJAjbj4XK-qb7le9hT7R-I_CW7THtPPUorJsTU/edit?usp=sharing). It contains detailed speaker notes, with additional information that was not covered in depth during the **"all at once"** fast-paced and super packed talk.
+You can find the entire presentation deck that was used at the **Fluttercon24** talk ["Everything Material All At Once" here](https://docs.google.com/presentation/d/1-JH1vDJAjbj4XK-qb7le9hT7R-I_CW7THtPPUorJsTU/edit?usp=sharing). It contains detailed speaker notes, with additional information that was not covered in depth during the **"all at once"** fast-paced and super packed talk.
 
 # Theme Design Goals
 
